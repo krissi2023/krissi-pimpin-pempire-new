@@ -1,0 +1,222 @@
+.image-placeholder {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.image-placeholder:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Content inside placeholder */
+.placeholder-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 20px;
+}
+
+.placeholder-icon {
+  margin-bottom: 12px;
+  opacity: 0.9;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.placeholder-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.placeholder-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Decorative corners */
+.placeholder-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  z-index: 1;
+}
+
+.placeholder-corner.top-left {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.placeholder-corner.top-right {
+  top: 8px;
+  right: 8px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.placeholder-corner.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-right: none;
+  border-top: none;
+}
+
+.placeholder-corner.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Type-specific styling */
+.comic-placeholder {
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.comic-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+  z-index: 1;
+}
+
+.puzzle-placeholder {
+  border: 3px dashed rgba(255, 255, 255, 0.3);
+}
+
+.wallpaper-placeholder {
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.wallpaper-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  z-index: 1;
+}
+
+.slot-placeholder {
+  border-radius: 12px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.icon-placeholder {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .placeholder-title {
+    font-size: 16px;
+  }
+
+  .placeholder-subtitle {
+    font-size: 10px;
+  }
+
+  .placeholder-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Loading shimmer effect */
+.image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: shimmer 3s infinite;
+  z-index: 3;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Grid layout helper for multiple placeholders */
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+/* List layout helper */
+.placeholder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Horizontal scroll helper */
+.placeholder-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+}
+
+.placeholder-scroll .image-placeholder {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}

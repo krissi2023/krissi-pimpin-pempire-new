@@ -1,0 +1,20 @@
+node_modules/
+.env
+.DS_Store
+*.log
+
+# Backend
+backend/.env
+backend/node_modules/
+
+# Frontend
+frontend/.env.local
+frontend/build/
+frontend/node_modules/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
