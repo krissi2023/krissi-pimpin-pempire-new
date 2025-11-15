@@ -1,0 +1,115 @@
+.arcade {
+  padding: 20px;
+}
+
+.arcade h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.arcade-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 40px;
+}
+
+.arcade-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(0, 212, 255, 0.2));
+}
+
+.stat-value {
+  font-size: 3rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, var(--primary-gold), var(--diamond-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 10px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.game-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.game-header h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.theme-badge {
+  background: var(--arcade-purple);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.game-thumbnail {
+  height: 200px;
+  background: linear-gradient(135deg, #2d1b69, #5a189a);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.placeholder-game {
+  font-size: 5rem;
+  animation: slot-spin 2s infinite;
+}
+
+@keyframes slot-spin {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.game-info {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.bet-range {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.rtp {
+  color: var(--primary-gold);
+  font-weight: bold;
+}
+
+.btn-play {
+  width: 100%;
+}

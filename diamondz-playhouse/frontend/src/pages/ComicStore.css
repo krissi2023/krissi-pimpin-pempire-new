@@ -1,0 +1,108 @@
+.comic-store {
+  padding: 20px;
+}
+
+.comic-store h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.store-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 50px;
+}
+
+.comics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.comic-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.comic-thumbnail {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, var(--arcade-purple), var(--diamond-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px 12px 0 0;
+  margin: -20px -20px 20px -20px;
+}
+
+.placeholder-image {
+  font-size: 6rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.comic-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.comic-details h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.comic-description {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.comic-includes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.badge.gold {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  color: var(--primary-gold);
+}
+
+.badge.pb {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 168, 204, 0.2));
+  color: var(--diamond-blue);
+}
+
+.badge.arcade {
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 197, 94, 0.2));
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.comic-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-gold);
+}

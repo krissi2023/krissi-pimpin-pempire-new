@@ -1,0 +1,71 @@
+.navbar {
+  background: rgba(22, 33, 62, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-gold);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--diamond-blue);
+}
+
+.points-display {
+  display: flex;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.arcade-credits {
+  color: #4ade80;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.gold-points {
+  color: var(--primary-gold);
+  font-weight: bold;
+}
+
+.pb-points {
+  color: var(--diamond-blue);
+  font-weight: bold;
+}

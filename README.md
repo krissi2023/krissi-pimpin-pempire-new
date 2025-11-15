@@ -1,313 +1,279 @@
-# Krissi Pimpin' Pimpire - AI-Powered Gaming Platform
+# 💎 Pimpin Paul's Comics x Diamondz Playhouse
 
-A comprehensive gaming platform featuring AI integration through Google's Gemini API and multiple casino-style games.
+**Where Comics Meet Arcade Luxury**
 
-## 🎮 Features
-
-### AI Integration
-- **Google Gemini AI**: Full integration with Google's Gemini AI for intelligent game interactions
-- **Real-time AI Chat**: Interactive AI chat for game assistance and entertainment
-- **AI-Powered Content**: Generate dynamic game content and strategies
-
-### Available Games
-
-#### 🎰 Slot Games
-- **Classic Slots**: Traditional 3-reel slot machine with multiple paylines
-  - 7 unique symbols with varying payouts
-  - 5 different payline combinations
-  - Progressive betting system
-
-#### 🃏 Card Games
-- **Texas Hold'em Poker**: Complete implementation of the classic poker variant
-  - Support for 2-8 players
-  - Full game phases: preflop, flop, turn, river
-  - Comprehensive betting system with fold, call, raise, check
-  - All-in and side pot support
-
-#### 🎲 Table Games
-- **Blackjack**: Classic 21 card game (basic implementation)
-- **High or Low**: Card prediction game
-- **Draw**: Custom card drawing game
-
-#### ⚡ Quick Games
-- **Rock Paper Scissors**: Fast-paced hand game with:
-  - Score tracking and statistics
-  - Game history
-  - Best-of-X tournament mode
-  - Win rate analytics
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js (18+ recommended)
-- Google Gemini API key
-- Docker (for containerization)
-
-### Installation
-
-1. **Clone and Install**
-   ```bash
-   git clone https://github.com/krissi2023/krissi-pimpin-pimpire.git
-   cd krissi-pimpin-pimpire
-   npm install
-   ```
-
-2. **Configure Environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your GEMINI_API_KEY
-   ```
-
-3. **Run the Application**
-   ```bash
-   npm start
-   ```
-
-The server will start on `http://localhost:3000`
-
-## 🔧 API Documentation
-
-### Game Endpoints
-
-#### Initialize Games
-- `POST /api/games/slots/init` - Initialize slot machine
-- `POST /api/games/rps/init` - Initialize Rock Paper Scissors
-- `POST /api/games/poker/init` - Initialize Texas Hold'em
-- `POST /api/games/blackjack/init` - Initialize Blackjack
-
-#### Game Actions
-- `POST /api/games/slots/{gameId}/spin` - Spin the slot machine
-- `POST /api/games/rps/{gameId}/play` - Play Rock Paper Scissors
-  ```json
-  { "choice": "rock|paper|scissors" }
-  ```
-
-#### AI Endpoints
-- `GET /api/gemini/status` - Check AI service status
-- `POST /api/gemini/generate` - Generate AI content
-- `POST /api/gemini/chat` - Interactive AI chat
-
-## 🐳 Docker Support
-
-### Build and Run
-```bash
-docker build -t krissi-pimpin-pimpire .
-docker run -p 3000:3000 --env-file .env krissi-pimpin-pimpire
-```
-
-### Using npm scripts
-```bash
-npm run docker:build
-npm run docker:run
-```
-
-## ☁️ Red Hat Sandbox Deployment
-
-This application is ready for deployment on Red Hat's OpenShift Sandbox. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed instructions.
-
-### Quick Deploy
-```bash
-# Login to OpenShift
-oc login --token=your_token --server=your_server
-
-# Create project
-oc new-project krissi-pimpin-pimpire
-
-# Deploy using Source-to-Image
-oc new-app nodejs~https://github.com/krissi2023/krissi-pimpin-pimpire.git
-oc expose svc/krissi-pimpin-pimpire
-```
-
-## 🏗️ Project Structure
-
-```
-krissi-pimpin-pimpire/
-├── .openshift/              # OpenShift deployment configurations
-├── SourceCode/              # Game implementations
-│   ├── BonusGames/         # Future bonus game implementations
-│   ├── CardGames/          # Poker and card-based games
-│   ├── QuickGames/         # Fast-paced mini games
-│   ├── SlotGames/          # Slot machine variants
-│   ├── TableGames/         # Casino table games
-│   └── LiveGames/          # Future live game implementations
-├── server.js               # Main Express server
-├── gemini-service.js       # AI service integration
-├── Dockerfile              # Container configuration
-├── package.json            # Dependencies and scripts
-└── .env.example            # Environment template
-```
-
-## 🎯 Game Examples
-
-### Playing Rock Paper Scissors
-```bash
-# Initialize game
-curl -X POST http://localhost:3000/api/games/rps/init
-
-# Play a round
-curl -X POST http://localhost:3000/api/games/rps/{gameId}/play \
-  -H "Content-Type: application/json" \
-  -d '{"choice": "rock"}'
-```
-
-### Spinning Slots
-```bash
-# Initialize slot machine
-curl -X POST http://localhost:3000/api/games/slots/init
-
-# Spin the reels
-curl -X POST http://localhost:3000/api/games/slots/{gameId}/spin
-```
-
-### AI Interaction
-```bash
-# Generate game strategy
-curl -X POST http://localhost:3000/api/gemini/generate \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "Give me a strategy for playing poker"}'
-```
-
-## 🔒 Security Features
-
-- Environment-based configuration
-- OpenShift security compliance
-- Resource limits and health checks
-- TLS termination on routes
-- Secrets management for API keys
-
-## 📈 Monitoring & Health
-
-- **Health Checks**: Liveness and readiness probes configured
-- **Resource Limits**: CPU and memory limits set
-- **Logging**: Structured logging for troubleshooting
-- **Metrics**: Ready for OpenShift monitoring
-
-## 🛠️ Development
-
-### Adding New Games
-1. Create your game class in the appropriate `SourceCode/` directory
-2. Add the import to `server.js`
-3. Create API endpoints following the existing pattern
-4. Update the games list in the `/api/games` endpoint
-
-### Environment Variables
-- `NODE_ENV`: Development/production mode
-- `GEMINI_API_KEY`: Google Gemini AI API key
-- `PORT`: Server port (default: 3000)
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📞 Support
-
-For support and questions:
-- Create an issue on GitHub
-- Check the deployment guide in [DEPLOYMENT.md](DEPLOYMENT.md)
-- Review the Gemini integration docs in [GEMINI_INTEGRATION.md](GEMINI_INTEGRATION.md)
+A revolutionary digital platform combining premium comic storytelling with interactive arcade gaming. Purchase comics, solve puzzles, earn credits, and unlock the VIP arcade experience.
 
 ---
 
-**Ready to deploy to Red Hat Sandbox!** 🚀
+## 🎯 Project Overview
 
-This platform is fully configured and ready for cloud deployment with comprehensive game implementations and AI integration.
+### Two Brands, One Platform
 
-## Setting up the development container
+**🎨 Pimpin Paul's Comics** (Comic Store)
+- Tech-noir aesthetic with neon green accents
+- Features original comic series starring Pimpin Paul & Diamond
+- Embedded interactive puzzles and unlockable wallpapers
 
-### GitHub Codespaces
-Follow these steps to open this sample in a Codespace:
-1. Click the **Code** drop-down menu.
-2. Click on the **Codespaces** tab.
-1. Click **Create codespace on main** .
+**💎 Diamondz Playhouse** (Arcade)
+- Luxury VIP nightclub gaming experience
+- Gold and neon pink aesthetic
+- Unlocked through comic purchases and puzzle completion
 
-For more info, check out the [GitHub documentation](https://docs.github.com/en/free-pro-team@latest/github/developing-online-with-codespaces/creating-a-codespace#creating-a-codespace).
-  
-### VS Code Dev Containers
+---
 
-If you already have VS Code and Docker installed, you can click the badge above or [here](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode-remote-try-node) to get started. Clicking these links will cause VS Code to automatically install the Dev Containers extension if needed, clone the source code into a container volume, and spin up a dev container for use.
+## 📚 Comic Series
 
-Follow these steps to open this sample in a container using the VS Code Dev Containers extension:
+### Diamondz First Sparkle
+The Queen B meets her match in this prequel to the Diamond Heist saga. Watch as the world's most stylish jewel thief faces off against a digital detective who speaks only in code.
 
-1. If this is your first time using a development container, please ensure your system meets the pre-reqs (i.e. have Docker installed) in the [getting started steps](https://aka.ms/vscode-remote/containers/getting-started).
+**Issues:**
+1. Plan Alpha: Shine Bright Like a... Target
+2. The Double Cross (Digital & Dazzling)
+3. The Unexpected Algorithm
 
-2. To use this repository, you can either open the repository in an isolated Docker volume:
+### Pimpin Paul's Comics
+The origin story of the digital detective and his partnership with the chaotic genius Diamond.
 
-    - Press <kbd>F1</kbd> and select the **Dev Containers: Try a Sample...** command.
-    - Choose the "Node" sample, wait for the container to start, and try things out!
-        > **Note:** Under the hood, this will use the **Dev Containers: Clone Repository in Container Volume...** command to clone the source code in a Docker volume instead of the local filesystem. [Volumes](https://docs.docker.com/storage/volumes/) are the preferred mechanism for persisting container data.
+**Issues:**
+1. The Origin of the Digital Side-Cake
+2. The Code of the Conflicted Pimp
+3. The Meta-Heist Mandate
+4. The Keystone Koordinates (The Team-Up)
 
-    Or open a locally cloned copy of the code:
+### The Diamond Heist Series
+- The Digital Diamond Heist
+- Casino Vault Prequel
+- And more...
 
-   - Clone this repository to your local filesystem.
-   - Press <kbd>F1</kbd> and select the **Dev Containers: Open Folder in Container...** command.
-   - Select the cloned copy of this folder, wait for the container to start, and try things out!
+---
 
-## Things to try
+## ✨ Key Features
 
-Once you have this sample opened, you'll be able to work with it like you would locally.
+### 💰 Dual Currency System
+- **PPC (Pimpin Paul Credits):** Earned from comic purchases, used in arcade
+- **Gold Coins:** Bonus currency from puzzles and achievements
 
-Some things to try:
+### 🧩 Interactive Puzzles
+- Jigsaw puzzles from comic art
+- Word searches with story themes
+- Time bonuses for fast completion
+- Rewards: 25-50 Gold Points per puzzle
 
-1. **Edit:**
-   - Open `server.js`
-   - Try adding some code and check out the language features. 
-   - Make a spelling mistake and notice it is detected. The [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker) extension was automatically installed because it is referenced in `.devcontainer/devcontainer.json`.
-   - Also notice that `eslint` and the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) are installed. Tools are installed in the `mcr.microsoft.com/devcontainers/javascript-node` image and Dev Container settings and metadata are automatically picked up from [image labels](https://containers.dev/implementors/reference/#labels).
+### 🎮 Arcade Gaming
+- Slot machines with comic themes
+- Table games (Blackjack, High or Low)
+- Quick games (Rock Paper Scissors)
+- Daily bonuses and streak rewards
 
-2. **Terminal:** Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>\`</kbd> and type `uname` and other Linux commands from the terminal window.
-3. **Build, Run, and Debug:**
-   - Open `server.js`
-   - Add a breakpoint (e.g. on line 20).
-   - Press <kbd>F5</kbd> to launch the app in the container.
-   - Once the breakpoint is hit, try hovering over variables, examining locals, and more.
-   - Continue (<kbd>F5</kbd>). You can connect to the server in the container by either: 
-      - Clicking on `Open in Browser` in the notification telling you: `Your service running on port 3000 is available`.
-      - Clicking the globe icon in the 'Ports' view. The 'Ports' view gives you an organized table of your forwarded ports, and you can access it with the command **Ports: Focus on Ports View**.
-   - Notice port 3000 in the 'Ports' view is labeled "Hello Remote World." In `devcontainer.json`, you can set `"portsAttributes"`, such as a label for your forwarded ports and the action to be taken when the port is autoforwarded. 
-      - If we didn't know the port was 3000, we could've used a regex instead of "3000" in the `"portsAttributes"`, such as ".+/server.js".
+### 🖼️ Bonus Content
+- Unlockable wallpapers (5-7 per comic)
+- Character bios and concept art
+- Behind-the-scenes content
+- Exclusive chapters for premium comics
 
-   > **Note:** In Dev Containers, you can access your app at `http://localhost:3000` in a local browser. But in a browser-based Codespace, you must click the link from the notification or the `Ports` view so that the service handles port forwarding in the browser and generates the correct URL.
-   
-4. **Rebuild or update your container**
+---
 
-   You may want to make changes to your container, such as installing a different version of a software or forwarding a new port. You'll rebuild your container for your changes to take effect. 
-   
-   **Open browser automatically:** As an example change, let's update the `portsAttributes` in the `.devcontainer/devcontainer.json` file to open a browser when our port is automatically forwarded.
-   
-   - Open the `.devcontainer/devcontainer.json` file.
-   - Modify the `"onAutoForward"` attribute in your `portsAttributes` from `"notify"` to `"openBrowser"`.
-   - Press <kbd>F1</kbd> and select the **Dev Containers: Rebuild Container** or **Codespaces: Rebuild Container** command so the modifications are picked up.
+## 💵 Pricing & Rewards
 
-5. **Install the GitHub CLI using a Dev Container Feature:**
-   - Press <kbd>F1</kbd> and select the **Dev Containers: Configure Container Features...** or **Codespaces: Configure Container Features...** command.
-   - Type "github" in the text box at the top.
-   - Check the check box next to "GitHub CLI" (published by devcontainers) 
-   - Click OK
-   - Press <kbd>F1</kbd> and select the **Dev Containers: Rebuild Container** or **Codespaces: Rebuild Container** command so the modifications are picked up.
+### Comic Purchases
+| Tier | Price | Gold Points | Arcade Credits | PB Points | Puzzles | Wallpapers |
+|------|-------|-------------|----------------|-----------|---------|------------|
+| Standard | $9.99 | 100 | 5,000 | 50 | 3 | 5 |
+| Premium | $12.99 | 150 | 6,500 | 75 | 4 | 7 |
 
-## Contributing
+### Value Proposition
+- **$9.99 comic** = $50 in arcade credits + puzzles + wallpapers
+- **500% value** on every purchase!
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+---
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+## 🎨 Design System
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+### Color Palette
 
-## License
+**Pimpin Paul's Theme:**
+- Neon Green: `#00FF41`
+- Matrix Green: `#0D0`
+- Deep Black: `#000000`
 
-Copyright © Microsoft Corporation All rights reserved.<br />
-Licensed under the MIT License. See LICENSE in the project root for license information.
+**Diamondz Playhouse Theme:**
+- Gold: `#FFD700`
+- Neon Pink: `#FF1493`
+- Electric Blue: `#007BFF`
+
+### Typography
+- **Headlines:** Graffiti-inspired (Urban Jungle)
+- **Elegant Text:** Serif (Playfair Display)
+- **Body:** Sans-serif (Roboto, Montserrat)
+
+### Visual Style
+- Urban-classy aesthetic
+- Neon glow effects
+- Metallic gradients
+- Sleek car silhouettes for Diamondz branding
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- Git
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/krissi2023/krissi-pimpin-pimpire.git
+cd krissi-pimpin-pimpire
+
+# Install backend dependencies
+cd diamondz-playhouse/backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API keys
+
+# Start backend
+cd ../backend
+npm start
+
+# Start frontend (in new terminal)
+cd ../frontend
+npm start
+```
+
+### Environment Variables
+
+**Backend (.env):**
+```env
+PORT=5000
+STRIPE_SECRET_KEY=your_stripe_secret
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
+STRIPE_WEBHOOK_SECRET_DEV=dev_webhook_secret
+STRIPE_WEBHOOK_SECRET_TEST=test_webhook_secret
+STRIPE_WEBHOOK_SECRET_PROD=prod_webhook_secret
+DATABASE_URL=your_database_url
+JWT_SECRET=your_jwt_secret
+```
+
+**Frontend (.env):**
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+```
+
+---
+
+## 📂 Repository Structure
+
+```
+krissi-pimpin-pimpire/
+├── diamondz-playhouse/          # Main app
+│   ├── frontend/                # React app
+│   ├── backend/                 # Node.js API
+│   ├── docs/                    # Documentation
+│   └── assets/                  # Graphics & media
+│
+├── Stories/                     # Comic content
+│   ├── Comics/                  # Diamondz series
+│   ├── PimpinPaul/             # Pimpin Paul series
+│   └── DiamondHeist/           # Heist series
+│
+├── Design/                      # UI/UX specifications
+│   └── APP_DESIGN_SPECS.md
+│
+├── SourceCode/                  # Game implementations
+│   ├── SlotGames/
+│   ├── TableGames/
+│   └── QuickGames/
+│
+└── Storefront/                  # E-commerce components
+```
+
+---
+
+## 📖 Documentation
+
+- **[Graphics Overview](diamondz-playhouse/docs/GRAPHICS_OVERVIEW.md)** - Complete graphics system
+- **[Graphics Quick Start](diamondz-playhouse/docs/GRAPHICS_QUICKSTART.md)** - Quick reference guide
+- **[Asset Guide](diamondz-playhouse/docs/ASSET_GUIDE.md)** - How to add your own graphics
+- **[Design System](diamondz-playhouse/docs/DESIGN_SYSTEM.md)** - Brand guidelines
+- **[Webhook Setup](diamondz-playhouse/docs/WEBHOOK_SETUP_GUIDE.md)** - Stripe webhook configuration
+- **[App Design Specs](Design/APP_DESIGN_SPECS.md)** - Complete UI/UX specifications
+
+---
+
+## 🎯 Development Roadmap
+
+### Phase 1: Foundation ✅
+- [x] Project structure setup
+- [x] Backend API development
+- [x] Frontend React app
+- [x] Graphics system
+- [x] Design system documentation
+
+### Phase 2: Core Features 🚧
+- [ ] User authentication
+- [ ] Comic purchase flow
+- [ ] Stripe payment integration
+- [ ] Puzzle mini-games
+- [ ] Wallet system
+
+### Phase 3: Arcade 📋
+- [ ] Arcade game integration
+- [ ] Credit system
+- [ ] Daily bonuses
+- [ ] Leaderboards
+
+### Phase 4: Polish 📋
+- [ ] Animations and transitions
+- [ ] Performance optimization
+- [ ] Mobile responsiveness
+- [ ] Beta testing
+
+### Phase 5: Launch 🚀
+- [ ] Production deployment
+- [ ] Marketing materials
+- [ ] App store submissions
+- [ ] Public release
+
+---
+
+## 👥 Characters & Credits
+
+### Created By
+**Krissi** - Creator, Writer, Designer
+
+### Main Characters
+- **Diamond (The Queen B)** - Master jewel thief, apex predator
+- **Pimpin Paul** - Digital detective, code genius
+- **Yagi** - AI assistant, sass provider
+
+---
+
+## 📜 License
+
+Copyright © 2025 Krissi. All rights reserved.
+
+This project and all associated content (comics, characters, designs) are proprietary and protected by copyright law.
+
+---
+
+## 📞 Contact
+
+**Project Owner:** Krissi  
+**Repository:** [github.com/krissi2023/krissi-pimpin-pimpire](https://github.com/krissi2023/krissi-pimpin-pimpire)
+
+---
+
+**Built with 💎 and ⚡ by Krissi**
+
+*Where Comics Meet Arcade Luxury*
