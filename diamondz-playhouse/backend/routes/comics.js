@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Comic = require('../models/Comic');
 
 /**
  * @route   GET /api/comics
@@ -8,7 +9,19 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
   try {
-    // TODO: Fetch from database
+    // Try to fetch from database first
+    const comics = await Comic.find({ isActive: true }).sort({ comicId: 1 });
+    
+    if (comics.length > 0) {
+      // Convert MongoDB docs to plain objects and add 'id' field for frontend compatibility
+      const formattedComics = comics.map(comic => ({
+        ...comic.toObject(),
+        id: comic.comicId
+      }));
+      return res.json(formattedComics);
+    }
+    
+    // Fallback to hardcoded data if database is empty
     const comics = [
       {
         id: '1',
