@@ -3,13 +3,14 @@ const Comic = require('./models/Comic');
 require('dotenv').config();
 
 const comics = [
+  // DIAMOND'S PERSPECTIVE - The Heist Trilogy
   {
-    comicId: '0',
-    title: 'Diamondz First Sparkle',
-    description: 'The Queen B meets her match - Prequel to the Diamond Heist saga',
+    comicId: '1',
+    title: 'The Velvet Touch',
+    description: 'Episode 1 (Diamond\'s POV) - Diamond infiltrates Sterling\'s fortress vault with charm and skill',
     price: 999, // $9.99
-    thumbnail: '/assets/comics/first-sparkle-cover.jpg',
-    theme: 'prequel',
+    thumbnail: '/assets/comics/velvet-touch-cover.jpg',
+    theme: 'heist',
     puzzleIncluded: true,
     wallpaperIncluded: true,
     goldPointsReward: 100,
@@ -20,38 +21,18 @@ const comics = [
     bonusContent: {
       characterBios: true,
       behindTheScenes: true,
-      conceptArt: true
-    },
-    isActive: true
-  },
-  {
-    comicId: '1',
-    title: 'The Rise',
-    description: 'Part 1 of the epic saga - The origin story',
-    price: 999,
-    thumbnail: '/assets/comics/rise-cover.jpg',
-    theme: 'origin',
-    puzzleIncluded: true,
-    wallpaperIncluded: true,
-    goldPointsReward: 100,
-    arcadeCredits: 5000,
-    pbPoints: 50,
-    puzzlesCount: 3,
-    wallpapersCount: 5,
-    bonusContent: {
-      characterBios: true,
-      behindTheScenes: true,
-      conceptArt: true
+      conceptArt: true,
+      diamondProfile: true
     },
     isActive: true
   },
   {
     comicId: '2',
-    title: 'Awakening',
-    description: 'Part 2 - The power awakens within',
+    title: 'Don\'t Hate the Player',
+    description: 'Episode 2 (Diamond\'s POV) - Diamond faces King Pimpin\'s arcade-themed traps: Slots, Fish Tables, and Cards',
     price: 999,
-    thumbnail: '/assets/comics/awakening-cover.jpg',
-    theme: 'awakening',
+    thumbnail: '/assets/comics/dont-hate-player-cover.jpg',
+    theme: 'arcade-heist',
     puzzleIncluded: true,
     wallpaperIncluded: true,
     goldPointsReward: 100,
@@ -62,17 +43,18 @@ const comics = [
     bonusContent: {
       characterBios: true,
       behindTheScenes: true,
-      conceptArt: true
+      conceptArt: true,
+      slotMachineMinigame: true
     },
     isActive: true
   },
   {
     comicId: '3',
-    title: 'Revolution',
-    description: 'Part 3 - The final battle begins',
+    title: 'The Getaway Glitch',
+    description: 'Episode 3 (Diamond\'s POV) - Diamond\'s daring escape with Yago trying to stop her. King Pimpin\' decides to pursue',
     price: 999,
-    thumbnail: '/assets/comics/revolution-cover.jpg',
-    theme: 'revolution',
+    thumbnail: '/assets/comics/getaway-glitch-cover.jpg',
+    theme: 'action-romance',
     puzzleIncluded: true,
     wallpaperIncluded: true,
     goldPointsReward: 100,
@@ -83,17 +65,64 @@ const comics = [
     bonusContent: {
       characterBios: true,
       behindTheScenes: true,
-      conceptArt: true
+      conceptArt: true,
+      yagoIntro: true
+    },
+    isActive: true
+  },
+  // KING PIMPIN'S PERSPECTIVE - The Truth Revealed
+  {
+    comicId: '4',
+    title: 'The Trap Card',
+    description: 'Episode 4 (King Pimpin\'s POV) - He knew all along. Watch him activate "Arcade Mode" and let her play',
+    price: 999,
+    thumbnail: '/assets/comics/trap-card-cover.jpg',
+    theme: 'perspective-shift',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      kingPimpinProfile: true,
+      yagoTechSpecs: true
     },
     isActive: true
   },
   {
-    comicId: '4',
-    title: 'The Digital Diamond Heist',
-    description: 'The ultimate casino vault adventure',
-    price: 1299, // $12.99 - Premium
-    thumbnail: '/assets/comics/heist-cover.jpg',
-    theme: 'heist',
+    comicId: '5',
+    title: 'Respect the Hustle',
+    description: 'Episode 5 (King Pimpin\'s POV) - King watches Diamond beat every trap. His admiration grows with each level',
+    price: 999,
+    thumbnail: '/assets/comics/respect-hustle-cover.jpg',
+    theme: 'arcade-commentary',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      gameMechanicsGuide: true
+    },
+    isActive: true
+  },
+  {
+    comicId: '6',
+    title: 'The Chase Begins',
+    description: 'Episode 6 (King Pimpin\'s POV) - She escaped with his car and his respect. Now the real game starts',
+    price: 1299, // $12.99 - Season Finale
+    thumbnail: '/assets/comics/chase-begins-cover.jpg',
+    theme: 'romance-setup',
     puzzleIncluded: true,
     wallpaperIncluded: true,
     goldPointsReward: 150,
@@ -105,28 +134,32 @@ const comics = [
       characterBios: true,
       behindTheScenes: true,
       conceptArt: true,
-      exclusiveChapter: true
+      exclusiveChapter: true,
+      season2Teaser: true
     },
     isActive: true
   },
+  // BONUS CONTENT
   {
-    comicId: '5',
-    title: 'Casino Vault Prequel',
-    description: 'The setup before the big heist',
-    price: 999,
-    thumbnail: '/assets/comics/casino-vault-cover.jpg',
-    theme: 'heist-prequel',
+    comicId: 'bonus-yago',
+    title: 'Yago\'s Redemption',
+    description: 'Bonus Story - How Yago plans to upgrade and redeem himself after getting hacked by Diamond',
+    price: 799, // $7.99 - Bonus content
+    thumbnail: '/assets/comics/yago-redemption-cover.jpg',
+    theme: 'side-story',
     puzzleIncluded: true,
     wallpaperIncluded: true,
-    goldPointsReward: 100,
-    arcadeCredits: 5000,
-    pbPoints: 50,
-    puzzlesCount: 3,
-    wallpapersCount: 5,
+    goldPointsReward: 75,
+    arcadeCredits: 4000,
+    pbPoints: 40,
+    puzzlesCount: 2,
+    wallpapersCount: 4,
     bonusContent: {
       characterBios: true,
       behindTheScenes: true,
-      conceptArt: true
+      conceptArt: true,
+      aiSideStory: true,
+      yagoUpgradeTree: true
     },
     isActive: true
   }
