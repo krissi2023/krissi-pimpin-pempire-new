@@ -49,7 +49,7 @@ A master thief named Diamond tries to rob the Pimpire Penthouse, only to realize
 
 #### [Episode 1: The Velvet Touch](./Episode1_The_Velvet_Touch.md)
 
-**Price:** $9.99 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
+**Price:** $40.00 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
 
 Diamond infiltrates Sterling's fortress vault with charm and skill. Using her "soft/innocent" persona, she extracts security intel and executes a flawless heist—or so she thinks.
 
@@ -63,7 +63,7 @@ Diamond infiltrates Sterling's fortress vault with charm and skill. Using her "s
 
 #### [Episode 2: Don't Hate the Player](./Episode2_Dont_Hate_The_Player.md)
 
-**Price:** $9.99 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
+**Price:** $40.00 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
 
 Diamond faces King Pimpin's arcade-themed security traps. Each obstacle is based on real arcade games from the Pimpire.
 
@@ -79,7 +79,7 @@ Diamond faces King Pimpin's arcade-themed security traps. Each obstacle is based
 
 #### [Episode 3: The Getaway Glitch](./Episode3_The_Getaway_Glitch.md)
 
-**Price:** $9.99 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
+**Price:** $40.00 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
 
 Diamond's daring escape from the penthouse. Yago tries to stop her, but she outsmarts the AI and steals King Pimpin's favorite car. King decides to pursue her personally.
 
@@ -98,7 +98,7 @@ Diamond's daring escape from the penthouse. Yago tries to stop her, but she outs
 
 #### [Episode 4: The Trap Card](./Episode4_The_Trap_Card.md)
 
-**Price:** $9.99 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
+**Price:** $40.00 | **Rewards:** 100 Gold, $50 Arcade Credits, 50 PB Points
 
 **THE TRUTH REVEALED:** King Pimpin' knew about Diamond the entire time. Watch him detect her fingerprint theft, activate "Arcade Mode," and turn the heist into a game.
 
@@ -132,7 +132,7 @@ King Pimpin' watches Diamond beat every single trap from his control room. His a
 
 #### [Episode 6: The Chase Begins](./Episode6_The_Chase_Begins.md)
 
-**Price:** $12.99 (Season Finale) | **Rewards:** 150 Gold, $65 Arcade Credits, 75 PB Points
+**Price:** $40.00 (Season Finale) | **Rewards:** 150 Gold, $65 Arcade Credits, 75 PB Points
 
 King Pimpin's POV of Diamond's escape. He watches her slide down the shaft, hack Yago, and steal his car. Instead of calling the police, he grabs his coat and sunglasses.
 
@@ -151,7 +151,7 @@ King Pimpin's POV of Diamond's escape. He watches her slide down the shaft, hack
 
 #### [Yago's Redemption](./Yago_Redemption.md) *(Coming Soon)*
 
-**Price:** $7.99 | **Rewards:** 75 Gold, $40 Arcade Credits, 40 PB Points
+**Price:** $40.00 | **Rewards:** 75 Gold, $40 Arcade Credits, 40 PB Points
 
 How does an AI recover from getting hacked by a human? Follow Yago's journey to upgrade his systems and redeem himself after Diamond exploited his "old software."
 
@@ -183,9 +183,9 @@ How does an AI recover from getting hacked by a human? Follow Yago's journey to 
 
 |Episode|Price|Total Rewards|
 |-------|-----|-------------|
-|Episodes 1-5|$9.99 each|$50 credits, 100 gold, 50 PB each|
-|Episode 6 (Finale)|$12.99|$65 credits, 150 gold, 75 PB|
-|Yago Bonus|$7.99|$40 credits, 75 gold, 40 PB|
+|Episodes 1-5|$40.00 each|$50 credits, 100 gold, 50 PB each|
+|Episode 6 (Finale)|$40.00|$65 credits, 150 gold, 75 PB|
+|Yago Bonus|$40.00|$40 credits, 75 gold, 40 PB|
 
 ---
 
