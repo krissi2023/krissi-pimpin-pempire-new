@@ -11,10 +11,13 @@ router.get('/', async (req, res) => {
   try {
     // Try to fetch from database first
     const comics = await Comic.find({ isActive: true }).sort({ comicId: 1 });
+    const dbComics = await Comic.find({ isActive: true }).sort({ comicId: 1 });
     
     if (comics.length > 0) {
+    if (dbComics.length > 0) {
       // Convert MongoDB docs to plain objects and add 'id' field for frontend compatibility
       const formattedComics = comics.map(comic => ({
+      const formattedComics = dbComics.map(comic => ({
         ...comic.toObject(),
         id: comic.comicId
       }));

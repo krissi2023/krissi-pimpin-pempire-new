@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { createCanvas, registerFont } = require('canvas');
+const { createCanvas } = require('canvas');
 
 // Comic cover designs
 const comics = [
