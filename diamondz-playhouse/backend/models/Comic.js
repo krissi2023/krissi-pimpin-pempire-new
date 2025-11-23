@@ -18,6 +18,9 @@ const comicSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  storySlug: {
+    type: String
+  },
   thumbnail: String,
   theme: String,
   puzzleIncluded: {

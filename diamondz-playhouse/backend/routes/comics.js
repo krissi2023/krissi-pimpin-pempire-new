@@ -1,6 +1,185 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 const Comic = require('../models/Comic');
+
+const STORY_BASE_PATH = path.join(__dirname, '..', '..', '..', 'Stories', 'DiamondHeist');
+
+const fallbackComics = [
+  {
+    id: '1',
+    title: 'The Velvet Touch',
+    description: 'Episode 1 (Diamond\'s POV) - Diamond infiltrates Sterling\'s fortress vault with charm and skill',
+    price: 4000,
+    thumbnail: '/assets/comics/velvet-touch-cover.svg',
+    theme: 'heist',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      diamondProfile: true
+    },
+    storySlug: 'Episode1_The_Velvet_Touch.md'
+  },
+  {
+    id: '2',
+    title: 'Don\'t Hate the Player',
+    description: 'Episode 2 (Diamond\'s POV) - Diamond faces King Pimpin\'s arcade-themed traps: Slots, Fish Tables, and Cards',
+    price: 4000,
+    thumbnail: '/assets/comics/dont-hate-player-cover.svg',
+    theme: 'arcade-heist',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      slotMachineMinigame: true
+    },
+    storySlug: 'Episode2_Dont_Hate_The_Player.md'
+  },
+  {
+    id: '3',
+    title: 'The Getaway Glitch',
+    description: 'Episode 3 (Diamond\'s POV) - Diamond\'s daring escape with Yago trying to stop her. King Pimpin\' decides to pursue',
+    price: 4000,
+    thumbnail: '/assets/comics/getaway-glitch-cover.svg',
+    theme: 'action-romance',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      yagoIntro: true
+    },
+    storySlug: 'Episode3_The_Getaway_Glitch.md'
+  },
+  {
+    id: '4',
+    title: 'The Trap Card',
+    description: 'Episode 4 (King Pimpin\'s POV) - He knew all along. Watch him activate "Arcade Mode" and let her play',
+    price: 4000,
+    thumbnail: '/assets/comics/trap-card-cover.svg',
+    theme: 'perspective-shift',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      kingPimpinProfile: true,
+      yagoTechSpecs: true
+    },
+    storySlug: 'Episode4_The_Trap_Card.md'
+  },
+  {
+    id: '5',
+    title: 'Respect the Hustle',
+    description: 'Episode 5 (King Pimpin\'s POV) - King watches Diamond beat every trap. His admiration grows with each level',
+    price: 4000,
+    thumbnail: '/assets/comics/respect-hustle-cover.svg',
+    theme: 'arcade-commentary',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 100,
+    arcadeCredits: 5000,
+    pbPoints: 50,
+    puzzlesCount: 3,
+    wallpapersCount: 5,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      gameMechanicsGuide: true
+    },
+    storySlug: 'Episode5_Game_Recognize_Game.md'
+  },
+  {
+    id: '6',
+    title: 'The Chase Begins',
+    description: 'Episode 6 (King Pimpin\'s POV) - She escaped with his car and his respect. Now the real game starts',
+    price: 4000,
+    thumbnail: '/assets/comics/chase-begins-cover.svg',
+    theme: 'romance-setup',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 150,
+    arcadeCredits: 6500,
+    pbPoints: 75,
+    puzzlesCount: 4,
+    wallpapersCount: 7,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      exclusiveChapter: true,
+      season2Teaser: true
+    },
+    storySlug: 'Episode6_The_Chase_Begins.md'
+  },
+  {
+    id: 'bonus-yago',
+    title: 'Yago\'s Redemption',
+    description: 'Bonus Story - How Yago plans to upgrade and redeem himself after getting hacked by Diamond',
+    price: 4000,
+    thumbnail: '/assets/comics/yago-redemption-cover.svg',
+    theme: 'side-story',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 75,
+    arcadeCredits: 4000,
+    pbPoints: 40,
+    puzzlesCount: 2,
+    wallpapersCount: 4,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      aiSideStory: true,
+      yagoUpgradeTree: true
+    },
+    storySlug: 'Yago_Bonus_System_Overload.md'
+  }
+];
+
+const getFallbackComic = (id) => fallbackComics.find(comic => comic.id === id);
+
+const formatComicResponse = (doc) => {
+  const fallback = getFallbackComic(doc.comicId);
+  const docObject = doc.toObject({ versionKey: false });
+  const { _id, ...cleanDoc } = docObject;
+
+  return {
+    ...fallback,
+    ...cleanDoc,
+    id: doc.comicId,
+    storySlug: cleanDoc.storySlug || fallback?.storySlug || null
+  };
+};
 
 /**
  * @route   GET /api/comics
@@ -9,179 +188,14 @@ const Comic = require('../models/Comic');
  */
 router.get('/', async (req, res) => {
   try {
-    // Try to fetch from database first
-    const comics = await Comic.find({ isActive: true }).sort({ comicId: 1 });
     const dbComics = await Comic.find({ isActive: true }).sort({ comicId: 1 });
-    
-    if (comics.length > 0) {
+
     if (dbComics.length > 0) {
-      // Convert MongoDB docs to plain objects and add 'id' field for frontend compatibility
-      const formattedComics = comics.map(comic => ({
-      const formattedComics = dbComics.map(comic => ({
-        ...comic.toObject(),
-        id: comic.comicId
-      }));
+      const formattedComics = dbComics.map(formatComicResponse);
       return res.json(formattedComics);
     }
-    
-    // Fallback to hardcoded data if database is empty
-    const comics = [
-      // DIAMOND'S PERSPECTIVE - The Heist Trilogy
-      {
-        id: '1',
-        title: 'The Velvet Touch',
-        description: 'Episode 1 (Diamond\'s POV) - Diamond infiltrates Sterling\'s fortress vault with charm and skill',
-        price: 999, // $9.99 in cents
-        thumbnail: '/assets/comics/velvet-touch-cover.svg',
-        theme: 'heist',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 100,
-        arcadeCredits: 5000, // $50 in credits (100 credits = $1)
-        pbPoints: 50,
-        puzzlesCount: 3, // Multiple puzzles per comic
-        wallpapersCount: 5, // Multiple wallpapers
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          diamondProfile: true
-        }
-      },
-      {
-        id: '2',
-        title: 'Don\'t Hate the Player',
-        description: 'Episode 2 (Diamond\'s POV) - Diamond faces King Pimpin\'s arcade-themed traps: Slots, Fish Tables, and Cards',
-        price: 999,
-        thumbnail: '/assets/comics/dont-hate-player-cover.svg',
-        theme: 'arcade-heist',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 100,
-        arcadeCredits: 5000, // $50 in credits
-        pbPoints: 50,
-        puzzlesCount: 3,
-        wallpapersCount: 5,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          slotMachineMinigame: true
-        }
-      },
-      {
-        id: '3',
-        title: 'The Getaway Glitch',
-        description: 'Episode 3 (Diamond\'s POV) - Diamond\'s daring escape with Yago trying to stop her. King Pimpin\' decides to pursue',
-        price: 999,
-        thumbnail: '/assets/comics/getaway-glitch-cover.svg',
-        theme: 'action-romance',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 100,
-        arcadeCredits: 5000, // $50 in credits
-        pbPoints: 50,
-        puzzlesCount: 3,
-        wallpapersCount: 5,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          yagoIntro: true
-        }
-      },
-      // KING PIMPIN'S PERSPECTIVE - The Truth Revealed
-      {
-        id: '4',
-        title: 'The Trap Card',
-        description: 'Episode 4 (King Pimpin\'s POV) - He knew all along. Watch him activate "Arcade Mode" and let her play',
-        price: 999,
-        thumbnail: '/assets/comics/trap-card-cover.svg',
-        theme: 'perspective-shift',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 100,
-        arcadeCredits: 5000,
-        pbPoints: 50,
-        puzzlesCount: 3,
-        wallpapersCount: 5,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          kingPimpinProfile: true,
-          yagoTechSpecs: true
-        }
-      },
-      {
-        id: '5',
-        title: 'Respect the Hustle',
-        description: 'Episode 5 (King Pimpin\'s POV) - King watches Diamond beat every trap. His admiration grows with each level',
-        price: 999,
-        thumbnail: '/assets/comics/respect-hustle-cover.svg',
-        theme: 'arcade-commentary',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 100,
-        arcadeCredits: 5000,
-        pbPoints: 50,
-        puzzlesCount: 3,
-        wallpapersCount: 5,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          gameMechanicsGuide: true
-        }
-      },
-      {
-        id: '6',
-        title: 'The Chase Begins',
-        description: 'Episode 6 (King Pimpin\'s POV) - She escaped with his car and his respect. Now the real game starts',
-        price: 1299, // $12.99
-        thumbnail: '/assets/comics/chase-begins-cover.svg',
-        theme: 'romance-setup',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 150,
-        arcadeCredits: 6500, // $65 in credits (premium comic)
-        pbPoints: 75,
-        puzzlesCount: 4,
-        wallpapersCount: 7,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          exclusiveChapter: true,
-          season2Teaser: true
-        }
-      },
-      // BONUS CONTENT
-      {
-        id: 'bonus-yago',
-        title: 'Yago\'s Redemption',
-        description: 'Bonus Story - How Yago plans to upgrade and redeem himself after getting hacked by Diamond',
-        price: 799, // $7.99
-        thumbnail: '/assets/comics/yago-redemption-cover.svg',
-        theme: 'side-story',
-        puzzleIncluded: true,
-        wallpaperIncluded: true,
-        goldPointsReward: 75,
-        arcadeCredits: 4000, // $40 in credits
-        pbPoints: 40,
-        puzzlesCount: 2,
-        wallpapersCount: 4,
-        bonusContent: {
-          characterBios: true,
-          behindTheScenes: true,
-          conceptArt: true,
-          aiSideStory: true,
-          yagoUpgradeTree: true
-        }
-      }
-    ];
 
-    res.json(comics);
+    res.json(fallbackComics);
   } catch (error) {
     console.error('Error fetching comics:', error);
     res.status(500).json({ error: error.message });
@@ -196,26 +210,56 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // TODO: Fetch from database
-    const comic = {
-      id,
-      title: 'The Rise',
-      description: 'Part 1 of the epic saga',
-      fullDescription: 'An epic tale of power, strategy, and digital dominance...',
-      price: 999,
-      thumbnail: '/assets/comics/rise-cover.jpg',
-      pages: 45,
-      theme: 'origin',
-      puzzleIncluded: true,
-      wallpaperIncluded: true,
-      goldPointsReward: 100,
-      arcadeTheme: 'diamondz-rise'
-    };
+    const comicDoc = await Comic.findOne({ comicId: id, isActive: true });
 
-    res.json(comic);
+    if (comicDoc) {
+      return res.json(formatComicResponse(comicDoc));
+    }
+
+    const fallbackComic = getFallbackComic(id);
+    if (fallbackComic) {
+      return res.json(fallbackComic);
+    }
+
+    res.status(404).json({ error: 'Comic not found' });
   } catch (error) {
     console.error('Error fetching comic:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/:id/story', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comicDoc = await Comic.findOne({ comicId: id, isActive: true });
+    const fallbackComic = getFallbackComic(id);
+
+    if (!comicDoc && !fallbackComic) {
+      return res.status(404).json({ error: 'Comic not found' });
+    }
+
+    const storySlug = comicDoc?.storySlug || fallbackComic?.storySlug;
+
+    if (!storySlug) {
+      return res.status(404).json({ error: 'Story not available for this comic yet' });
+    }
+
+    const storyPath = path.join(STORY_BASE_PATH, storySlug);
+
+    try {
+      const content = await fs.promises.readFile(storyPath, 'utf8');
+      return res.json({
+        id,
+        storySlug,
+        title: comicDoc?.title || fallbackComic?.title,
+        content
+      });
+    } catch (fileError) {
+      console.error(`Story file not found for comic ${id}:`, fileError);
+      return res.status(404).json({ error: 'Story file missing from repository' });
+    }
+  } catch (error) {
+    console.error('Error fetching comic story:', error);
     res.status(500).json({ error: error.message });
   }
 });
