@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
 import { ComicCoverPlaceholder } from '../components/ImagePlaceholder';
 import './ComicStore.css';
@@ -7,6 +8,9 @@ import './ComicStore.css';
 function ComicStore() {
   const [comics, setComics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeStory, setActiveStory] = useState(null);
+  const [storyLoadingId, setStoryLoadingId] = useState(null);
+  const [storyError, setStoryError] = useState(null);
   const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -21,6 +25,28 @@ function ComicStore() {
     } catch (error) {
       console.error('Error fetching comics:', error);
       setLoading(false);
+    }
+  };
+
+  const handleStoryToggle = async (comic) => {
+    if (activeStory?.id === comic.id) {
+      setActiveStory(null);
+      setStoryError(null);
+      return;
+    }
+
+    setStoryError(null);
+    setStoryLoadingId(comic.id);
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/comics/${comic.id}/story`);
+      setActiveStory({ id: comic.id, content: response.data.content, title: response.data.title });
+    } catch (error) {
+      console.error('Error fetching comic story:', error);
+      setActiveStory(null);
+      setStoryError({ id: comic.id, message: 'Failed to load story. Please try again.' });
+    } finally {
+      setStoryLoadingId(null);
     }
   };
 
@@ -84,8 +110,21 @@ function ComicStore() {
               </div>
 
               <div className="comic-footer">
-                <span className="price">${(comic.price / 100).toFixed(2)}</span>
-                <button 
+                <div className="comic-footer-left">
+                  <span className="price">${(comic.price / 100).toFixed(2)}</span>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleStoryToggle(comic)}
+                    disabled={storyLoadingId === comic.id}
+                  >
+                    {storyLoadingId === comic.id
+                      ? 'Loading Story...'
+                      : activeStory?.id === comic.id
+                        ? 'Hide Story'
+                        : 'Preview Story'}
+                  </button>
+                </div>
+                <button
                   className="btn btn-primary"
                   onClick={() => handlePurchase(comic)}
                 >
@@ -93,6 +132,20 @@ function ComicStore() {
                 </button>
               </div>
             </div>
+
+            {storyError?.id === comic.id && (
+              <div className="story-preview story-error">
+                <p>{storyError.message}</p>
+              </div>
+            )}
+
+            {activeStory?.id === comic.id && (
+              <div className="story-preview">
+                <ReactMarkdown className="story-markdown">
+                  {activeStory.content}
+                </ReactMarkdown>
+              </div>
+            )}
           </div>
         ))}
       </div>

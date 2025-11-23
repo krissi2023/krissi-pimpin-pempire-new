@@ -35,6 +35,24 @@
   box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
 }
 
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 212, 255, 0.25);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-arcade {
   background: linear-gradient(135deg, var(--arcade-purple), #c77dff);
   color: #fff;
