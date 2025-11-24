@@ -1,0 +1,107 @@
+.credits-purchase {
+  margin: 0 auto 40px;
+  max-width: 520px;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(34, 12, 64, 0.8), rgba(87, 45, 134, 0.8));
+}
+
+.credits-purchase h2 {
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+.credits-subtitle {
+  margin-bottom: 24px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.credits-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.credits-options {
+  display: grid;
+  gap: 12px;
+}
+
+.credits-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.credits-option input {
+  accent-color: var(--primary-gold);
+}
+
+.credits-option.selected {
+  border-color: var(--primary-gold);
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.option-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.option-amount {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.option-description {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card-element-wrapper {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 14, 34, 0.85);
+}
+
+.card-error {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
+
+.purchase-message {
+  font-size: 0.95rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.purchase-message.success {
+  background: rgba(49, 233, 129, 0.12);
+  color: #4cd8a0;
+}
+
+.purchase-message.error {
+  background: rgba(255, 107, 107, 0.12);
+  color: #ff8080;
+}
+
+.credits-form .btn {
+  align-self: flex-end;
+  min-width: 180px;
+}
+
+@media (max-width: 600px) {
+  .credits-purchase {
+    padding: 20px;
+  }
+
+  .credits-form .btn {
+    width: 100%;
+    align-self: stretch;
+  }
+}

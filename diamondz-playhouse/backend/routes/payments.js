@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const User = require('../models/User');
+const Transaction = require('../models/Transaction');
 
 /**
  * @route   POST /api/payments/create-checkout-session
@@ -52,19 +54,50 @@ router.post('/create-checkout-session', async (req, res) => {
  */
 router.post('/create-payment-intent', async (req, res) => {
   try {
-    const { amount, userId, pointsAmount } = req.body;
+    const { amount, userId, pointsAmount, creditsAmount } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'Missing userId' });
+    }
+
+    const normalizedAmount = parseInt(amount, 10);
+    if (Number.isNaN(normalizedAmount) || normalizedAmount < 100) {
+      return res.status(400).json({ error: 'Invalid amount. Minimum purchase is $1.00' });
+    }
+
+    const normalizedCredits = parseInt(creditsAmount ?? pointsAmount ?? normalizedAmount, 10);
+    if (Number.isNaN(normalizedCredits) || normalizedCredits <= 0) {
+      return res.status(400).json({ error: 'Invalid credits amount' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount, // Amount in cents
+      amount: normalizedAmount,
       currency: 'usd',
+      automatic_payment_methods: { enabled: true },
       metadata: {
-        userId,
-        pointsAmount,
+        userId: user._id.toString(),
+        creditsAmount: normalizedCredits,
         type: 'points_purchase'
       },
     });
 
-    res.json({ 
+    await Transaction.create({
+      userId: user._id,
+      type: 'points_purchase',
+      amount: normalizedAmount / 100,
+      stripePaymentIntentId: paymentIntent.id,
+      status: 'pending',
+      metadata: {
+        creditsAmount: normalizedCredits
+      }
+    });
+
+    res.json({
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id
     });
