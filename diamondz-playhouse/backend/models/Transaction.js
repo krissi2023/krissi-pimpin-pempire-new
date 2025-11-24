@@ -38,5 +38,6 @@ const transactionSchema = new mongoose.Schema({
 // Index for faster queries
 transactionSchema.index({ userId: 1, createdAt: -1 });
 transactionSchema.index({ stripeSessionId: 1 });
+transactionSchema.index({ stripePaymentIntentId: 1 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);

@@ -186,27 +186,83 @@ async function handleCheckoutSessionCompleted(session) {
 async function handlePaymentIntentSucceeded(paymentIntent) {
   console.log('💰 Payment intent succeeded:', paymentIntent.id);
 
-  const { userId, pointsAmount, type } = paymentIntent.metadata;
+  const metadata = paymentIntent.metadata || {};
+  const { type } = metadata;
 
-  if (type === 'points_purchase') {
-    // TODO: Add points to user account
-    console.log(`🪙 Added ${pointsAmount} points to user ${userId}`);
-    
-    // Example database update:
-    /*
-    await User.findByIdAndUpdate(userId, {
-      $inc: { goldPoints: parseInt(pointsAmount) }
-    });
-    
-    await Transaction.create({
-      userId,
-      type: 'points_purchase',
-      amount: paymentIntent.amount / 100,
-      pointsAmount,
-      status: 'completed',
-      paymentIntentId: paymentIntent.id
-    });
-    */
+  if (type !== 'points_purchase') {
+    return;
+  }
+
+  try {
+    const creditsFromMetadata = parseInt(metadata.creditsAmount, 10);
+    const creditsFallback = paymentIntent.amount_received || paymentIntent.amount;
+    const creditsAmount = Number.isNaN(creditsFromMetadata)
+      ? creditsFallback
+      : creditsFromMetadata;
+
+    const transaction = await Transaction.findOne({ stripePaymentIntentId: paymentIntent.id });
+
+    let userId = metadata.userId;
+    if (transaction && transaction.userId) {
+      userId = transaction.userId.toString();
+    }
+
+    if (!userId) {
+      console.error(`❌ Missing userId for payment intent ${paymentIntent.id}`);
+      return;
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.error(`❌ User ${userId} not found for payment intent ${paymentIntent.id}`);
+      return;
+    }
+
+    const creditsInCents = parseInt(creditsAmount, 10);
+    if (Number.isNaN(creditsInCents) || creditsInCents <= 0) {
+      console.error(`❌ Invalid credits amount for payment intent ${paymentIntent.id}`);
+      return;
+    }
+
+    user.arcadeCredits += creditsInCents;
+    await user.save();
+
+    const amountDollars = (paymentIntent.amount_received || paymentIntent.amount) / 100;
+
+    if (transaction) {
+      transaction.amount = amountDollars;
+      transaction.status = 'completed';
+      transaction.rewards = {
+        arcadeCredits: creditsInCents
+      };
+      transaction.metadata = {
+        ...(transaction.metadata || {}),
+        creditsAmount: creditsInCents,
+        currency: paymentIntent.currency,
+        paymentMethodTypes: paymentIntent.payment_method_types
+      };
+      await transaction.save();
+    } else {
+      await Transaction.create({
+        userId: user._id,
+        type: 'points_purchase',
+        amount: amountDollars,
+        stripePaymentIntentId: paymentIntent.id,
+        rewards: {
+          arcadeCredits: creditsInCents
+        },
+        status: 'completed',
+        metadata: {
+          creditsAmount: creditsInCents,
+          currency: paymentIntent.currency,
+          paymentMethodTypes: paymentIntent.payment_method_types
+        }
+      });
+    }
+
+    console.log(`🪙 Added ${(creditsInCents / 100).toFixed(2)} arcade credits to user ${user._id}`);
+  } catch (error) {
+    console.error('Error processing points purchase:', error);
   }
 }
 
@@ -216,22 +272,45 @@ async function handlePaymentIntentSucceeded(paymentIntent) {
 async function handlePaymentIntentFailed(paymentIntent) {
   console.log('❌ Payment intent failed:', paymentIntent.id);
 
-  const { userId } = paymentIntent.metadata;
+  const metadata = paymentIntent.metadata || {};
 
-  // TODO: Log failed payment, notify user
-  console.log(`⚠️ Payment failed for user ${userId}`);
-  
-  // Example:
-  /*
-  await Transaction.create({
-    userId,
-    type: 'payment_failed',
-    amount: paymentIntent.amount / 100,
-    status: 'failed',
-    paymentIntentId: paymentIntent.id,
-    error: paymentIntent.last_payment_error?.message
-  });
-  */
+  try {
+    const transaction = await Transaction.findOne({ stripePaymentIntentId: paymentIntent.id });
+
+    if (transaction) {
+      transaction.status = 'failed';
+      transaction.metadata = {
+        ...(transaction.metadata || {}),
+        error: paymentIntent.last_payment_error?.message,
+        failureCode: paymentIntent.last_payment_error?.code
+      };
+      await transaction.save();
+      console.log(`⚠️ Updated transaction ${transaction._id} as failed`);
+      return;
+    }
+
+    const userId = metadata.userId;
+    if (!userId) {
+      console.error(`⚠️ Failed payment intent ${paymentIntent.id} missing user reference`);
+      return;
+    }
+
+    await Transaction.create({
+      userId,
+      type: 'points_purchase',
+      amount: paymentIntent.amount / 100,
+      stripePaymentIntentId: paymentIntent.id,
+      status: 'failed',
+      metadata: {
+        error: paymentIntent.last_payment_error?.message,
+        failureCode: paymentIntent.last_payment_error?.code
+      }
+    });
+
+    console.log(`⚠️ Logged failed payment for user ${userId}`);
+  } catch (error) {
+    console.error('Error logging failed payment intent:', error);
+  }
 }
 
 /**

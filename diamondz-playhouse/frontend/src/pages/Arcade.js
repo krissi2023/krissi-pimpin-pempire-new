@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Arcade.css';
+import ArcadeCreditsPurchase from '../components/ArcadeCreditsPurchase';
 
 function Arcade() {
   const [games, setGames] = useState([]);
@@ -50,24 +51,28 @@ function Arcade() {
       </p>
 
       {isAuthenticated && user ? (
-        <div className="arcade-stats">
-          <div className="stat-card card">
-            <div className="stat-value">{user.goldPoints || 0}</div>
-            <div className="stat-label">Gold Points</div>
+        <>
+          <div className="arcade-stats">
+            <div className="stat-card card">
+              <div className="stat-value">{user.goldPoints || 0}</div>
+              <div className="stat-label">Gold Points</div>
+            </div>
+            <div className="stat-card card">
+              <div className="stat-value">{user.pbPoints || 0}</div>
+              <div className="stat-label">PB Points</div>
+            </div>
+            <div className="stat-card card">
+              <div className="stat-value">${((user.arcadeCredits || 0) / 100).toFixed(2)}</div>
+              <div className="stat-label">Arcade Credits</div>
+            </div>
+            <div className="stat-card card">
+              <div className="stat-value">{user.totalWins || 0}</div>
+              <div className="stat-label">Total Wins</div>
+            </div>
           </div>
-          <div className="stat-card card">
-            <div className="stat-value">{user.pbPoints || 0}</div>
-            <div className="stat-label">PB Points</div>
-          </div>
-          <div className="stat-card card">
-            <div className="stat-value">${((user.arcadeCredits || 0) / 100).toFixed(2)}</div>
-            <div className="stat-label">Arcade Credits</div>
-          </div>
-          <div className="stat-card card">
-            <div className="stat-value">{user.totalWins || 0}</div>
-            <div className="stat-label">Total Wins</div>
-          </div>
-        </div>
+
+          <ArcadeCreditsPurchase />
+        </>
       ) : (
         <div className="login-prompt">
           <p>Please log in to view your stats and play games!</p>
