@@ -11,13 +11,11 @@ A revolutionary digital platform combining premium comic storytelling with inter
 ### Two Brands, One Platform
 
 **🎨 Pimpin Paul's Comics** (Comic Store)
-
 - Tech-noir aesthetic with neon green accents
 - Features original comic series starring Pimpin Paul & Diamond
 - Embedded interactive puzzles and unlockable wallpapers
 
 **💎 Diamondz Playhouse** (Arcade)
-
 - Luxury VIP nightclub gaming experience
 - Gold and neon pink aesthetic
 - Unlocked through comic purchases and puzzle completion
@@ -27,28 +25,23 @@ A revolutionary digital platform combining premium comic storytelling with inter
 ## 📚 Comic Series
 
 ### Diamondz First Sparkle
-
 The Queen B meets her match in this prequel to the Diamond Heist saga. Watch as the world's most stylish jewel thief faces off against a digital detective who speaks only in code.
 
 **Issues:**
-
 1. Plan Alpha: Shine Bright Like a... Target
 2. The Double Cross (Digital & Dazzling)
 3. The Unexpected Algorithm
 
 ### Pimpin Paul's Comics
-
 The origin story of the digital detective and his partnership with the chaotic genius Diamond.
 
 **Issues:**
-
 1. The Origin of the Digital Side-Cake
 2. The Code of the Conflicted Pimp
 3. The Meta-Heist Mandate
 4. The Keystone Koordinates (The Team-Up)
 
 ### The Diamond Heist Series
-
 - The Digital Diamond Heist
 - Casino Vault Prequel
 - And more...
@@ -58,26 +51,22 @@ The origin story of the digital detective and his partnership with the chaotic g
 ## ✨ Key Features
 
 ### 💰 Dual Currency System
-
 - **PPC (Pimpin Paul Credits):** Earned from comic purchases, used in arcade
 - **Gold Coins:** Bonus currency from puzzles and achievements
 
 ### 🧩 Interactive Puzzles
-
 - Jigsaw puzzles from comic art
 - Word searches with story themes
 - Time bonuses for fast completion
 - Rewards: 25-50 Gold Points per puzzle
 
 ### 🎮 Arcade Gaming
-
 - Slot machines with comic themes
 - Table games (Blackjack, High or Low)
 - Quick games (Rock Paper Scissors)
 - Daily bonuses and streak rewards
 
 ### 🖼️ Bonus Content
-
 - Unlockable wallpapers (5-7 per comic)
 - Character bios and concept art
 - Behind-the-scenes content
@@ -101,7 +90,6 @@ The origin story of the digital detective and his partnership with the chaotic g
 |  | Platinum (+35% Value) | $6.49 | 6.75 | 675 |
 
 ### 💎 Platinum Perks: Why Upgrade?
-
 Platinum isn't just about the extra coins. It unlocks the full "Director's Cut" experience:
 
 - **Comics:** Unlocks exclusive "Lost Pages," concept art, and alternate story endings.
@@ -109,13 +97,11 @@ Platinum isn't just about the extra coins. It unlocks the full "Director's Cut" 
 - **Wallpapers:** Unlocks the 4K animated version of the art (vs. static HD).
 
 ### Value Proposition
-
 - **1:1 PPC Match:** Standard tiers give you dollar-for-dollar PPC value.
 - **Platinum Advantage:** Pay **30% more**, get **35% more rewards** + exclusive content.
 - **The Math:** You get a **5% pure currency bonus** on every Platinum purchase, effectively getting free money to use in the arcade.
 
 ### 🎒 Bonus Pack: "The Quick Fix"
-
 Perfect for when you need a little extra stash to keep the game going.
 
 - **Standard ($4.99):** Instantly adds **5.00 PPC** and **500 Gold Coins**.
@@ -126,31 +112,26 @@ Perfect for when you need a little extra stash to keep the game going.
 ## 🎨 Design System
 
 **Pimpin Paul's Theme:**
-
 - Neon Green: `#00FF41`
 - Matrix Green: `#0D0`
 - Deep Black: `#000000`
 
 **Platinum Status Theme:**
-
 - Platinum Silver: `#E5E4E2`
 - Diamond Blue: `#B9F2FF`
 - Premium Shine: `#F5F5F5`
 
 **Diamondz Playhouse Theme:**
-
 - Gold: `#FFD700`
 - Neon Pink: `#FF1493`
 - Electric Blue: `#007BFF`
 
 ### Typography
-
 - **Headlines:** Graffiti-inspired (Urban Jungle)
 - **Elegant Text:** Serif (Playfair Display)
 - **Body:** Sans-serif (Roboto, Montserrat)
 
 ### Visual Style
-
 - Urban-classy aesthetic
 - Neon glow effects
 - Metallic gradients with chrome highlights

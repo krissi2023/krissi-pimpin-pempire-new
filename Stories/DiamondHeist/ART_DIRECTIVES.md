@@ -88,7 +88,7 @@ This document provides detailed visual specifications for all main characters to
 
 ## KING PIMPIN' (The Game Master)
 
-### Basic Profile
+### Character Profile
 
 - **Age:** Early-to-mid 30s
 - **Height:** 6'1" (commanding presence)
@@ -192,7 +192,7 @@ This document provides detailed visual specifications for all main characters to
 
 ## YAGO (The Digital Sidekick)
 
-### Basic Profile (Reality Mode - Episodes 1-6)
+### Character Profile (Reality Mode - Episodes 1-6)
 
 - **Form:** Holographic avatar, not fully physical
 - **Size:** Small, appears on screens/floating near King
