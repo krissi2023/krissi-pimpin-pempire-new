@@ -15,6 +15,34 @@
   margin-bottom: 40px;
 }
 
+.category-section + .category-section {
+  margin-top: 60px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.category-title {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.category-description {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.category-count {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 .arcade-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -98,6 +126,19 @@
   margin-bottom: 20px;
 }
 
+.game-description {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+.game-meta {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
 .bet-range {
   display: flex;
   justify-content: space-between;
@@ -108,6 +149,36 @@
 .rtp {
   color: var(--primary-gold);
   font-weight: bold;
+}
+
+.player-range,
+.layout-meta {
+  font-size: 0.9rem;
+}
+
+.layout-meta {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.feature-list li {
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.unlock-note {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
 }
 
 .btn-play {

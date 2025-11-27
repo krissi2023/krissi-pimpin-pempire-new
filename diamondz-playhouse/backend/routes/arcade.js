@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { categories, games } = require('../data/arcadeGames');
 
 /**
  * @route   GET /api/arcade/games
@@ -8,76 +9,18 @@ const router = express.Router();
  */
 router.get('/games', async (req, res) => {
   try {
-    const games = [
-      {
-        id: 'diamond-rise',
-        name: 'Diamond Rise Slots',
-        theme: 'rise',
-        requiredComic: '1',
-        minBet: 10, // gold points
-        maxBet: 100,
-        payoutTable: {
-          'diamond-3': 50,
-          'diamond-4': 200,
-          'diamond-5': 1000,
-          'seven-3': 30,
-          'seven-4': 100,
-          'seven-5': 500
-        },
-        rtp: 96.5, // Return to player %
-        thumbnail: '/assets/arcade/diamond-rise-thumb.jpg'
-      },
-      {
-        id: 'awakening-power',
-        name: 'Awakening Power Slots',
-        theme: 'awakening',
-        requiredComic: '2',
-        minBet: 10,
-        maxBet: 100,
-        payoutTable: {
-          'power-3': 60,
-          'power-4': 250,
-          'power-5': 1200
-        },
-        rtp: 96.8,
-        thumbnail: '/assets/arcade/awakening-thumb.jpg'
-      },
-      {
-        id: 'revolution-jackpot',
-        name: 'Revolution Jackpot',
-        theme: 'revolution',
-        requiredComic: '3',
-        minBet: 20,
-        maxBet: 200,
-        payoutTable: {
-          'revolution-3': 80,
-          'revolution-4': 400,
-          'revolution-5': 2000,
-          'jackpot': 10000
-        },
-        rtp: 97.2,
-        thumbnail: '/assets/arcade/revolution-thumb.jpg'
-      },
-      {
-        id: 'heist-bonus',
-        name: 'Diamond Heist Bonus',
-        theme: 'heist',
-        requiredComic: '4',
-        minBet: 25,
-        maxBet: 250,
-        bonusRounds: true,
-        payoutTable: {
-          'diamond-3': 100,
-          'diamond-4': 500,
-          'diamond-5': 3000,
-          'bonus-trigger': 'free-spins'
-        },
-        rtp: 97.5,
-        thumbnail: '/assets/arcade/heist-thumb.jpg'
-      }
-    ];
+    const groupedCategories = categories
+      .map(category => ({
+        ...category,
+        games: games.filter(game => game.category === category.key)
+      }))
+      .filter(category => category.games.length > 0);
 
-    res.json(games);
+    res.json({
+      categories: groupedCategories,
+      games,
+      totalGames: games.length
+    });
   } catch (error) {
     console.error('Error fetching arcade games:', error);
     res.status(500).json({ error: error.message });
@@ -92,30 +35,18 @@ router.get('/games', async (req, res) => {
 router.get('/games/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // TODO: Fetch from database
-    const game = {
-      id,
-      name: 'Diamond Rise Slots',
-      theme: 'rise',
-      description: 'Experience the rise to power with diamond-themed slots',
-      requiredComic: '1',
-      minBet: 10,
-      maxBet: 100,
-      reels: 5,
-      rows: 3,
-      paylines: 20,
-      symbols: [
-        { id: 'diamond', name: 'Diamond', multiplier: [10, 20, 100] },
-        { id: 'seven', name: 'Lucky Seven', multiplier: [5, 15, 50] },
-        { id: 'crown', name: 'Crown', multiplier: [3, 10, 30] },
-        { id: 'gold', name: 'Gold Bar', multiplier: [2, 8, 20] }
-      ],
-      rtp: 96.5,
-      volatility: 'medium'
-    };
+    const game = games.find(item => item.id === id);
 
-    res.json(game);
+    if (!game) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    const categoryDetails = categories.find(category => category.key === game.category);
+
+    res.json({
+      ...game,
+      categoryDetails: categoryDetails || null
+    });
   } catch (error) {
     console.error('Error fetching game details:', error);
     res.status(500).json({ error: error.message });
