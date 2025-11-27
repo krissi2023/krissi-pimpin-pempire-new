@@ -38,6 +38,7 @@ app.use('/api/payments', require('./routes/payments'));
 app.use('/api/webhooks', require('./routes/webhooks'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/rewards', require('./routes/rewards'));
+app.use('/api/wallet', require('./routes/wallet'));
 
 // Health check
 app.get('/health', (req, res) => {
