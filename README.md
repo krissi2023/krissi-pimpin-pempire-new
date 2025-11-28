@@ -61,12 +61,24 @@ The origin story of the digital detective and his partnership with the chaotic g
 - Rewards: 25-50 Gold Points per puzzle
 
 ### 🎮 Arcade Gaming
+
 - Slot machines with comic themes
 - Table games (Blackjack, High or Low)
 - Quick games (Rock Paper Scissors)
 - Daily bonuses and streak rewards
 
+### 🔥 Latest Arcade Drops (November 2025)
+
+- **The Throne of Diamonds** – Expanding royal wilds and respin streaks for VIP members.
+- **The Golden Limousine** – Hold-and-win limo chase with Mini/Major jackpots.
+- **The Pimpire's Vault** – Cascading vault grid with progressive multiplier escalations.
+- **Backstage Babylon** – Cabaret pick-and-click VIP list with steady payouts.
+- **The Street Boss's Deal** – Megaways contract spins with mystery map transformations.
+
+Backend smoke tests (`npm test -- --runInBand` inside `diamondz-playhouse/backend`) ensure every cabinet boots without runtime errors.
+
 ### 🖼️ Bonus Content
+
 - Unlockable wallpapers (5-7 per comic)
 - Character bios and concept art
 - Behind-the-scenes content
@@ -90,6 +102,7 @@ The origin story of the digital detective and his partnership with the chaotic g
 |  | Platinum (+35% Value) | $6.49 | 6.75 | 675 |
 
 ### 💎 Platinum Perks: Why Upgrade?
+
 Platinum isn't just about the extra coins. It unlocks the full "Director's Cut" experience:
 
 - **Comics:** Unlocks exclusive "Lost Pages," concept art, and alternate story endings.
@@ -97,11 +110,13 @@ Platinum isn't just about the extra coins. It unlocks the full "Director's Cut" 
 - **Wallpapers:** Unlocks the 4K animated version of the art (vs. static HD).
 
 ### Value Proposition
+
 - **1:1 PPC Match:** Standard tiers give you dollar-for-dollar PPC value.
 - **Platinum Advantage:** Pay **30% more**, get **35% more rewards** + exclusive content.
 - **The Math:** You get a **5% pure currency bonus** on every Platinum purchase, effectively getting free money to use in the arcade.
 
 ### 🎒 Bonus Pack: "The Quick Fix"
+
 Perfect for when you need a little extra stash to keep the game going.
 
 - **Standard ($4.99):** Instantly adds **5.00 PPC** and **500 Gold Coins**.
@@ -112,26 +127,31 @@ Perfect for when you need a little extra stash to keep the game going.
 ## 🎨 Design System
 
 **Pimpin Paul's Theme:**
+
 - Neon Green: `#00FF41`
 - Matrix Green: `#0D0`
 - Deep Black: `#000000`
 
 **Platinum Status Theme:**
+
 - Platinum Silver: `#E5E4E2`
 - Diamond Blue: `#B9F2FF`
 - Premium Shine: `#F5F5F5`
 
 **Diamondz Playhouse Theme:**
+
 - Gold: `#FFD700`
 - Neon Pink: `#FF1493`
 - Electric Blue: `#007BFF`
 
 ### Typography
+
 - **Headlines:** Graffiti-inspired (Urban Jungle)
 - **Elegant Text:** Serif (Playfair Display)
 - **Body:** Sans-serif (Roboto, Montserrat)
 
 ### Visual Style
+
 - Urban-classy aesthetic
 - Neon glow effects
 - Metallic gradients with chrome highlights
