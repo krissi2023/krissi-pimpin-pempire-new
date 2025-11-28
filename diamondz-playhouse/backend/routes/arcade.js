@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { categories, games } = require('../data/arcadeGames');
+const gameService = require('../services/gameService');
+const User = require('../models/User');
+const { authMiddleware } = require('../middleware/auth');
 
 /**
  * @route   GET /api/arcade/games
@@ -9,15 +11,11 @@ const { categories, games } = require('../data/arcadeGames');
  */
 router.get('/games', async (req, res) => {
   try {
-    const groupedCategories = categories
-      .map(category => ({
-        ...category,
-        games: games.filter(game => game.category === category.key)
-      }))
-      .filter(category => category.games.length > 0);
+    const categories = gameService.getCategoriesWithGames();
+    const games = gameService.getGameCatalog();
 
     res.json({
-      categories: groupedCategories,
+      categories,
       games,
       totalGames: games.length
     });
@@ -35,20 +33,87 @@ router.get('/games', async (req, res) => {
 router.get('/games/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const game = games.find(item => item.id === id);
+    const game = gameService.getGameDetails(id);
 
     if (!game) {
       return res.status(404).json({ error: 'Game not found' });
     }
 
-    const categoryDetails = categories.find(category => category.key === game.category);
-
-    res.json({
-      ...game,
-      categoryDetails: categoryDetails || null
-    });
+    res.json(game);
   } catch (error) {
     console.error('Error fetching game details:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/sessions', authMiddleware, async (req, res) => {
+  try {
+    const sessions = gameService.listSessions(req.userId);
+    res.json({ sessions });
+  } catch (error) {
+    console.error('Error listing sessions:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/games/:id/session', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const gameDetails = gameService.getGameDetails(id);
+    if (!gameDetails) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    const accessCheck = gameService.canUserLaunchGame(gameDetails, user);
+    if (!accessCheck.allowed) {
+      return res.status(403).json({
+        error: accessCheck.reason,
+        reasons: accessCheck.reasons || []
+      });
+    }
+
+    const session = gameService.startSession(id, {
+      initializeArgs: req.body?.initializeArgs,
+      startArgs: req.body?.startArgs,
+      autoStart: req.body?.autoStart,
+      ownerId: req.userId
+    });
+
+    res.status(201).json(session);
+  } catch (error) {
+    console.error('Error starting game session:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.post('/games/:id/session/:sessionId/action', authMiddleware, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const { action, args } = req.body || {};
+    const result = gameService.executeAction(sessionId, action, args, req.userId);
+    res.json(result);
+  } catch (error) {
+    console.error('Error executing game action:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.delete('/games/:id/session/:sessionId', authMiddleware, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = gameService.endSessionForOwner(sessionId, req.userId);
+    if (!result) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+    res.json(result);
+  } catch (error) {
+    console.error('Error ending game session:', error);
     res.status(500).json({ error: error.message });
   }
 });

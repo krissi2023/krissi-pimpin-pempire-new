@@ -162,33 +162,49 @@ sudo apt-get install imagemagick
 
 ---
 
+## 🧩 Arcade Runtime Toolkit
+
+- **Backend loader**: `backend/services/gameService.js` boots SourceCode modules, tracks in-memory sessions, and exposes helper methods to query catalog data.
+- **Session endpoints**: `POST /api/arcade/games/:id/session` (start), `POST /api/arcade/games/:id/session/:sessionId/action` (invoke game method), `DELETE /api/arcade/games/:id/session/:sessionId` (close), `GET /api/arcade/sessions` (list active sessions).
+- **Invocation payloads**: send `{ "action": "dealFlop", "args": [/* optional args */] }`; arguments accept JSON arrays or values.
+- **Frontend launcher**: `frontend/src/components/ArcadeGameLauncher.js` opens from the Arcade page, starts sessions automatically, and shows live state/action results.
+- **Eligibility checks**: `frontend/src/pages/Arcade.js` prevents launches unless the player is authenticated and meets the cabinet credit requirements.
+- **Access rules**: every cabinet declares `access` metadata (VIP requirement, minimum credits, win count, prerequisite comics) enforced in `gameService.canUserLaunchGame` and visualized in the Arcade grid.
+
+---
+
 ## 📌 Roadmap
 
 ### Phase 1: Comic Store ✅
+
 - [ ] Comic upload system
 - [ ] Puzzle integration
 - [ ] Wallpaper downloads
 - [ ] Point system implementation
 
 ### Phase 2: Arcade Slot Game 🎰
+
 - [ ] Themed slot machines (matching comics)
 - [ ] Phaser.js game integration
 - [ ] Reward distribution system
 - [ ] Game state persistence
 
 ### Phase 3: Payment Integration 💳
+
 - [ ] Stripe checkout flow
 - [ ] Webhook handler for unlocking content
 - [ ] Transaction history
 - [ ] Refund handling
 
 ### Phase 4: User System 👤
+
 - [ ] User authentication (JWT)
 - [ ] Profile management
 - [ ] Purchase history
 - [ ] Leaderboard system
 
 ### Phase 5: Deployment 🚀
+
 - [ ] Cloud hosting setup (AWS/Azure/Vercel)
 - [ ] CI/CD pipeline
 - [ ] Domain setup
@@ -216,16 +232,19 @@ sudo apt-get install imagemagick
 ---
 
 ## 🤝 Contributing
+
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ---
 
 ## 📜 License
+
 MIT License
 
 ---
 
 ## 📧 Contact
+
 For questions or support, reach out to the project maintainer.
 
 ---
