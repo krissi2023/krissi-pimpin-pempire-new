@@ -40,6 +40,13 @@ const games = [
     paylines: 5,
     description: 'Traditional 3-reel machine with fruit symbols, wild 7s, and fast payouts.',
     features: ['3 reels · 5 paylines', 'Wild 7️⃣ top payout', 'Perfect for quick spins'],
+    access: {
+      minArcadeCredits: 500,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Any Diamond Heist comic unlocks this cabinet.'
   },
   {
@@ -56,6 +63,13 @@ const games = [
     paylines: 25,
     description: 'Modern 5-reel spectacle with wild substitutions, scatter pays, and free-spin streaks.',
     features: ['Free spin rounds', 'Scatter multipliers', 'Bonus wheel encounters'],
+    access: {
+      minArcadeCredits: 1000,
+      requiredComicIds: ['2'],
+      requiredComicTitles: ["Don't Hate the Player"],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Own Episode 2 – Don’t Hate the Player.'
   },
   {
@@ -72,6 +86,13 @@ const games = [
     paylines: 20,
     description: 'Theme-shifting slot cabinet with Egyptian, Ocean, Space, Fantasy, Western, and Neon modes.',
     features: ['Theme-select bonus', 'Mode-specific wilds', 'Unlockable soundscapes'],
+    access: {
+      minArcadeCredits: 1500,
+      requiredComicIds: ['3'],
+      requiredComicTitles: ['The Getaway Glitch'],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Complete Puzzle Set B from Episode 3.'
   },
   {
@@ -88,6 +109,13 @@ const games = [
     paylines: 50,
     description: 'Networked cabinet with five-tier progressive jackpots and mystery mega drops.',
     features: ['Mini → Mega jackpots', 'Pick-and-win bonus game', 'Wild multipliers'],
+    access: {
+      minArcadeCredits: 2500,
+      requiredComicIds: ['6'],
+      requiredComicTitles: ['The Chase Begins'],
+      requiresVip: true,
+      minTotalWins: 50
+    },
     unlockRequirement: 'Platinum Season Pass or Episode 6 finale clear.'
   },
   {
@@ -100,6 +128,13 @@ const games = [
     maxPlayers: 8,
     description: 'Full poker table with blinds, betting rounds, and showdown logic.',
     features: ['Preflop → river phases', 'Chip stack management', 'Supports tournaments'],
+    access: {
+      minArcadeCredits: 2000,
+      requiredComicIds: ['4', '5'],
+      requiredComicTitles: ['The Trap Card', 'Respect the Hustle'],
+      requiresVip: true,
+      minTotalWins: 25
+    },
     unlockRequirement: 'Requires VIP Lounge access or Invite token.'
   },
   {
@@ -112,6 +147,13 @@ const games = [
     maxPlayers: 7,
     description: 'Classic 21 with hit, stand, split hooks ready for expansion.',
     features: ['Dealer AI scaffold', 'Multiple hands support', 'Great for mobile play'],
+    access: {
+      minArcadeCredits: 500,
+      requiredComicIds: ['1'],
+      requiredComicTitles: ['The Velvet Touch'],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Unlocked after Tutorial Run – Diamond’s First Sparkle.'
   },
   {
@@ -124,6 +166,13 @@ const games = [
     maxPlayers: 8,
     description: 'Predict whether the next card beats the current reveal; streak multipliers encouraged.',
     features: ['Fast rounds', 'Deck reshuffle helpers', 'Perfect for streak missions'],
+    access: {
+      minArcadeCredits: 300,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 10
+    },
     unlockRequirement: 'Win three Daily Bonus streaks.'
   },
   {
@@ -136,6 +185,13 @@ const games = [
     maxPlayers: 4,
     description: 'Simple draw-and-hold experience ideal for onboarding new Pit Bosses.',
     features: ['Lightweight flow', 'Expandable rule set', 'Pairs well with tutorials'],
+    access: {
+      minArcadeCredits: 0,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Default access for registered players.'
   },
   {
@@ -146,6 +202,13 @@ const games = [
     sourceFile: 'SourceCode/QuickGames/RockPaperScissors.js',
     description: 'Instant duel with win-rate tracking, best-of series, and quick rematches.',
     features: ['Win/loss analytics', 'Best-of mode', 'History log'],
+    access: {
+      minArcadeCredits: 0,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
     unlockRequirement: 'Always available in the Quick Hit lobby.'
   }
 ];
