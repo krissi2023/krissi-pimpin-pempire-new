@@ -1,14 +1,17 @@
 # Episode 2: Don't Hate the Player
+
 **Perspective:** Diamond's POV  
 **Featured Game Mechanics:** Slot Machine Lock, Fish Table Lasers, Card Game Pattern
 
 ---
 
 ## Characters
+
 - **Diamond:** Dressed in a torn-away evening gown (tactical style). She switches between "Schoolteacher" English and "Street" slang.
 - **King Pimpin' (Voice/Hologram):** The smooth-talking mastermind. He respects her hustle but wants to stop her.
 
 ## Featured Game Mechanics (The Traps)
+
 1. **Slot Machine Lock** (The Jackpot)
 2. **Fish Table Lasers** (The Deep Sea)
 3. **Card Game Pattern** (The Royal Flush)

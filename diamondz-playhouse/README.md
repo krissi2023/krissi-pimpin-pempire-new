@@ -1,7 +1,9 @@
 # 💎 Diamondz Playhouse
 
 ## 🎮 Overview
+
 Diamondz Playhouse is an interactive online platform combining:
+
 - **Comic Store**: Unlock comics, puzzles, and wallpapers tied to your existing story universe
 - **Arcade Slot Game Room**: Play themed slot machines matching comic stories
 - **Reward System**: Earn gold points and PB (Power Bonus) to access arcade games
@@ -10,6 +12,7 @@ Diamondz Playhouse is an interactive online platform combining:
 ---
 
 ## 🚀 Features
+
 - ✅ Comic Store with themed puzzles and wallpapers
 - ✅ **Arcade Credits System**: Each comic purchase includes $50 in arcade credits!
 - ✅ **Multiple Puzzles Per Comic**: 3+ unique puzzles (jigsaw, word search, etc.)
@@ -25,6 +28,7 @@ Diamondz Playhouse is an interactive online platform combining:
 ---
 
 ## 🛠 Tech Stack
+
 - **Frontend**: React + Phaser.js (for slot game animations)
 - **Backend**: Node.js (Express)
 - **Database**: MongoDB or PostgreSQL
@@ -35,6 +39,7 @@ Diamondz Playhouse is an interactive online platform combining:
 ---
 
 ## 📂 Project Structure
+
 ```
 diamondz-playhouse/
 ├── frontend/              # React application
@@ -87,12 +92,14 @@ This project includes a **complete graphics system** with:
 - ✅ **Auto-Generator**: Script to create test placeholders
 
 **📚 Graphics Documentation**:
+
 - **Start Here**: [`docs/GRAPHICS_OVERVIEW.md`](docs/GRAPHICS_OVERVIEW.md) - Complete system overview
 - **Quick Reference**: [`docs/GRAPHICS_QUICKSTART.md`](docs/GRAPHICS_QUICKSTART.md) - Common tasks & examples
 - **Design Guidelines**: [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md) - Brand standards
 - **Adding Images**: [`docs/ASSET_GUIDE.md`](docs/ASSET_GUIDE.md) - Image management
 
 **🚀 Generate Placeholder Graphics**:
+
 ```bash
 # Install ImageMagick first
 sudo apt-get install imagemagick
@@ -106,6 +113,7 @@ sudo apt-get install imagemagick
 ## ✅ Setup Instructions
 
 ### Prerequisites
+
 - Node.js (v16+)
 - npm or yarn
 - Stripe account
@@ -114,26 +122,30 @@ sudo apt-get install imagemagick
 ### Installation
 
 1. **Clone the repository** (after pushing to GitHub):
+
    ```bash
    git clone https://github.com/<your-username>/diamondz-playhouse.git
    cd diamondz-playhouse
    ```
 
 2. **Install backend dependencies**:
+
    ```bash
    cd backend
    npm install
    ```
 
 3. **Install frontend dependencies**:
+
    ```bash
    cd ../frontend
    npm install
    ```
 
 4. **Configure environment variables**:
-   
+
    Create `backend/.env`:
+
    ```env
    PORT=5000
    STRIPE_SECRET_KEY=your_stripe_secret_key
@@ -143,22 +155,24 @@ sudo apt-get install imagemagick
    ```
 
 5. **Run the application**:
-   
+
    Backend:
+
    ```bash
    cd backend
    npm start
    ```
-   
+
    Frontend (in separate terminal):
+
    ```bash
    cd frontend
    npm start
    ```
 
 6. **Access the app**:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
+   - Frontend: <http://localhost:3000>
+   - Backend API: <http://localhost:5000>
 
 ---
 

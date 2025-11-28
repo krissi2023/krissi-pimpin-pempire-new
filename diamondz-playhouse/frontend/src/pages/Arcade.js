@@ -75,6 +75,13 @@ function Arcade() {
     quick: '⚡',
     default: '🎮'
   }), []);
+  const newReleaseIds = useMemo(() => new Set([
+    'throne-of-diamonds',
+    'golden-limousine',
+    'pimpire-vault',
+    'backstage-babylon',
+    'street-boss-deal'
+  ]), []);
 
   const evaluateAccess = useCallback((game) => {
     if (!game) {
@@ -157,6 +164,130 @@ function Arcade() {
 
     return pills;
   }, []);
+  const renderGameCard = useCallback((game, section) => {
+    const accessStatus = evaluateAccess(game);
+    const pills = buildAccessPills(game);
+    const tooltip = accessStatus.allowed
+      ? 'Launch this cabinet'
+      : (accessStatus.reasons && accessStatus.reasons.length > 0
+        ? accessStatus.reasons.join('\n')
+        : (accessStatus.requiresAuth ? 'Log in to play this cabinet.' : 'Locked cabinet'));
+
+    const cardKey = `${section?.key || 'misc'}-${game.id}`;
+
+    return (
+      <div key={cardKey} className="game-card card">
+        {pills.length > 0 ? (
+          <div className="access-pills">
+            {pills.map(pill => (
+              <span key={pill.key} className={`access-pill access-pill--${pill.variant}`}>
+                {pill.label}
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        <div className="game-header">
+          <h3>{game.name}</h3>
+          <span className="theme-badge">
+            {game.type || section?.title}
+          </span>
+        </div>
+
+        <div className="game-thumbnail">
+          <div className="placeholder-game">
+            {categoryEmojiMap[game.category] || categoryEmojiMap.default}
+          </div>
+        </div>
+
+        <div className="game-info">
+          {game.description ? (
+            <p className="game-description">{game.description}</p>
+          ) : null}
+
+          <div className="game-meta">
+            {(game.minBet || game.maxBet) ? (
+              <div className="bet-range">
+                {game.minBet ? <span>Min Bet: {formatArcadeCredits(game.minBet)}</span> : <span />}
+                {game.maxBet ? <span>Max Bet: {formatArcadeCredits(game.maxBet)}</span> : <span />}
+              </div>
+            ) : null}
+
+            {(game.minPlayers || game.maxPlayers) ? (
+              <div className="player-range">
+                Players: {game.minPlayers || 1}{game.maxPlayers ? ` – ${game.maxPlayers}` : ''}
+              </div>
+            ) : null}
+
+            {game.rtp ? (
+              <div className="rtp">RTP: {game.rtp}%</div>
+            ) : null}
+            {(game.reels || game.paylines) ? (
+              <div className="layout-meta">
+                {game.reels ? `${game.reels} reels` : ''}
+                {game.rows ? ` · ${game.rows} rows` : ''}
+                {game.paylines ? ` · ${game.paylines} paylines` : ''}
+              </div>
+            ) : null}
+          </div>
+
+          {Array.isArray(game.features) && game.features.length > 0 ? (
+            <ul className="feature-list">
+              {game.features.slice(0, 3).map(feature => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          ) : null}
+
+          {game.unlockRequirement ? (
+            <p className="unlock-note">{game.unlockRequirement}</p>
+          ) : null}
+
+          {!accessStatus.allowed ? (
+            accessStatus.requiresAuth ? (
+              <div className="lock-notice lock-notice--auth">
+                Log in to play this cabinet.
+              </div>
+            ) : accessStatus.reasons && accessStatus.reasons.length > 0 ? (
+              <div className="lock-notice">
+                <span className="lock-title">Locked</span>
+                <ul>
+                  {accessStatus.reasons.map(reason => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null
+          ) : null}
+        </div>
+
+        <button
+          className={`btn btn-arcade btn-play ${accessStatus.allowed ? '' : 'btn-locked'}`}
+          onClick={() => playGame(game)}
+          title={tooltip}
+          disabled={!accessStatus.allowed}
+        >
+          {accessStatus.allowed ? 'Play Now' : 'Locked'}
+        </button>
+      </div>
+    );
+  }, [buildAccessPills, categoryEmojiMap, evaluateAccess]);
+
+  const newReleaseGames = useMemo(() => {
+    const collected = [];
+    const seen = new Set();
+
+    sections.forEach(section => {
+      section.games.forEach(game => {
+        if (newReleaseIds.has(game.id) && !seen.has(game.id)) {
+          collected.push(game);
+          seen.add(game.id);
+        }
+      });
+    });
+
+    return collected;
+  }, [newReleaseIds, sections]);
 
   const playGame = (game) => {
     const accessStatus = evaluateAccess(game);
@@ -219,6 +350,22 @@ function Arcade() {
         </div>
       )}
 
+      {newReleaseGames.length > 0 ? (
+        <section className="category-section category-section--highlight" key="new-releases">
+          <div className="category-header">
+            <div>
+              <h2 className="category-title">✨ Fresh Cabinet Drops</h2>
+              <p className="category-description">New slot experiences just arrived in the lounge.</p>
+            </div>
+            <span className="category-count">{newReleaseGames.length} new</span>
+          </div>
+
+          <div className="games-grid games-grid--highlight">
+            {newReleaseGames.map(game => renderGameCard(game, { key: 'new-releases', title: 'New Release' }))}
+          </div>
+        </section>
+      ) : null}
+
       {sections.map(section => (
         <section key={section.key} className="category-section">
           <div className="category-header">
@@ -230,112 +377,7 @@ function Arcade() {
           </div>
 
           <div className="games-grid">
-            {section.games.map(game => {
-              const accessStatus = evaluateAccess(game);
-              const pills = buildAccessPills(game);
-              const tooltip = accessStatus.allowed
-                ? 'Launch this cabinet'
-                : (accessStatus.reasons && accessStatus.reasons.length > 0
-                  ? accessStatus.reasons.join('\n')
-                  : (accessStatus.requiresAuth ? 'Log in to play this cabinet.' : 'Locked cabinet'));
-
-              return (
-                <div key={game.id} className="game-card card">
-                  {pills.length > 0 ? (
-                    <div className="access-pills">
-                      {pills.map(pill => (
-                        <span key={pill.key} className={`access-pill access-pill--${pill.variant}`}>
-                          {pill.label}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  <div className="game-header">
-                    <h3>{game.name}</h3>
-                    <span className="theme-badge">
-                      {game.type || section.title}
-                    </span>
-                  </div>
-
-                  <div className="game-thumbnail">
-                    <div className="placeholder-game">
-                      {categoryEmojiMap[game.category] || categoryEmojiMap.default}
-                    </div>
-                  </div>
-
-                  <div className="game-info">
-                    {game.description ? (
-                      <p className="game-description">{game.description}</p>
-                    ) : null}
-
-                    <div className="game-meta">
-                      {(game.minBet || game.maxBet) ? (
-                        <div className="bet-range">
-                          {game.minBet ? <span>Min Bet: {formatArcadeCredits(game.minBet)}</span> : <span />}
-                          {game.maxBet ? <span>Max Bet: {formatArcadeCredits(game.maxBet)}</span> : <span />}
-                        </div>
-                      ) : null}
-
-                      {(game.minPlayers || game.maxPlayers) ? (
-                        <div className="player-range">
-                          Players: {game.minPlayers || 1}{game.maxPlayers ? ` – ${game.maxPlayers}` : ''}
-                        </div>
-                      ) : null}
-
-                      {game.rtp ? (
-                        <div className="rtp">RTP: {game.rtp}%</div>
-                      ) : null}
-                      {(game.reels || game.paylines) ? (
-                        <div className="layout-meta">
-                          {game.reels ? `${game.reels} reels` : ''}
-                          {game.rows ? ` · ${game.rows} rows` : ''}
-                          {game.paylines ? ` · ${game.paylines} paylines` : ''}
-                        </div>
-                      ) : null}
-                    </div>
-
-                    {Array.isArray(game.features) && game.features.length > 0 ? (
-                      <ul className="feature-list">
-                        {game.features.slice(0, 3).map(feature => (
-                          <li key={feature}>{feature}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-
-                    {game.unlockRequirement ? (
-                      <p className="unlock-note">{game.unlockRequirement}</p>
-                    ) : null}
-
-                    {!accessStatus.allowed ? (
-                      accessStatus.requiresAuth ? (
-                        <div className="lock-notice lock-notice--auth">
-                          Log in to play this cabinet.
-                        </div>
-                      ) : accessStatus.reasons && accessStatus.reasons.length > 0 ? (
-                        <div className="lock-notice">
-                          <span className="lock-title">Locked</span>
-                          <ul>
-                            {accessStatus.reasons.map(reason => (
-                              <li key={reason}>{reason}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null
-                    ) : null}
-                  </div>
-
-                  <button
-                    className={`btn btn-arcade btn-play ${accessStatus.allowed ? '' : 'btn-locked'}`}
-                    onClick={() => playGame(game)}
-                    title={tooltip}
-                    disabled={!accessStatus.allowed}
-                  >
-                    {accessStatus.allowed ? 'Play Now' : 'Locked'}
-                  </button>
-                </div>
-              );
-            })}
+            {section.games.map(game => renderGameCard(game, section))}
           </div>
         </section>
       ))}

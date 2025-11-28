@@ -19,6 +19,21 @@
   margin-top: 60px;
 }
 
+.category-section--highlight {
+  padding: 30px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(110, 64, 165, 0.18));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.category-section--highlight .category-header {
+  margin-bottom: 28px;
+}
+
+.games-grid--highlight {
+  gap: 26px;
+}
+
 .category-header {
   display: flex;
   justify-content: space-between;
