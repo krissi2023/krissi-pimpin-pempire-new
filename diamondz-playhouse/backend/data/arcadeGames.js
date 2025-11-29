@@ -1,237 +1,174 @@
+'use strict';
+
 const categories = [
   {
-    key: 'slots',
-    title: 'Slot Machines',
-    icon: '🎰',
-    description: 'High-energy reels with jackpots, free spins, and themed adventures.'
-  },
-  {
-    key: 'table',
-    title: 'Table Games',
-    icon: '🃏',
-    description: 'Classic felt experiences with strategic betting and dealer play.'
+    key: 'featured',
+    title: 'Featured Cabinets',
+    icon: '💎',
+    description: 'Signature experiences headlining the Diamondz Playhouse floor.'
   },
   {
     key: 'card',
     title: 'Card Room',
     icon: '♠️',
-    description: 'Poker lounge experiences with multi-phase showdowns.'
+    description: 'High-touch card tables with collectible decks and streak ladders.'
+  },
+  {
+    key: 'table',
+    title: 'Table Games',
+    icon: '🃏',
+    description: 'Pit classics and strategic social games with pit-boss energy.'
   },
   {
     key: 'quick',
     title: 'Quick Play',
     icon: '⚡',
-    description: 'Instant hits for casual sessions and streak bonuses.'
+    description: 'Instant hits for casual sessions, streak bonuses, and party lobbies.'
   }
 ];
 
 const games = [
   {
-    id: 'classic-slots',
-    name: 'Classic Slots',
-    category: 'slots',
-    type: 'SlotGame',
-    sourceFile: 'SourceCode/SlotGames/ClassicSlots.js',
-    minBet: 5,
-    maxBet: 100,
-    rtp: 94.3,
-    reels: 3,
-    rows: 3,
-    paylines: 5,
-    description: 'Traditional 3-reel machine with fruit symbols, wild 7s, and fast payouts.',
-    features: ['3 reels · 5 paylines', 'Wild 7️⃣ top payout', 'Perfect for quick spins'],
+    id: 'diamond-heist-coin-dozer',
+    name: 'Diamond Heist Coin Dozer',
+    category: 'featured',
+    type: 'ArcadeExperience',
+    sourceFile: 'SourceCode/FeaturedGame/DiamondHeistCoinDozer.js',
+    description: 'Push coins, trigger heists, and scoop rare diamonds in the flagship cabinet.',
+    features: ['Physics-driven coin pusher', 'Heist jackpot phases', 'Dynamic diamond prizes'],
     access: {
-      minArcadeCredits: 500,
+      minArcadeCredits: 750,
+      requiredComicIds: ['heist-prologue'],
+      requiredComicTitles: ['Casino Vault Prequel'],
+      requiresVip: false,
+      minTotalWins: 5
+    },
+    unlockRequirement: 'Clear the Casino Vault Prologue story mission to enter the heist bay.'
+  },
+  {
+    id: 'pimpire-claw',
+    name: 'Pimpire Claw',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/PimpireClaw.js',
+    description: 'Precision claw machine with rarity-based bling and streak multipliers.',
+    features: ['Grid navigation claw', 'Legendary prize streaks', 'Energy-based runs'],
+    access: {
+      minArcadeCredits: 150,
       requiredComicIds: [],
       requiredComicTitles: [],
       requiresVip: false,
       minTotalWins: 0
     },
-    unlockRequirement: 'Any Diamond Heist comic unlocks this cabinet.'
+    unlockRequirement: 'Complete the tutorial flight path to join the claw corral.'
   },
   {
-    id: 'mega-fortune-video-slots',
-    name: 'Mega Fortune Video Slots',
-    category: 'slots',
-    type: 'VideoSlotGame',
-    sourceFile: 'SourceCode/SlotGames/VideoSlots.js',
-    minBet: 10,
-    maxBet: 250,
-    rtp: 96.1,
-    reels: 5,
-    rows: 3,
-    paylines: 25,
-    description: 'Modern 5-reel spectacle with wild substitutions, scatter pays, and free-spin streaks.',
-    features: ['Free spin rounds', 'Scatter multipliers', 'Bonus wheel encounters'],
+    id: 'cash-grab',
+    name: 'Cash Grab',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/CashGrab.js',
+    description: 'Reaction-based cash clicker with timed rounds and bonus showers.',
+    features: ['Timed cash piles', 'Score bursts', 'Co-op lobby ready'],
     access: {
-      minArcadeCredits: 1000,
+      minArcadeCredits: 100,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
+    unlockRequirement: 'Always available in the Quick Hit lobby.'
+  },
+  {
+    id: 'pimpin-strut',
+    name: "Pimpin' Strut",
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/PimpinStrut.js',
+    description: 'Rhythm obstacle run with beat-synced hazards and bling pickups.',
+    features: ['Beat-driven movement', 'Combo multipliers', 'Dynamic obstacle field'],
+    access: {
+      minArcadeCredits: 200,
       requiredComicIds: ['2'],
       requiredComicTitles: ["Don't Hate the Player"],
       requiresVip: false,
-      minTotalWins: 0
+      minTotalWins: 8
     },
-    unlockRequirement: 'Own Episode 2 – Don’t Hate the Player.'
+    unlockRequirement: 'Finish Episode 2 and win eight quick matches to unlock the runway.'
   },
   {
-    id: 'treasures-of-the-pharaoh',
-    name: 'Treasures of the Pharaoh',
-    category: 'slots',
-    type: 'ThemedSlotGame',
-    sourceFile: 'SourceCode/SlotGames/ThemedSlotMachines.js',
-    minBet: 10,
-    maxBet: 200,
-    rtp: 96.4,
-    reels: 5,
-    rows: 3,
-    paylines: 20,
-    description: 'Theme-shifting slot cabinet with Egyptian, Ocean, Space, Fantasy, Western, and Neon modes.',
-    features: ['Theme-select bonus', 'Mode-specific wilds', 'Unlockable soundscapes'],
+    id: 'yago-firewall-flip',
+    name: 'Yago Firewall Flip',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/YagoFirewallFlip.js',
+    description: 'Grid hacking challenge that flips firewalls before the timer zaps out.',
+    features: ['Time attack grid', 'Risk-reward scoring', 'Final seconds panic mode'],
     access: {
-      minArcadeCredits: 1500,
-      requiredComicIds: ['3'],
-      requiredComicTitles: ['The Getaway Glitch'],
-      requiresVip: false,
-      minTotalWins: 0
-    },
-    unlockRequirement: 'Complete Puzzle Set B from Episode 3.'
-  },
-  {
-    id: 'mega-millions-progressive',
-    name: 'Mega Millions Progressive',
-    category: 'slots',
-    type: 'ProgressiveJackpotSlotGame',
-    sourceFile: 'SourceCode/SlotGames/ProgressiveJackpotSlots.js',
-    minBet: 25,
-    maxBet: 500,
-    rtp: 95.8,
-    reels: 5,
-    rows: 4,
-    paylines: 50,
-    description: 'Networked cabinet with five-tier progressive jackpots and mystery mega drops.',
-    features: ['Mini → Mega jackpots', 'Pick-and-win bonus game', 'Wild multipliers'],
-    access: {
-      minArcadeCredits: 2500,
-      requiredComicIds: ['6'],
-      requiredComicTitles: ['The Chase Begins'],
-      requiresVip: true,
-      minTotalWins: 50
-    },
-    unlockRequirement: 'Platinum Season Pass or Episode 6 finale clear.'
-  },
-  {
-    id: 'throne-of-diamonds',
-    name: 'The Throne of Diamonds',
-    category: 'slots',
-    type: 'VideoSlotGame',
-    sourceFile: 'SourceCode/SlotGames/ThroneOfDiamonds.js',
-    minBet: 20,
-    maxBet: 400,
-    rtp: 95.4,
-    reels: 5,
-    rows: 3,
-    paylines: 20,
-    description: 'Opulent 5-reel experience with expanding wilds and royal respin streaks.',
-    features: ['Expanding wild respins', 'Medium volatility', '20 regal paylines'],
-    access: {
-      minArcadeCredits: 1800,
-      requiredComicIds: ['5'],
-      requiredComicTitles: ['Respect the Hustle'],
-      requiresVip: true,
-      minTotalWins: 15
-    },
-    unlockRequirement: 'Earn VIP clearance and own Episode 5 – Respect the Hustle.'
-  },
-  {
-    id: 'golden-limousine',
-    name: 'The Golden Limousine',
-    category: 'slots',
-    type: 'HoldAndWinSlotGame',
-    sourceFile: 'SourceCode/SlotGames/GoldenLimousine.js',
-    minBet: 25,
-    maxBet: 500,
-    rtp: 96.2,
-    reels: 5,
-    rows: 3,
-    paylines: 243,
-    description: 'Hold-and-Win chase with neon slick visuals and grand jackpot drops.',
-    features: ['Hold-and-Win respins', '243 all-ways pay', 'Four-tier jackpots'],
-    access: {
-      minArcadeCredits: 2200,
-      requiredComicIds: ['6'],
-      requiredComicTitles: ['The Chase Begins'],
-      requiresVip: true,
-      minTotalWins: 30
-    },
-    unlockRequirement: 'Finish The Chase Begins finale and flash Platinum VIP credentials.'
-  },
-  {
-    id: 'pimpire-vault',
-    name: "The Pimpire's Vault",
-    category: 'slots',
-    type: 'CascadingSlotGame',
-    sourceFile: 'SourceCode/SlotGames/PimpireVault.js',
-    minBet: 15,
-    maxBet: 350,
-    rtp: 96.8,
-    reels: 6,
-    rows: 6,
-    paylines: null,
-    description: 'Explosive cascading reels with compounding vault multipliers.',
-    features: ['Cluster pays', 'Progressive cascade multiplier', 'Vault heist theme'],
-    access: {
-      minArcadeCredits: 1500,
+      minArcadeCredits: 250,
       requiredComicIds: ['bonus-yago'],
-      requiredComicTitles: ["Yago's Redemption"],
+      requiredComicTitles: ['Yago Bonus System Overload'],
       requiresVip: false,
-      minTotalWins: 20
+      minTotalWins: 12
     },
-    unlockRequirement: 'Crack Yago’s Redemption bonus story puzzles to access the vault.'
+    unlockRequirement: 'Beat the Yago bonus comic event to access firewall drills.'
   },
   {
-    id: 'backstage-babylon',
-    name: 'Backstage Babylon',
-    category: 'slots',
-    type: 'PickAndClickSlotGame',
-    sourceFile: 'SourceCode/SlotGames/BackstageBabylon.js',
-    minBet: 10,
-    maxBet: 250,
-    rtp: 95.1,
-    reels: 5,
-    rows: 4,
-    paylines: 50,
-    description: 'Cabaret-styled cab with VIP picker feature for steady payouts.',
-    features: ['Pick-and-click guest list', 'Low volatility streaks', '50 illustrated paylines'],
+    id: 'blackjack',
+    name: 'Blackjack',
+    category: 'card',
+    type: 'CardGame',
+    sourceFile: 'SourceCode/CardGames/Blackjack.js',
+    minPlayers: 1,
+    maxPlayers: 7,
+    description: 'Classic 21 with shoe management, dealer AI hooks, and split-ready flow.',
+    features: ['Six-deck shoe scaffold', 'Dealer hit/stand logic', 'Balance tracking'],
     access: {
-      minArcadeCredits: 800,
-      requiredComicIds: ['4'],
-      requiredComicTitles: ['The Trap Card'],
+      minArcadeCredits: 400,
+      requiredComicIds: ['1'],
+      requiredComicTitles: ['The Velvet Touch'],
+      requiresVip: false,
+      minTotalWins: 0
+    },
+    unlockRequirement: 'Complete the Velvet Touch tutorial run.'
+  },
+  {
+    id: 'high-or-low',
+    name: 'High or Low',
+    category: 'card',
+    type: 'CardGame',
+    sourceFile: 'SourceCode/CardGames/HiOrLow.js',
+    minPlayers: 1,
+    maxPlayers: 8,
+    description: 'Predict the next card with streak multipliers and deck reshuffles.',
+    features: ['Full deck shuffle', 'Streak bonus hooks', 'Guess animations'],
+    access: {
+      minArcadeCredits: 200,
+      requiredComicIds: [],
+      requiredComicTitles: [],
       requiresVip: false,
       minTotalWins: 5
     },
-    unlockRequirement: 'Complete Episode 4 – The Trap Card community challenge.'
+    unlockRequirement: 'Win three Daily Bonus streaks.'
   },
   {
-    id: 'street-boss-deal',
-    name: "The Street Boss's Deal",
-    category: 'slots',
-    type: 'MegawaysSlotGame',
-    sourceFile: 'SourceCode/SlotGames/StreetBossDeal.js',
-    minBet: 30,
-    maxBet: 600,
-    rtp: 96.9,
-    reels: 6,
-    rows: null,
-    paylines: 117649,
-    description: 'Rain-slicked megaways grid with mystery symbols and high-voltage contracts.',
-    features: ['Megaways reel layout', 'Mystery map symbols', 'High volatility free spins'],
+    id: 'playhouse-draw',
+    name: 'Playhouse Draw',
+    category: 'card',
+    type: 'CardGame',
+    sourceFile: 'SourceCode/CardGames/PlayhouseDraw.js',
+    minPlayers: 1,
+    maxPlayers: 4,
+    description: 'Collectible draw deck with bonus cards and evolving score targets.',
+    features: ['Bonus card triggers', 'Deck randomizer', 'Win condition hooks'],
     access: {
-      minArcadeCredits: 2800,
-      requiredComicIds: ['5', '6'],
-      requiredComicTitles: ['Respect the Hustle', 'The Chase Begins'],
-      requiresVip: true,
-      minTotalWins: 40
+      minArcadeCredits: 250,
+      requiredComicIds: ['3'],
+      requiredComicTitles: ['The Getaway Glitch'],
+      requiresVip: false,
+      minTotalWins: 6
     },
-    unlockRequirement: 'Secure dual finale comics and broker 40 street wins to earn the contract.'
+    unlockRequirement: 'Complete Episode 3’s mission ladder.'
   },
   {
     id: 'texas-holdem',
@@ -241,8 +178,8 @@ const games = [
     sourceFile: 'SourceCode/CardGames/TexasHoldem.js',
     minPlayers: 2,
     maxPlayers: 8,
-    description: 'Full poker table with blinds, betting rounds, and showdown logic.',
-    features: ['Preflop → river phases', 'Chip stack management', 'Supports tournaments'],
+    description: 'Tournament-ready hold’em table with blinds, betting rounds, and showdown hooks.',
+    features: ['Preflop → river flow', 'Chip stack management', 'Tournament scaffold'],
     access: {
       minArcadeCredits: 2000,
       requiredComicIds: ['4', '5'],
@@ -253,44 +190,6 @@ const games = [
     unlockRequirement: 'Requires VIP Lounge access or Invite token.'
   },
   {
-    id: 'blackjack',
-    name: 'Blackjack',
-    category: 'table',
-    type: 'TableGame',
-    sourceFile: 'SourceCode/TableGames/Blackjack.js',
-    minPlayers: 1,
-    maxPlayers: 7,
-    description: 'Classic 21 with hit, stand, split hooks ready for expansion.',
-    features: ['Dealer AI scaffold', 'Multiple hands support', 'Great for mobile play'],
-    access: {
-      minArcadeCredits: 500,
-      requiredComicIds: ['1'],
-      requiredComicTitles: ['The Velvet Touch'],
-      requiresVip: false,
-      minTotalWins: 0
-    },
-    unlockRequirement: 'Unlocked after Tutorial Run – Diamond’s First Sparkle.'
-  },
-  {
-    id: 'high-or-low',
-    name: 'High or Low',
-    category: 'table',
-    type: 'TableGame',
-    sourceFile: 'SourceCode/TableGames/HighOrLow.js',
-    minPlayers: 1,
-    maxPlayers: 8,
-    description: 'Predict whether the next card beats the current reveal; streak multipliers encouraged.',
-    features: ['Fast rounds', 'Deck reshuffle helpers', 'Perfect for streak missions'],
-    access: {
-      minArcadeCredits: 300,
-      requiredComicIds: [],
-      requiredComicTitles: [],
-      requiresVip: false,
-      minTotalWins: 10
-    },
-    unlockRequirement: 'Win three Daily Bonus streaks.'
-  },
-  {
     id: 'draw',
     name: 'Draw',
     category: 'table',
@@ -298,8 +197,8 @@ const games = [
     sourceFile: 'SourceCode/TableGames/Draw.js',
     minPlayers: 1,
     maxPlayers: 4,
-    description: 'Simple draw-and-hold experience ideal for onboarding new Pit Bosses.',
-    features: ['Lightweight flow', 'Expandable rule set', 'Pairs well with tutorials'],
+    description: 'Entry-level draw-and-hold flow ideal for onboarding new pit bosses.',
+    features: ['Lightweight ruleset', 'Tutorial-friendly prompts', 'Expandable win logic'],
     access: {
       minArcadeCredits: 0,
       requiredComicIds: [],
@@ -310,12 +209,50 @@ const games = [
     unlockRequirement: 'Default access for registered players.'
   },
   {
-    id: 'rock-paper-scissors',
-    name: 'Rock Paper Scissors',
+    id: 'pempire-property-manager',
+    name: 'Pempire Property Manager',
+    category: 'table',
+    type: 'TableGame',
+    sourceFile: 'SourceCode/TableGames/PempirePropertyManager.js',
+    minPlayers: 2,
+    maxPlayers: 6,
+    description: 'Strategic property trading table with negotiation hooks and bank management.',
+    features: ['Turn rotation logic', 'Trade animation stubs', 'Win condition checks'],
+    access: {
+      minArcadeCredits: 600,
+      requiredComicIds: ['5'],
+      requiredComicTitles: ['Respect the Hustle'],
+      requiresVip: false,
+      minTotalWins: 10
+    },
+    unlockRequirement: 'Complete Respect the Hustle and ten table victories.'
+  },
+  {
+    id: 'table-rock-paper-scissors',
+    name: 'Rock Paper Scissors (Table)',
+    category: 'table',
+    type: 'TableGame',
+    sourceFile: 'SourceCode/TableGames/RockPaperScissors.js',
+    minPlayers: 2,
+    maxPlayers: 6,
+    description: 'Extended table variant with score tracking and win effects.',
+    features: ['Race-to-five scaffold', 'Animated win/loss effects', 'Session history log'],
+    access: {
+      minArcadeCredits: 100,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
+    unlockRequirement: 'Included with base arcade membership.'
+  },
+  {
+    id: 'quick-rock-paper-scissors',
+    name: 'Rock Paper Scissors (Quick)',
     category: 'quick',
     type: 'QuickGame',
     sourceFile: 'SourceCode/QuickGames/RockPaperScissors.js',
-    description: 'Instant duel with win-rate tracking, best-of series, and quick rematches.',
+    description: 'Instant duel variant with analytics, streak tracking, and best-of series.',
     features: ['Win/loss analytics', 'Best-of mode', 'History log'],
     access: {
       minArcadeCredits: 0,

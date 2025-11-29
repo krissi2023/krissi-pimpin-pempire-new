@@ -91,4 +91,3 @@ class PempirePropertyManager {
 }
 
 module.exports = PempirePropertyManager;
-}
