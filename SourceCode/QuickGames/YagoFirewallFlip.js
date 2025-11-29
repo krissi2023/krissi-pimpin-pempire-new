@@ -4,6 +4,8 @@
  * Features: Grid of firewalls, flip action, timing, difficulty, scoring, real-time updates, animations.
  */
 
+'use strict';
+
 class YagoFirewallFlip {
     constructor() {
         // === Game State Properties ===
@@ -114,3 +116,5 @@ class FirewallTile {
         // TODO: Add image/sprite reference for custom UI
     }
 }
+
+module.exports = YagoFirewallFlip;

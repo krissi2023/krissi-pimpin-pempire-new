@@ -4,6 +4,8 @@
  * Features: Player/computer moves, random logic, scoring, animations, UI updates.
  */
 
+'use strict';
+
 class RockPaperScissors {
     constructor() {
         this.playerScore = 0;
@@ -99,4 +101,7 @@ class RockPaperScissors {
     showEndScreen() {
         // TODO: End game victory/lose animation
     }
+}
+
+module.exports = RockPaperScissors;
 }

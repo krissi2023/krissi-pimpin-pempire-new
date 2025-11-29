@@ -4,6 +4,8 @@
  * Features: Timer, cash piles, clicking, score, feedback, real-time updates, animations.
  */
 
+'use strict';
+
 class CashGrab {
     constructor() {
         // === Game State Properties ===
@@ -14,6 +16,7 @@ class CashGrab {
         this.isRunning = false;
         // Real-time update interval
         this.gameInterval = null;
+        this.timerInterval = null;
 
         // TODO: Hook up UI elements for cash, timer, score display
     }
@@ -108,3 +111,5 @@ class Cash {
         // TODO: Add sprite/image reference for UI
     }
 }
+
+module.exports = CashGrab;

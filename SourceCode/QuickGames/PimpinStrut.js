@@ -4,6 +4,8 @@
  * Features: Movement, rhythm timing, obstacles, collectibles, scoring, real-time updates, animations.
  */
 
+'use strict';
+
 class PimpinStrut {
     constructor() {
         // === Game State Properties ===
@@ -19,6 +21,7 @@ class PimpinStrut {
         this.rhythmInterval = null;
         this.timeLimit = 60; // seconds
         this.remainingTime = this.timeLimit;
+        this.timerInterval = null;
 
         // TODO: Hook up UI for score, combo, beat, time display
     }
@@ -140,3 +143,5 @@ class PimpinStrut {
         // TODO: Animate character/game over screen
     }
 }
+
+module.exports = PimpinStrut;

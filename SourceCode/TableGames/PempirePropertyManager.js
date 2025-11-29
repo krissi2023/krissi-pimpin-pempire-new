@@ -4,6 +4,8 @@
  * Features: Property board, players, trades, turns, win condition, real-time updates, animations.
  */
 
+'use strict';
+
 class PempirePropertyManager {
     constructor() {
         // === Game State ===
@@ -86,4 +88,7 @@ class PempirePropertyManager {
     showWinScreen(winner) {
         // TODO: Confetti or fireworks animation for winner
     }
+}
+
+module.exports = PempirePropertyManager;
 }

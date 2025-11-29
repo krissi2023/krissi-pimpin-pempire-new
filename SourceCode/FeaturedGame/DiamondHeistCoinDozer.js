@@ -4,6 +4,8 @@
  * Features: Physics for coins, diamond prizes, heist triggers, jackpot, real-time updates, animations.
  */
 
+'use strict';
+
 class DiamondHeistCoinDozer {
     constructor() {
         // === Game State ===
@@ -99,3 +101,5 @@ class DiamondHeistCoinDozer {
         // TODO: Animate jackpot/celebration end screen
     }
 }
+
+module.exports = DiamondHeistCoinDozer;
