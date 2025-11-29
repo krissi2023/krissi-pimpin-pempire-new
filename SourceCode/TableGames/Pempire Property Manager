@@ -1,0 +1,89 @@
+/**
+ * Game: Pempire Property Manager
+ * Table/strategy game—manage Pempire properties, negotiate deals, earn more than your rivals!
+ * Features: Property board, players, trades, turns, win condition, real-time updates, animations.
+ */
+
+class PempirePropertyManager {
+    constructor() {
+        // === Game State ===
+        this.properties = this.generateProperties();
+        this.players = []; // to be filled with player objects
+        this.bank = 1000;
+        this.turn = 0;
+        this.isRunning = false;
+        this.winner = null;
+        this.gameInterval = null;
+
+        // TODO: Set up UI for board, properties, bank, player data
+    }
+
+    // ==== Core Methods ====
+    startGame(players) {
+        this.properties = this.generateProperties();
+        this.players = players;
+        this.bank = 1000;
+        this.turn = 0;
+        this.isRunning = true;
+        this.winner = null;
+        this.runGameLoop();
+        // TODO: Render board, initialize player positions
+    }
+
+    generateProperties() {
+        // Create property objects (could expand with more attributes)
+        return [
+            { name: "King's Court", price: 200 },
+            { name: "Queen's Row", price: 150 },
+            { name: "Diamond Lane", price: 300 }
+        ];
+    }
+
+    nextTurn() {
+        if (!this.isRunning) return;
+        this.turn = (this.turn + 1) % this.players.length;
+        this.animateTurnStart(this.players[this.turn]);
+        // TODO: Handle player actions/trades for the turn
+    }
+
+    tradeProperty(fromPlayer, toPlayer, property) {
+        // TODO: Transfer property logic, update ownership/money
+        this.animateTrade({from: fromPlayer, to: toPlayer, prop: property});
+    }
+
+    checkWinCondition() {
+        // TODO: Implement win logic (money, properties, round limit)
+        // Example: If a player reaches $1500
+        for (const player of this.players) {
+            if (player.money >= 1500) {
+                this.winner = player;
+                this.endGame();
+            }
+        }
+    }
+
+    // ==== Real-time Game Loop Stub ====
+    runGameLoop() {
+        this.gameInterval = setInterval(() => {
+            // TODO: Update board animations, property effects, etc.
+        }, 100);
+    }
+
+    endGame() {
+        this.isRunning = false;
+        clearInterval(this.gameInterval);
+        this.showWinScreen(this.winner);
+        // TODO: Display victory, stats, option to restart
+    }
+
+    // ==== Animation & UI Stubs ====
+    animateTurnStart(player) {
+        // TODO: Animation for highlighting turn player
+    }
+    animateTrade(tradeDetails) {
+        // TODO: Animation for property or cash trade between players
+    }
+    showWinScreen(winner) {
+        // TODO: Confetti or fireworks animation for winner
+    }
+}
