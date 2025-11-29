@@ -19,19 +19,26 @@ class PimpireClaw {
         this.activeTimer = null;
     }
 
-    initialize() {
+    initialize(options = {}) {
+        const { autoStart = true, countdownSeconds = 60, startingEnergy } = options;
+
         this.prizeGrid = this.generatePrizeGrid();
         this.clawPosition = { x: Math.floor(this.gridWidth / 2), y: 0 };
-        this.energy = Math.max(this.energy, 1);
+        this.energy = Number.isInteger(startingEnergy) ? Math.max(startingEnergy, 1) : Math.max(this.energy, 1);
         this.score = 0;
         this.streak = 0;
         this.isRunning = true;
-        this.startCountdown();
+
+        if (autoStart) {
+            this.startCountdown(countdownSeconds);
+        }
 
         return {
             success: true,
             grid: this.prizeGrid,
-            position: this.clawPosition
+            position: { ...this.clawPosition },
+            energy: this.energy,
+            autoStart
         };
     }
 
@@ -132,6 +139,10 @@ class PimpireClaw {
     endRound() {
         this.isRunning = false;
         clearInterval(this.activeTimer);
+    }
+
+    dispose() {
+        this.endRound();
     }
 
     getState() {

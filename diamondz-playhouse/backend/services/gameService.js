@@ -31,14 +31,66 @@ const collectUserComicIds = (user) => {
 };
 
 const captureState = (instance) => {
-  if (instance && typeof instance.getGameState === 'function') {
+  if (!instance) {
+    return null;
+  }
+
+  if (typeof instance.getGameState === 'function') {
     try {
       return instance.getGameState();
     } catch (err) {
       return { error: err.message };
     }
   }
-  return null;
+
+  if (typeof instance.getState === 'function') {
+    try {
+      return instance.getState();
+    } catch (err) {
+      return { error: err.message };
+    }
+  }
+
+  const snapshot = {};
+  const simpleFields = [
+    'score',
+    'playerScore',
+    'computerScore',
+    'gamesPlayed',
+    'remainingTime',
+    'isRunning',
+    'energy',
+    'streak',
+    'comboMultiplier'
+  ];
+
+  simpleFields.forEach((field) => {
+    if (typeof instance[field] !== 'undefined') {
+      snapshot[field] = instance[field];
+    }
+  });
+
+  if (instance.clawPosition) {
+    snapshot.clawPosition = instance.clawPosition;
+  }
+
+  if (Array.isArray(instance.players)) {
+    snapshot.players = instance.players;
+  }
+
+  if (Array.isArray(instance.dealerHand)) {
+    snapshot.dealerHand = instance.dealerHand;
+  }
+
+  if (Array.isArray(instance.prizeGrid)) {
+    snapshot.prizeGrid = instance.prizeGrid;
+  }
+
+  if (Array.isArray(instance.firewalls)) {
+    snapshot.firewalls = instance.firewalls;
+  }
+
+  return Object.keys(snapshot).length > 0 ? snapshot : null;
 };
 
 const toClientSession = (session, extra = {}) => ({
@@ -194,9 +246,13 @@ const startSession = (gameId, options = {}) => {
   }
 
   let startResult = null;
-  if (options.autoStart !== false && typeof instance.start === 'function') {
+  if (options.autoStart !== false) {
     const startArgs = normalizeArgs(options.startArgs);
-    startResult = instance.start(...startArgs);
+    if (typeof instance.start === 'function') {
+      startResult = instance.start(...startArgs);
+    } else if (typeof instance.startGame === 'function') {
+      startResult = instance.startGame(...startArgs);
+    }
   }
 
   ACTIVE_SESSIONS.set(sessionId, session);
