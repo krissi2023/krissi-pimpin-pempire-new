@@ -4,6 +4,8 @@
  * Features: Deck draw, special cards, scoring, win detection, animations, real-time updates.
  */
 
+'use strict';
+
 class PlayhouseDraw {
     constructor() {
         this.deck = this.generateDeck();
@@ -77,3 +79,6 @@ class PlayhouseDraw {
     showWinCondition() {
         // TODO: End-game celebration animation
     }
+}
+
+module.exports = PlayhouseDraw;

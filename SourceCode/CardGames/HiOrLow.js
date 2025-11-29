@@ -4,6 +4,8 @@
  * Features: Card dealing, guess logic, streaks, scoring, animations, real-time updates.
  */
 
+'use strict';
+
 class HighOrLow {
     constructor() {
         this.deck = this.generateDeck();
@@ -97,3 +99,5 @@ class HighOrLow {
         // TODO: Streak bonus animation (flash, confetti)
     }
 }
+
+module.exports = HighOrLow;
