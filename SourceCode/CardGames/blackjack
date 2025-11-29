@@ -1,0 +1,132 @@
+/**
+ * Game: Blackjack
+ * Classic casino—play against dealer, try not to bust!
+ * Features: Deck, player/dealer hands, hit/stand logic, win/bust, animations, real-time UI feedback.
+ */
+
+class Blackjack {
+    constructor() {
+        // === Game State ===
+        this.deck = this.generateDeck();
+        this.playerHand = [];
+        this.dealerHand = [];
+        this.isPlayerTurn = true;
+        this.isRunning = false;
+        this.result = null;
+        this.gameInterval = null;
+
+        // TODO: Set up UI for table, cards, controls
+    }
+
+    // ==== Core Methods ====
+    startGame() {
+        this.deck = this.generateDeck();
+        this.playerHand = [this.drawCard(), this.drawCard()];
+        this.dealerHand = [this.drawCard(), this.drawCard()];
+        this.isPlayerTurn = true;
+        this.isRunning = true;
+        this.result = null;
+        this.runGameLoop();
+        // TODO: Render table, show cards, enable hit/stand
+    }
+
+    generateDeck() {
+        // Create and shuffle deck
+        const suits = ['H', 'D', 'C', 'S'];
+        const ranks = [2,3,4,5,6,7,8,9,10,'J','Q','K','A'];
+        let deck = [];
+        for (const suit of suits) {
+            for (const rank of ranks) {
+                deck.push({ rank, suit });
+            }
+        }
+        // Shuffle
+        for (let i = deck.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [deck[i], deck[j]] = [deck[j], deck[i]];
+        }
+        return deck;
+    }
+
+    drawCard() {
+        return this.deck.pop();
+    }
+
+    playerHit() {
+        if (!this.isPlayerTurn || !this.isRunning) return;
+        const card = this.drawCard();
+        this.playerHand.push(card);
+        this.dealCardAnimation(card);
+        if (this.getHandValue(this.playerHand) > 21) {
+            this.result = "Bust!";
+            this.showBustEffect();
+            this.endGame();
+        }
+    }
+
+    playerStand() {
+        if (!this.isPlayerTurn || !this.isRunning) return;
+        this.isPlayerTurn = false;
+        this.dealerPlay();
+    }
+
+    dealerPlay() {
+        while (this.getHandValue(this.dealerHand) < 17) {
+            const card = this.drawCard();
+            this.dealerHand.push(card);
+            this.dealCardAnimation(card);
+        }
+        this.checkWinner();
+    }
+
+    getHandValue(hand) {
+        // Hand value, A = 1 or 11
+        let value = 0, aces = 0;
+        for (const card of hand) {
+            if (typeof card.rank === 'number') value += card.rank;
+            else if ('JQK'.includes(card.rank)) value += 10;
+            else if (card.rank === 'A') { value += 11; aces += 1; }
+        }
+        while (value > 21 && aces > 0) {
+            value -= 10;
+            aces -= 1;
+        }
+        return value;
+    }
+
+    checkWinner() {
+        const playerValue = this.getHandValue(this.playerHand);
+        const dealerValue = this.getHandValue(this.dealerHand);
+        if (dealerValue > 21 || playerValue > dealerValue) this.result = "Player Wins!";
+        else if (dealerValue === playerValue) this.result = "Push!";
+        else this.result = "Dealer Wins!";
+        this.showWinLossEffect(this.result);
+        this.endGame();
+    }
+
+    // ==== Real-time Game Loop Stub ====
+    runGameLoop() {
+        this.gameInterval = setInterval(() => {
+            // TODO: Update UI/table animations, feedback for bust/win
+        }, 80);
+    }
+
+    endGame() {
+        this.isRunning = false;
+        clearInterval(this.gameInterval);
+        // TODO: Display result, show restart option
+    }
+
+    // ==== Animation & UI Stubs ====
+    dealCardAnimation(card) {
+        // TODO: Animate card dealing (slide to player/dealer, fade in)
+    }
+
+    showBustEffect() {
+        // TODO: Flash red overlay, shake table, play bust sound
+    }
+
+    showWinLossEffect(result) {
+        // TODO: Confetti for win, sad animation for loss, UI for result
+    }
+}

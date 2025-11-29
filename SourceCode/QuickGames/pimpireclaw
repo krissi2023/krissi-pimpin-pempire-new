@@ -1,0 +1,104 @@
+/**
+ * Game: Diamond Heist Coin Dozer
+ * Push coins, scoop diamonds, trigger heists for big rewards!
+ * Features: Physics for coins, diamond prizes, heist triggers, jackpot, real-time updates, animations.
+ */
+
+class DiamondHeistCoinDozer {
+    constructor() {
+        // === Game State ===
+        this.coinTable = this.generateCoinTable();
+        this.diamonds = this.generateDiamonds();
+        this.jackpot = false;
+        this.score = 0;
+        this.isRunning = false;
+        this.gameInterval = null;
+
+        // TODO: Set up UI for coin table, prizes, jackpot display
+    }
+
+    // ==== Core Methods ====
+    startGame() {
+        this.coinTable = this.generateCoinTable();
+        this.diamonds = this.generateDiamonds();
+        this.jackpot = false;
+        this.score = 0;
+        this.isRunning = true;
+        this.runGameLoop();
+        // TODO: Render machine, enable controls
+    }
+
+    generateCoinTable() {
+        // Populate the array with coin positions/values
+        const coins = [];
+        for (let i = 0; i < 50; i++) {
+            coins.push({ x: Math.random()*100, y: Math.random()*80, value: 1 });
+        }
+        return coins;
+    }
+
+    generateDiamonds() {
+        // Add a few random-position diamonds to the table
+        const diamonds = [];
+        for (let i = 0; i < 5; i++) {
+            diamonds.push({ x: Math.random()*100, y: Math.random()*80, value: 100 });
+        }
+        return diamonds;
+    }
+
+    pushCoin() {
+        if (!this.isRunning) return;
+        // TODO: Physics logic for coin pushing, collisions, table shuffle
+        this.animateCoinPush(/* coin object */);
+        this.checkForDiamonds();
+        this.triggerHeistIfNeeded();
+    }
+
+    checkForDiamonds() {
+        // TODO: Check if any diamonds are pushed over the edge
+        // If so, increment score and animate
+        for (const diamond of this.diamonds) {
+            if (diamond.y > 90) {
+                this.score += diamond.value;
+                this.animateDiamondCatch(diamond);
+                this.jackpot = true;
+            }
+        }
+    }
+
+    triggerHeistIfNeeded() {
+        // TODO: If a special event occurs (e.g., certain coins fall together), trigger heist
+        if (this.jackpot) this.triggerHeistAnimation();
+    }
+
+    // ==== Real-time Game Loop Stub ====
+    runGameLoop() {
+        this.gameInterval = setInterval(() => {
+            // TODO: Update coin movements, diamond drops, UI transitions
+        }, 60);
+    }
+
+    endGame() {
+        this.isRunning = false;
+        clearInterval(this.gameInterval);
+        this.showJackpotWin();
+        // TODO: Display results, reset option
+    }
+
+    // ==== Animation & UI Stubs ====
+    animateCoinPush() {
+        // TODO: Animate coin movement over dozer table
+    }
+    animateDiamondCatch(diamond) {
+        // TODO: Sparkle and special effect animation for catching diamond
+    }
+    triggerHeistAnimation() {
+        // TODO: Siren/jackpot/heist event animation
+    }
+    showJackpotWin() {
+        // TODO: Animate jackpot/celebration end screen
+    }
+}
+
+// Initialize the game
+// const game = new DiamondHeistCoinDozer();
