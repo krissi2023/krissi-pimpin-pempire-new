@@ -3,9 +3,18 @@ import react from '@vitejs/plugin-react';
 
 // Vite configuration scoped for the existing CRA-style folder structure.
 export default defineConfig({
-  plugins: [react({ include: /\.[jt]sx?$/ })],
+  plugins: [react()],
   esbuild: {
-    loader: 'jsx'
+    loader: 'jsx',
+    include: /src\/.*\.[jt]sx?$/
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+        '.jsx': 'jsx'
+      }
+    }
   },
   build: {
     outDir: 'build'
