@@ -7,13 +7,26 @@
 
 class DapaulSmoothSlot {
     constructor(options = {}) {
-        this.reels = this.generateReels();
-        this.isSpinning = false;
-        this.credits = Number.isFinite(options.startingCredits) ? options.startingCredits : 150;
         this.spinCost = 5;
-        this.lastSpinResult = [];
-        this.winAmount = 0;
-        this.progressiveJackpot = Number.isFinite(options.jackpotSeed) ? options.jackpotSeed : 500;
+        this.progressiveJackpot = this.normalizeNumber(options.jackpotSeed, 500);
+        this.progressiveBase = this.progressiveJackpot;
+        this.credits = this.normalizeNumber(options.startingCredits, 150);
+        this.resetState();
+    }
+
+    initialize(options = {}) {
+        if (typeof options.startingCredits === 'number') {
+            this.credits = this.normalizeNumber(options.startingCredits, this.credits);
+        }
+        if (typeof options.jackpotSeed === 'number') {
+            this.progressiveJackpot = this.normalizeNumber(options.jackpotSeed, this.progressiveJackpot);
+            this.progressiveBase = this.progressiveJackpot;
+        }
+        if (typeof options.spinCost === 'number') {
+            this.spinCost = this.normalizeNumber(options.spinCost, this.spinCost);
+        }
+        this.resetState();
+        return this.getState();
     }
 
     generateReels() {
@@ -26,10 +39,8 @@ class DapaulSmoothSlot {
     }
 
     startGame() {
-        this.reels = this.generateReels();
-        this.isSpinning = false;
-        this.lastSpinResult = [];
-        this.winAmount = 0;
+        this.resetState();
+        return this.getState();
     }
 
     spin() {
@@ -47,7 +58,8 @@ class DapaulSmoothSlot {
             success: true,
             result: this.lastSpinResult.slice(),
             winnings: this.winAmount,
-            credits: this.credits
+            credits: this.credits,
+            state: this.getState()
         };
     }
 
@@ -86,7 +98,7 @@ class DapaulSmoothSlot {
     }
 
     resetProgressive() {
-        this.progressiveJackpot = 500;
+        this.progressiveJackpot = this.progressiveBase;
     }
 
     getState() {
@@ -94,8 +106,24 @@ class DapaulSmoothSlot {
             credits: this.credits,
             lastSpinResult: this.lastSpinResult.slice(),
             progressiveJackpot: this.progressiveJackpot,
-            winAmount: this.winAmount
+            winAmount: this.winAmount,
+            spinCost: this.spinCost
         };
+    }
+
+    resetState() {
+        this.reels = this.generateReels();
+        this.isSpinning = false;
+        this.lastSpinResult = [];
+        this.winAmount = 0;
+        this.progressiveJackpot = this.progressiveBase;
+    }
+
+    normalizeNumber(value, fallback) {
+        if (typeof value !== 'number' || Number.isNaN(value) || value <= 0) {
+            return fallback;
+        }
+        return Math.floor(value);
     }
 }
 

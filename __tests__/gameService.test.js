@@ -11,11 +11,22 @@ const gameService = require('../diamondz-playhouse/backend/services/gameService'
 describe('game catalog wiring', () => {
   it('exposes the new quick game stubs with updated source files', () => {
     const catalog = gameService.getGameCatalog();
-    const clawEntry = catalog.find((entry) => entry.id === 'pimpire-claw');
-    const blackjackEntry = catalog.find((entry) => entry.id === 'blackjack');
+    const expected = [
+      ['pimpire-claw', 'SourceCode/QuickGames/PimpireClaw.js'],
+      ['diamondz-slot', 'SourceCode/QuickGames/DiamondzSlot.js'],
+      ['dapaul-smooth-slot', 'SourceCode/QuickGames/DapaulSmoothSlot.js'],
+      ['golden-cane-slots', 'SourceCode/QuickGames/GoldenCaneSlots.js'],
+      ['mink-slot', 'SourceCode/QuickGames/MinkSlot.js'],
+      ['diamonds-high-roller-heist-slot', 'SourceCode/QuickGames/DiamondsHighRollerHeistSlot.js']
+    ];
 
-    expect(clawEntry).toBeDefined();
-    expect(clawEntry.sourceFile).toBe('SourceCode/QuickGames/PimpireClaw.js');
+    expected.forEach(([id, filePath]) => {
+      const entry = catalog.find((game) => game.id === id);
+      expect(entry).toBeDefined();
+      expect(entry.sourceFile).toBe(filePath);
+    });
+
+    const blackjackEntry = catalog.find((entry) => entry.id === 'blackjack');
     expect(blackjackEntry).toBeDefined();
     expect(blackjackEntry.sourceFile).toBe('SourceCode/CardGames/Blackjack.js');
   });
@@ -80,5 +91,85 @@ describe('game session lifecycle', () => {
 
     // Dispose timers if test introduced any
     gameService.executeAction(session.sessionId, 'dispose', [], 'tester-2');
+  });
+
+  it('spins quick slot sessions through the service actions', () => {
+    const slotIds = [
+      'diamondz-slot',
+      'dapaul-smooth-slot',
+      'golden-cane-slots',
+      'mink-slot',
+      'diamonds-high-roller-heist-slot'
+    ];
+
+    slotIds.forEach((gameId, index) => {
+      const ownerId = `slot-owner-${index}`;
+      const session = gameService.startSession(gameId, {
+        ownerId,
+        autoStart: true
+      });
+
+      expect(session).toBeDefined();
+      const spin = gameService.executeAction(session.sessionId, 'spin', [], ownerId);
+      expect(spin.result).toBeDefined();
+      expect(spin.result.success).toBe(true);
+      expect(spin.state).toBeDefined();
+      expect(typeof spin.state.credits).toBe('number');
+      expect(spin.state.credits).toBeGreaterThanOrEqual(0);
+
+      gameService.endSession(session.sessionId);
+    });
+  });
+
+  it('runs property manager turns with purchases and trades', () => {
+    const session = gameService.startSession('pempire-property-manager', {
+      ownerId: 'manager-1',
+      initializeArgs: [{
+        startingBank: 2000,
+        winningNetWorth: 1700,
+        players: [
+          { id: 'p1', name: 'Marquis', money: 800 },
+          { id: 'p2', name: 'Duchess', money: 750 }
+        ]
+      }],
+      autoStart: true
+    });
+
+    expect(session).toBeDefined();
+    expect(session.state.players).toHaveLength(2);
+    const available = session.state.properties.find((property) => !property.ownerId);
+    expect(available).toBeDefined();
+
+    const purchase = gameService.executeAction(
+      session.sessionId,
+      'buyProperty',
+      [available.id, 'p1'],
+      'manager-1'
+    );
+    expect(purchase.result.success).toBe(true);
+    const updatedProperty = purchase.state.properties.find((property) => property.id === available.id);
+    expect(updatedProperty.ownerId).toBe('p1');
+
+    const next = gameService.executeAction(session.sessionId, 'nextTurn', [], 'manager-1');
+    expect(next.result.success).toBe(true);
+    expect(next.state.turn).toBe(1);
+
+    const tradeTarget = purchase.state.properties.find((property) => property.ownerId === 'p1');
+    const trade = gameService.executeAction(
+      session.sessionId,
+      'tradeProperty',
+      [
+        'p1',
+        'p2',
+        tradeTarget.id,
+        100
+      ],
+      'manager-1'
+    );
+    expect(trade.result.success).toBe(true);
+    const traded = trade.state.properties.find((property) => property.id === tradeTarget.id);
+    expect(traded.ownerId).toBe('p2');
+
+    gameService.endSession(session.sessionId);
   });
 });

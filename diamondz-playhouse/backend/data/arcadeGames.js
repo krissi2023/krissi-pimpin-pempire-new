@@ -63,6 +63,91 @@ const games = [
     unlockRequirement: 'Complete the tutorial flight path to join the claw corral.'
   },
   {
+    id: 'diamondz-slot',
+    name: 'Diamondz Classic Slots',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/DiamondzSlot.js',
+    description: 'Three-reel lounge classic where diamond paylines fuel jackpot bursts.',
+    features: ['Diamond jackpot payoff', 'Two-of-a-kind kicker wins', 'Spin cost tuning'],
+    access: {
+      minArcadeCredits: 80,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
+    unlockRequirement: 'Always available once you register for the Diamondz lobby.'
+  },
+  {
+    id: 'dapaul-smooth-slot',
+    name: 'Dapaul Smooth Slot',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/DapaulSmoothSlot.js',
+    description: 'Smooth jazz progressive slot with buttery animations and jackpot storms.',
+    features: ['Progressive jackpot pot', 'Spin cost customization', 'Three-of-a-kind payouts'],
+    access: {
+      minArcadeCredits: 260,
+      requiredComicIds: ['2'],
+      requiredComicTitles: ["Don't Hate the Player"],
+      requiresVip: false,
+      minTotalWins: 6
+    },
+    unlockRequirement: 'Finish Episode 2 and log six arcade wins to vibe with Dapaul.'
+  },
+  {
+    id: 'golden-cane-slots',
+    name: 'Golden Cane Slots',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/GoldenCaneSlots.js',
+    description: 'Luxury cane collection slot with mid-tier streak payouts and jackpots.',
+    features: ['Cane jackpot line', 'Spin animation hooks', 'Mid-tier two-symbol wins'],
+    access: {
+      minArcadeCredits: 180,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 2
+    },
+    unlockRequirement: 'Earn two quick wins to unlock the Golden Cane pit.'
+  },
+  {
+    id: 'mink-slot',
+    name: 'Mink Slot',
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/MinkSlot.js',
+    description: 'Fashion-forward slot cabinet with mink jackpots and couture side wins.',
+    features: ['Wild mink jackpots', 'Two fur collar combo win', 'Spin cost tuning'],
+    access: {
+      minArcadeCredits: 220,
+      requiredComicIds: ['3'],
+      requiredComicTitles: ['The Getaway Glitch'],
+      requiresVip: false,
+      minTotalWins: 8
+    },
+    unlockRequirement: 'Complete Episode 3 to strut into the Mink couture suite.'
+  },
+  {
+    id: 'diamonds-high-roller-heist-slot',
+    name: "Diamond's High Roller Heist",
+    category: 'quick',
+    type: 'QuickGame',
+    sourceFile: 'SourceCode/QuickGames/DiamondsHighRollerHeistSlot.js',
+    description: 'Five-payline heist slot with wild eyes, high multipliers, and streak jackpots.',
+    features: ['Five-payline layout', 'Wild jackpot symbol', 'High volatility payouts'],
+    access: {
+      minArcadeCredits: 420,
+      requiredComicIds: ['5'],
+      requiredComicTitles: ['Respect the Hustle'],
+      requiresVip: false,
+      minTotalWins: 12
+    },
+    unlockRequirement: 'Complete Respect the Hustle and twelve arcade wins to enter the VIP vault.'
+  },
+  {
     id: 'cash-grab',
     name: 'Cash Grab',
     category: 'quick',

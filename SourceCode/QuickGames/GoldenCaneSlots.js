@@ -1,126 +1,138 @@
+'use strict';
+
 /**
  * Game: Golden Cane Slots
- * Spin for luxury—match canes for the ultimate prize!
- * Features: Reel spinning, cane/gold symbols, payouts, animations, UI updates.
+ * Match luxury symbols for quick-hit wins and flashy jackpots.
  */
 
+const BASE_SYMBOLS = ['GOLD_MEDAL', 'GOLD_BAR', 'CANE', 'GRAPE_CLUSTER', 'CHERRY', 'BAR'];
+const JACKPOT_SYMBOL = 'CANE';
+
 class GoldenCaneSlots {
-    constructor() {
-        this.reels = this.generateReels();
-        this.isSpinning = false;
-        this.credits = 100;
-        this.lastSpinResult = [];
-        this.spinCost = 4;
-        this.winAmount = 0;
-        this.gameInterval = null;
+    constructor(options = {}) {
+        this.spinCost = this.normalizeNumber(options.spinCost, 4);
+        this.credits = this.normalizeNumber(options.startingCredits, 120);
+        this.resetState();
+    }
+
+    initialize(options = {}) {
+        if (typeof options.startingCredits === 'number') {
+            this.credits = this.normalizeNumber(options.startingCredits, this.credits);
+        }
+        if (typeof options.spinCost === 'number') {
+            this.spinCost = this.normalizeNumber(options.spinCost, this.spinCost);
+        }
+        this.resetState();
+        return this.getState();
     }
 
     startGame() {
+        this.resetState();
+        return this.getState();
+    }
+
+    resetState() {
         this.reels = this.generateReels();
         this.isSpinning = false;
-        this.credits = 100;
         this.lastSpinResult = [];
         this.winAmount = 0;
     }
 
     generateReels() {
-        const symbols = ['🥇', '💰', '🦯', '🍇', 'CANE', 'BAR'];
-        let reels = [];
-        /**
-         * Game: Golden Cane Slots
-         * Spin for luxury - match cane icons for the ultimate prize.
-         * Features: simple reel simulation, jackpot/minor-win payouts, animation stubs.
-         */
+        const reels = [];
+        for (let i = 0; i < 3; i += 1) {
+            reels.push(BASE_SYMBOLS.slice());
+        }
+        return reels;
+    }
 
-        'use strict';
-
-        class GoldenCaneSlots {
-            constructor() {
-                this.reels = this.generateReels();
-                this.isSpinning = false;
-                this.credits = 100;
-                this.lastSpinResult = [];
-                this.spinCost = 4;
-                this.winAmount = 0;
-                this.gameInterval = null;
-            }
-
-            startGame() {
-                this.reels = this.generateReels();
-                this.isSpinning = false;
-                this.credits = 100;
-                this.lastSpinResult = [];
-                this.winAmount = 0;
-            }
-
-            generateReels() {
-                const symbols = ['GOLD_MEDAL', 'GOLD_BAR', 'CANE', 'GRAPE_CLUSTER', 'CHERRY', 'BAR'];
-                const reels = [];
-                for (let i = 0; i < 3; i += 1) {
-                    reels.push(symbols.slice());
-                }
-                return reels;
-            }
-
-            spin() {
-                if (this.isSpinning || this.credits < this.spinCost) {
-                    return;
-                }
-                this.isSpinning = true;
-                this.credits -= this.spinCost;
-                this.startSpinAnimation();
-                setTimeout(() => {
-                    this.lastSpinResult = this.reels.map((symbols) => symbols[Math.floor(Math.random() * symbols.length)]);
-                    this.isSpinning = false;
-                    this.evaluateSpin();
-                    this.showSpinResultAnimation(this.lastSpinResult);
-                }, 2000);
-            }
-
-            evaluateSpin() {
-                if (this.lastSpinResult.length === 0) {
-                    return;
-                }
-
-                if (this.lastSpinResult.every((symbol) => symbol === 'CANE')) {
-                    this.winAmount = 400;
-                    this.credits += this.winAmount;
-                    this.showJackpotWin();
-                    return;
-                }
-
-                if (new Set(this.lastSpinResult).size === 1) {
-                    this.winAmount = 70;
-                    this.credits += this.winAmount;
-                    this.showMinorWin();
-                    return;
-                }
-
-                this.winAmount = 0;
-            }
-
-            runGameLoop() {
-                this.gameInterval = setInterval(() => {
-                    // TODO: Animate reel lights, effects, credit ticker.
-                }, 60);
-            }
-
-            startSpinAnimation() {
-                // TODO: Animate spinning reels, sound, flash effects.
-            }
-
-            showSpinResultAnimation(result) {
-                // TODO: Highlight payline and animate the winning symbols.
-                return result;
-            }
-
-            showMinorWin() {
-                // TODO: Visual/audio feedback for a small win.
-            }
-
-            showJackpotWin() {
-                // TODO: Celebrate jackpot with scoreboard effects.
-            }
+    spin() {
+        if (this.isSpinning) {
+            return { success: false, reason: 'Spin already in progress.' };
+        }
+        if (this.credits < this.spinCost) {
+            return { success: false, reason: 'Not enough credits.' };
         }
 
-        module.exports = GoldenCaneSlots;
+        this.isSpinning = true;
+        this.credits -= this.spinCost;
+        this.startSpinAnimation();
+
+        this.lastSpinResult = this.reels.map((symbols) => symbols[Math.floor(Math.random() * symbols.length)]);
+        this.evaluateSpin();
+        this.isSpinning = false;
+        this.showSpinResultAnimation(this.lastSpinResult);
+
+        return {
+            success: true,
+            result: this.lastSpinResult.slice(),
+            winnings: this.winAmount,
+            credits: this.credits,
+            state: this.getState()
+        };
+    }
+
+    evaluateSpin() {
+        if (this.lastSpinResult.length === 0) {
+            this.winAmount = 0;
+            return;
+        }
+
+        if (this.lastSpinResult.every((symbol) => symbol === JACKPOT_SYMBOL)) {
+            this.winAmount = 420;
+            this.credits += this.winAmount;
+            this.showJackpotWin();
+            return;
+        }
+
+        if (new Set(this.lastSpinResult).size === 1) {
+            this.winAmount = 80;
+            this.credits += this.winAmount;
+            this.showMinorWin();
+            return;
+        }
+
+        if (this.lastSpinResult.filter((symbol) => symbol === JACKPOT_SYMBOL).length === 2) {
+            this.winAmount = 35;
+            this.credits += this.winAmount;
+            this.showMinorWin();
+            return;
+        }
+
+        this.winAmount = 0;
+    }
+
+    getState() {
+        return {
+            credits: this.credits,
+            lastSpinResult: this.lastSpinResult.slice(),
+            winAmount: this.winAmount,
+            spinCost: this.spinCost
+        };
+    }
+
+    startSpinAnimation() {
+        // Placeholder for frontend animation integration.
+    }
+
+    showSpinResultAnimation(result) {
+        return result;
+    }
+
+    showMinorWin() {
+        // Hook for celebratory effects on minor wins.
+    }
+
+    showJackpotWin() {
+        // Hook for marquee jackpot celebration.
+    }
+
+    normalizeNumber(value, fallback) {
+        if (typeof value !== 'number' || Number.isNaN(value) || value <= 0) {
+            return fallback;
+        }
+        return Math.floor(value);
+    }
+}
+
+module.exports = GoldenCaneSlots;

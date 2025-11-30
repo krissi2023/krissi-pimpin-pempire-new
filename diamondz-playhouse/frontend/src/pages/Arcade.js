@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import env from '../env';
 import './Arcade.css';
 import ArcadeCreditsPurchase from '../components/ArcadeCreditsPurchase';
 import ArcadeGameLauncher from '../components/ArcadeGameLauncher';
@@ -29,7 +30,7 @@ function Arcade() {
 
   const fetchGames = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/arcade/games`);
+      const response = await axios.get(`${env.API_URL}/arcade/games`);
       const payload = response.data;
 
       if (Array.isArray(payload)) {
