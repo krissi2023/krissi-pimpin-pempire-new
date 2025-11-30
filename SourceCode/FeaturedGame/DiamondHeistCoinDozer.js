@@ -88,11 +88,12 @@ class DiamondHeistCoinDozer {
     }
 
     // ==== Animation & UI Stubs ====
-    animateCoinPush(coin) {
+    animateCoinPush() {
         // TODO: Animate coin movement over dozer table
     }
     animateDiamondCatch(diamond) {
         // TODO: Sparkle and special effect animation for catching diamond
+        console.log('Diamond caught:', diamond);
     }
     triggerHeistAnimation() {
         // TODO: Siren/jackpot/heist event animation
