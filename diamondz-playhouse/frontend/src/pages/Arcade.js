@@ -164,6 +164,24 @@ function Arcade() {
 
     return pills;
   }, []);
+
+  const playGame = useCallback((game) => {
+    const accessStatus = evaluateAccess(game);
+
+    if (!accessStatus.allowed) {
+      if (accessStatus.reasons && accessStatus.reasons.length > 0) {
+        alert(accessStatus.reasons.join('\n'));
+      } else if (accessStatus.requiresAuth) {
+        alert('Please log in to play arcade games!');
+      } else {
+        alert('This cabinet is locked.');
+      }
+      return;
+    }
+
+    setActiveGame(game);
+  }, [evaluateAccess]);
+
   const renderGameCard = useCallback((game, section) => {
     const accessStatus = evaluateAccess(game);
     const pills = buildAccessPills(game);
@@ -271,7 +289,7 @@ function Arcade() {
         </button>
       </div>
     );
-  }, [buildAccessPills, categoryEmojiMap, evaluateAccess]);
+  }, [buildAccessPills, categoryEmojiMap, evaluateAccess, playGame]);
 
   const newReleaseGames = useMemo(() => {
     const collected = [];
@@ -288,23 +306,6 @@ function Arcade() {
 
     return collected;
   }, [newReleaseIds, sections]);
-
-  const playGame = (game) => {
-    const accessStatus = evaluateAccess(game);
-
-    if (!accessStatus.allowed) {
-      if (accessStatus.reasons && accessStatus.reasons.length > 0) {
-        alert(accessStatus.reasons.join('\n'));
-      } else if (accessStatus.requiresAuth) {
-        alert('Please log in to play arcade games!');
-      } else {
-        alert('This cabinet is locked.');
-      }
-      return;
-    }
-
-    setActiveGame(game);
-  };
 
   if (loading) {
     return <div className="spinner"></div>;
