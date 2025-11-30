@@ -7,99 +7,203 @@
 'use strict';
 
 class DiamondHeistCoinDozer {
-    constructor() {
-        // === Game State ===
-        this.coinTable = this.generateCoinTable();
-        this.diamonds = this.generateDiamonds();
+    constructor(options = {}) {
+        this.width = options.width || 100;
+        this.height = options.height || 100;
+        this.dropThreshold = options.dropThreshold || 95;
+        this.coinValue = options.coinValue || 1;
+        this.diamondBaseValue = options.diamondValue || 100;
+
+        this.coinTable = [];
+        this.diamondTable = [];
+        this.dropHistory = [];
         this.jackpot = false;
         this.score = 0;
         this.isRunning = false;
         this.gameInterval = null;
-
-        // TODO: Set up UI for coin table, prizes, jackpot display
+        this.tickRateMs = options.tickRateMs || 80;
     }
 
-    // ==== Core Methods ====
     startGame() {
-        this.coinTable = this.generateCoinTable();
-        this.diamonds = this.generateDiamonds();
+        this.coinTable = this.generateCoins(50);
+        this.diamondTable = this.generateDiamonds(5);
+        this.dropHistory = [];
         this.jackpot = false;
         this.score = 0;
         this.isRunning = true;
-        this.runGameLoop();
-        // TODO: Render machine, enable controls
+        this.startLoop();
+        return this.getState();
     }
 
-    generateCoinTable() {
-        // Populate the array with coin positions/values
+    stopGame() {
+        this.isRunning = false;
+        this.stopLoop();
+        return this.getState();
+    }
+
+    generateCoins(count) {
         const coins = [];
-        for (let i = 0; i < 50; i++) {
-            coins.push({ x: Math.random()*100, y: Math.random()*80, value: 1 });
+        for (let i = 0; i < count; i += 1) {
+            coins.push({
+                id: `coin-${Date.now()}-${i}`,
+                x: Math.random() * this.width,
+                y: Math.random() * (this.height * 0.8),
+                value: this.coinValue
+            });
         }
         return coins;
     }
 
-    generateDiamonds() {
-        // Add a few random-position diamonds to the table
-        const diamonds = [];
-        for (let i = 0; i < 5; i++) {
-            diamonds.push({ x: Math.random()*100, y: Math.random()*80, value: 100 });
+    generateDiamonds(count) {
+        const gems = [];
+        for (let i = 0; i < count; i += 1) {
+            gems.push({
+                id: `diamond-${Date.now()}-${i}`,
+                x: Math.random() * this.width,
+                y: Math.random() * (this.height * 0.7),
+                value: this.diamondBaseValue
+            });
         }
-        return diamonds;
+        return gems;
     }
 
-    pushCoin() {
-        if (!this.isRunning) return;
-        // TODO: Physics logic for coin pushing, collisions, table shuffle
-        this.animateCoinPush(/* coin object */);
-        this.checkForDiamonds();
-        this.triggerHeistIfNeeded();
+    pushCoin(lane = 0) {
+        if (!this.isRunning) {
+            return { success: false, reason: 'Game is not running.' };
+        }
+
+        const laneWidth = this.width / 5;
+        const constrainedLane = Math.max(0, Math.min(4, lane));
+        const xPosition = constrainedLane * laneWidth + laneWidth / 2;
+        const newCoin = {
+            id: `coin-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            x: xPosition,
+            y: 0,
+            value: this.coinValue
+        };
+
+        this.coinTable.push(newCoin);
+        this.animateCoinPush(newCoin);
+        this.simulateStep();
+        return {
+            success: true,
+            coin: newCoin,
+            state: this.getState()
+        };
     }
 
-    checkForDiamonds() {
-        // TODO: Check if any diamonds are pushed over the edge
-        // If so, increment score and animate
-        for (const diamond of this.diamonds) {
-            if (diamond.y > 90) {
-                this.score += diamond.value;
-                this.animateDiamondCatch(diamond);
-                this.jackpot = true;
+    simulateStep() {
+        this.advanceCoins(this.coinTable, 2.5);
+        this.advanceCoins(this.diamondTable, 1.2);
+        const drops = this.collectDrops();
+        if (drops.diamondsCollected.length > 0) {
+            this.jackpot = true;
+            drops.diamondsCollected.forEach((gem) => this.animateDiamondCatch(gem));
+        }
+        if (this.jackpot && drops.diamondsCollected.length > 0) {
+            this.triggerHeistAnimation();
+        }
+        this.dropHistory.push(drops);
+        return drops;
+    }
+
+    advanceCoins(table, deltaY) {
+        for (const item of table) {
+            item.y += deltaY;
+            if (item.y > this.height) {
+                item.y = this.height;
             }
         }
     }
 
-    triggerHeistIfNeeded() {
-        // TODO: If a special event occurs (e.g., certain coins fall together), trigger heist
-        if (this.jackpot) this.triggerHeistAnimation();
+    collectDrops() {
+        const coinsCollected = [];
+        const diamondsCollected = [];
+
+        this.coinTable = this.coinTable.filter((coin) => {
+            if (coin.y >= this.dropThreshold) {
+                coinsCollected.push(coin);
+                this.score += coin.value;
+                return false;
+            }
+            return true;
+        });
+
+        this.diamondTable = this.diamondTable.filter((gem) => {
+            if (gem.y >= this.dropThreshold) {
+                diamondsCollected.push(gem);
+                this.score += gem.value;
+                return false;
+            }
+            return true;
+        });
+
+        return {
+            coinsCollected,
+            diamondsCollected
+        };
     }
 
-    // ==== Real-time Game Loop Stub ====
-    runGameLoop() {
+    startLoop() {
+        this.stopLoop();
         this.gameInterval = setInterval(() => {
-            // TODO: Update coin movements, diamond drops, UI transitions
-        }, 60);
+            if (!this.isRunning) {
+                this.stopLoop();
+                return;
+            }
+
+            this.simulateStep();
+        }, this.tickRateMs);
+    }
+
+    stopLoop() {
+        if (this.gameInterval) {
+            clearInterval(this.gameInterval);
+            this.gameInterval = null;
+        }
     }
 
     endGame() {
-        this.isRunning = false;
-        clearInterval(this.gameInterval);
-        this.showJackpotWin();
-        // TODO: Display results, reset option
+        const finalState = this.stopGame();
+        if (this.jackpot) {
+            this.showJackpotWin();
+        }
+        return finalState;
     }
 
-    // ==== Animation & UI Stubs ====
-    animateCoinPush() {
-        // TODO: Animate coin movement over dozer table
+    getState() {
+        return {
+            coins: this.coinTable.map((coin) => ({ ...coin })),
+            diamonds: this.diamondTable.map((gem) => ({ ...gem })),
+            score: this.score,
+            jackpot: this.jackpot,
+            isRunning: this.isRunning,
+            drops: this.dropHistory.slice(-5)
+        };
     }
-    animateDiamondCatch(diamond) {
-        // TODO: Sparkle and special effect animation for catching diamond
-        console.log('Diamond caught:', diamond);
+
+    dispose() {
+        this.stopLoop();
     }
+
+    // ==== Animation hooks ==== 
+    animateCoinPush(coin) {
+        return coin;
+    }
+
+    animateDiamondCatch(gem) {
+        return gem;
+    }
+
     triggerHeistAnimation() {
-        // TODO: Siren/jackpot/heist event animation
+        this.jackpot = false;
     }
+
     showJackpotWin() {
-        // TODO: Animate jackpot/celebration end screen
+        return {
+            score: this.score,
+            diamondsRemaining: this.diamondTable.length
+        };
     }
 }
 
