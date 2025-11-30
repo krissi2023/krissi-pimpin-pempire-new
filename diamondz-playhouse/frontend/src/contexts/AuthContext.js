@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -21,16 +21,13 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
-  // Load user on mount
-  useEffect(() => {
-    if (token) {
-      loadUser();
-    } else {
-      setLoading(false);
-    }
-  }, [token]);
+  const logout = useCallback(() => {
+    localStorage.removeItem('token');
+    setToken(null);
+    setUser(null);
+  }, []);
 
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/me`);
       setUser(response.data);
@@ -40,7 +37,16 @@ export function AuthProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [logout]);
+
+  // Load user on mount
+  useEffect(() => {
+    if (token) {
+      void loadUser();
+    } else {
+      setLoading(false);
+    }
+  }, [loadUser, token]);
 
   const register = async (username, email, password) => {
     try {
@@ -81,12 +87,6 @@ export function AuthProvider({ children }) {
         error: error.response?.data?.error || 'Login failed' 
       };
     }
-  };
-
-  const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setUser(null);
   };
 
   const refreshUser = async () => {
