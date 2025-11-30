@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import env from '../env';
 
 const AuthContext = createContext();
 
@@ -29,7 +30,7 @@ export function AuthProvider({ children }) {
 
   const loadUser = useCallback(async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/users/me`);
+      const response = await axios.get(`${env.API_URL}/users/me`);
       setUser(response.data);
     } catch (error) {
       console.error('Error loading user:', error);
@@ -50,7 +51,7 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
+      const response = await axios.post(`${env.API_URL}/auth/register`, {
         username,
         email,
         password
@@ -71,7 +72,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      const response = await axios.post(`${env.API_URL}/auth/login`, {
         email,
         password
       });

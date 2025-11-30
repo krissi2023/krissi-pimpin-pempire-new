@@ -90,7 +90,8 @@ class YagoFirewallFlip {
 
     // ==== Animation & UI Stubs ====
     playFlipAnimation(tile) {
-        // TODO: Flip animation for a firewall tile
+        // TODO: Flip animation for a firewall tile at position (tile.row, tile.col)
+        console.log(`Flipping tile at ${tile.row}, ${tile.col}`);
     }
 
     showTimerWarning() {
