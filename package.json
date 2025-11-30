@@ -8,10 +8,12 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "test": "jest",
+    "test": "jest --testPathIgnorePatterns=diamondz-playhouse/frontend",
+    "test:backend": "cd diamondz-playhouse/backend && npm test",
+    "test:frontend": "cd diamondz-playhouse/frontend && npm test",
     "lint": "eslint .",
     "docker:build": "docker build -t krissi-pimpin-pimpire .",
-    "docker:run": "docker run -p 3000:3000 krissi-pimpin-pimpire"
+    "docker:run": "docker run -p 3000:3000 krissi-pimpin-pempire"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
