@@ -340,7 +340,6 @@ This document provides detailed visual specifications for all main characters to
 - Data streams flowing like rivers
 - No sky - just infinite digital space
 
-**Color Palette:**
 **Digital World Color Palette:**
 
 - Primary: Neon cyan and electric purple
