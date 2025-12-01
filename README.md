@@ -1,6 +1,6 @@
 # 💎 Pimpin Paul's Comics x Diamondz Playhouse
 
-**Where Comics Meet Arcade Luxury**
+## Where Comics Meet Arcade Luxury
 
 A revolutionary digital platform combining premium comic storytelling with interactive arcade gaming. Purchase comics, solve puzzles, earn credits, and unlock the VIP arcade experience.
 
@@ -11,11 +11,13 @@ A revolutionary digital platform combining premium comic storytelling with inter
 ### Two Brands, One Platform
 
 **🎨 Pimpin Paul's Comics** (Comic Store)
+
 - Tech-noir aesthetic with neon green accents
 - Features original comic series starring Pimpin Paul & Diamond
 - Embedded interactive puzzles and unlockable wallpapers
 
 **💎 Diamondz Playhouse** (Arcade)
+
 - Luxury VIP nightclub gaming experience
 - Gold and neon pink aesthetic
 - Unlocked through comic purchases and puzzle completion
@@ -25,23 +27,28 @@ A revolutionary digital platform combining premium comic storytelling with inter
 ## 📚 Comic Series
 
 ### Diamondz First Sparkle
+
 The Queen B meets her match in this prequel to the Diamond Heist saga. Watch as the world's most stylish jewel thief faces off against a digital detective who speaks only in code.
 
 **Issues:**
+
 1. Plan Alpha: Shine Bright Like a... Target
 2. The Double Cross (Digital & Dazzling)
 3. The Unexpected Algorithm
 
 ### Pimpin Paul's Comics
+
 The origin story of the digital detective and his partnership with the chaotic genius Diamond.
 
 **Issues:**
+
 1. The Origin of the Digital Side-Cake
 2. The Code of the Conflicted Pimp
 3. The Meta-Heist Mandate
 4. The Keystone Koordinates (The Team-Up)
 
 ### The Diamond Heist Series
+
 - The Digital Diamond Heist
 - Casino Vault Prequel
 - And more...
@@ -51,10 +58,12 @@ The origin story of the digital detective and his partnership with the chaotic g
 ## ✨ Key Features
 
 ### 💰 Dual Currency System
+
 - **PPC (Pimpin Paul Credits):** Earned from comic purchases, used in arcade
 - **Gold Coins:** Bonus currency from puzzles and achievements
 
 ### 🧩 Interactive Puzzles
+
 - Jigsaw puzzles from comic art
 - Word searches with story themes
 - Time bonuses for fast completion
@@ -347,6 +356,3 @@ This project and all associated content (comics, characters, designs) are propri
 ---
 
 Built with 💎 and ⚡ by Krissi — where comics meet arcade luxury.
-
-
-
