@@ -172,8 +172,8 @@ Perfect for when you need a little extra stash to keep the game going.
 1. Clone the repository.
 
    ```bash
-   git clone https://github.com/krissi2023/krissi-pimpin-pimpire.git
-   cd krissi-pimpin-pimpire
+   git clone https://github.com/krissi2023/krissi-pempire-new.git
+   cd krissi-pempire-new
    ```
 
 2. Install dependencies.
@@ -248,7 +248,7 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 ## 📂 Repository Structure
 
 ```text
-krissi-pimpin-pimpire/
+krissi-pempire-new/
 ├── diamondz-playhouse/          # Main app
 │   ├── frontend/                # React app
 │   ├── backend/                 # Node.js API
@@ -342,7 +342,7 @@ This project and all associated content (comics, characters, designs) are propri
 ## 📞 Contact
 
 - **Project Owner:** Krissi
-- **Repository:** [github.com/krissi2023/krissi-pimpin-pimpire](https://github.com/krissi2023/krissi-pimpin-pimpire)
+- **Repository:** [github.com/krissi2023/krissi-pempire-new](https://github.com/krissi2023/krissi-pempire-new)
 
 ---
 
