@@ -1,3 +1,4 @@
 {
-  "git.statusLimit": 20000
+  "git.statusLimit": 20000,
+  "workbench.editor.alwaysShowEditorActions": true
 }

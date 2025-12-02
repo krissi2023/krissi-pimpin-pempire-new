@@ -5,6 +5,122 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/path/to/script.sh",
+            "args": []
+        },
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/path/to/script.sh",
+            "args": []
+        },
+        {
+            "type": "cmake",
+            "request": "launch",
+            "name": "CMake: Configure project",
+            "cmakeDebugType": "configure",
+            "clean": false,
+            "configureAll": false
+        },
+        {
+            "type": "cmake",
+            "request": "launch",
+            "name": "CMake: Build project",
+            "cmakeDebugType": "build",
+            "clean": false,
+            "target": "all"
+        },
+        {
+            "type": "cmake",
+            "request": "launch",
+            "name": "CMake: Run tests",
+            "cmakeDebugType": "test",
+            "clean": false,
+            "test": ""
+        },
+        {
+            "name": "C pimpinpempire> Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder><project-name>.csproj"
+        },
+
+
+
+
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/path/to/script.sh",
+            "args": []
+        },
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/path/to/script.sh",
+            "args": []
+        },
+        {
+            "type": "bashdb",
+            "request": "launch",
+            "name": "Bash-Debug (hardcoded script name)",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/path/to/script.sh",
+            "args": []
+        },
+        {
+            "name": "C#: <project-name> Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder><project-name>.csproj"
+        },
+
+
+
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
