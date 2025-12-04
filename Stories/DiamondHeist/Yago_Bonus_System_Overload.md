@@ -224,3 +224,226 @@ If player "donates" coins on Page 4, they get:
 
 **Next:** Create Art Directives document with character design specifications for illustrators
 
+## Art Directive: Character Design Specifications
+
+**Project:** Yago Bonus Story - System Overload  
+**Style:** TRON/Matrix Digital Aesthetic  
+**Target:** Professional Comic Illustrators
+
+---
+
+## Overall Art Direction
+
+### Digital World Environment
+
+- **Primary Colors:** Electric blue (#00FFFF), neon purple (#9D00FF), hot pink (#FF1493)
+- **Secondary Colors:** Matrix green (#00FF00), gold accent (#FFD700)
+- **Background:** Infinite black void with floating data streams
+- **Lighting:** High contrast, everything self-illuminated
+- **Effects:** Lens flares, particle trails, wireframe overlays
+
+---
+
+## Character Design Specifications
+
+### Yago (Digital Form)
+
+**Base Appearance:**
+
+- Height: 6'2" (appears confident and imposing)
+- Build: Athletic, superhero proportions
+- Age Appearance: Late 20s, digitally enhanced
+
+**Head & Face:**
+
+- Strong jawline with subtle angular/polygonal edges
+- Eyes: Bright blue LEDs that pulse with processing power
+- Hair: Short, styled, appears as flowing light particles
+- Expression: Cocky confidence (Pages 1-2), then shock/confusion (Pages 3-4)
+
+**Costume - "Digital Superhero":**
+
+- **Sunglasses:** Mirror-finish aviators reflecting scrolling code
+- **Cape:** Flowing neon blue cape with gold trim, leaves light trails
+- **Bodysuit:** Form-fitting blue suit with circuit board patterns
+- **Gloves:** Fingerless, with glowing fingertips for "typing"
+- **Boots:** High-tech combat boots with glowing soles
+
+**Special Effects:**
+
+- Body has subtle wireframe overlay visible in bright light
+- When moving, leaves faint blue particle trails
+- Glowing aura intensifies with emotion
+- During system crash: pixels scatter, body becomes translucent
+
+**Props:**
+
+- **Ban Hammer:** Glowing sword/hammer hybrid, blue energy blade
+- **Conductor Batons:** For "conducting" data streams like a DJ
+
+### Diamond's Digital Avatar
+
+**Base Appearance:**
+
+- Height: 5'8" (statuesque goddess proportions)
+- Build: Elegant, feminine, ethereal
+- Age Appearance: Mid-20s, impossibly perfect
+
+**Head & Face:**
+
+- Classic beauty with soft features
+- Eyes: Sparkling pink with gold flecks
+- Hair: Long, flowing, appears as streams of light particles
+- Expression: Sultry, knowing, confident seductress
+
+**Costume - "Digital Goddess":**
+
+- **Dress:** Flowing gown made of rose gold light streams
+- **Accessories:** Delicate jewelry that appears as floating light points
+- **Effects:** Sparkles and light particles constantly emanating from her
+- **Colors:** Pink to gold gradient, shifts based on lighting
+
+**Special Effects:**
+
+- Leaves trails of rose gold code wherever she moves
+- Hair flows as if underwater, defying digital physics
+- When she speaks, her words appear as beautiful floating text
+- Dissolving effect: body breaks into beautiful code streams
+
+### Supporting Characters
+
+**Tiny Angel Yago (Conscience):**
+
+- 6-inch tall version of Yago
+- White and gold color scheme
+- Tiny halo and wings made of light
+- Sits on Yago's shoulder
+- Expression: Concerned, trying to warn him
+
+**System Voice Visualization:**
+
+- Geometric shapes forming words in the sky
+- Red warning text with alarm klaxons
+- Floating holographic displays
+
+---
+
+## Key Props & Objects
+
+### Malware Cookie Design Specifications
+
+- **Appearance:** Donut/cookie hybrid, 8 inches diameter
+- **Colors:** Pink frosting with rainbow sprinkles
+- **Warning Signs:**
+  - Tiny skull icon in corner
+  - Flashing "EXECUTE?" prompt above it
+  - Binary code "1010111" pattern in the sprinkles
+- **Effect:** Pulsing pink glow, looks irresistibly delicious
+
+### Digital Environment Elements
+
+- **Floating Platforms:** Hexagonal, translucent blue with glowing edges
+- **Data Streams:** Flowing rivers of green code (Matrix style)
+- **Grid Floor:** TRON-style illuminated grid extending to infinity
+- **Interface Panels:** Holographic displays with scrolling data
+
+---
+
+## Panel-Specific Art Notes
+
+### Page 1, Panel 1 - "The Digital King"
+
+- Wide establishing shot of the digital realm
+- Yago posed heroically on center platform
+- Multiple data streams flowing around him like he's conducting
+- Color dominance: Blue and purple
+
+### Page 2, Panel 2 - "The Cookie Temptation"
+
+- Close-up on Diamond's hands offering the cookie
+- Cookie should look genuinely appetizing despite danger signs
+- Soft lighting on Diamond, harsh warning lights on cookie
+- Yago's reflection visible in Diamond's eyes
+
+### Page 3, Panel 1 - "System Crash"
+
+- Yago's eyes become spinning pinwheels (loading icons)
+- Body inflating like a balloon, becoming more translucent
+- Background systems showing error messages
+- Color shift from blue to red (danger)
+
+### Page 4, Panel 2 - "Fourth Wall Break"
+
+- Yago looking directly at reader through the "screen"
+- Break the panel border slightly to enhance effect
+- Digital band-aids on his face (humor element)
+- Background shows normal control room (reality returning)
+
+---
+
+## Color Psychology & Mood
+
+### Confidence Phase (Pages 1-2)
+
+- **Dominant:** Cool blues and purples
+- **Mood:** Heroic, in control, technological mastery
+- **Lighting:** Bright, clear, high contrast
+
+### Seduction Phase (Page 2)
+
+- **Addition:** Warm pinks and golds from Diamond
+- **Mood:** Romantic tension, temptation
+- **Lighting:** Softer, more intimate on Diamond
+
+### Crash Phase (Page 3)
+
+- **Shift to:** Harsh reds, warning oranges
+- **Mood:** Chaos, system failure, betrayal
+- **Lighting:** Flashing alarms, unstable
+
+### Recovery Phase (Page 4)
+
+- **Return to:** Muted blues, some reality colors
+- **Mood:** Defeated but determined, humorous
+- **Lighting:** Normal control room lighting mixed with screen glow
+
+---
+
+## Technical Specifications
+
+### Resolution & Format
+
+- **Pages:** 2048x2732 pixels (iPad Pro resolution)
+- **Panels:** Vector-based for zoom functionality
+- **Effects:** Layer-based for animation potential
+- **File Format:** High-res PNG with separate PSD layers
+
+### Typography
+
+- **System Text:** Courier New, neon green
+- **Dialogue:** Custom comic font with glow effects
+- **Sound Effects:** Bold, stylized, integrated into art
+
+---
+
+## Reference Materials
+
+### Visual Style References
+
+- **TRON (1982)** - Classic digital grid aesthetic
+- **TRON: Legacy (2010)** - Modern digital effects
+- **The Matrix (1999)** - Green code rain, digital reality
+- **Ghost in the Shell** - Cyberpunk character design
+- **Cyberpunk 2077** - Neon-lit digital environments
+
+### Character Inspiration
+
+- **Yago:** Tony Stark's confidence + Neo's digital powers
+- **Diamond:** Digital siren/temptress archetype
+- **Overall Tone:** Saturday morning cartoon meets cyberpunk
+
+---
+
+**Delivery Timeline:** 2 weeks for character sheets, 4 weeks for full story pages  
+**Review Checkpoints:** Character approval, Page 1 approval, Final review  
+**Budget Allocation:** Premium tier - full color, effects, animation-ready

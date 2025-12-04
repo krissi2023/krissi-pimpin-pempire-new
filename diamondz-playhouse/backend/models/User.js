@@ -32,6 +32,14 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  isVip: {
+    type: Boolean,
+    default: false
+  },
+  stripeIssuingCardId: {
+    type: String,
+    default: null
+  },
   purchasedComics: [{
     comicId: {
       type: String,

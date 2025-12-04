@@ -76,6 +76,16 @@ The origin story of the digital detective and his partnership with the chaotic g
 - Quick games (Rock Paper Scissors)
 - Daily bonuses and streak rewards
 
+### 🔥 Latest Arcade Drops (November 2025)
+
+- **The Throne of Diamonds** – Expanding royal wilds and respin streaks for VIP members.
+- **The Golden Limousine** – Hold-and-win limo chase with Mini/Major jackpots.
+- **The Pimpire's Vault** – Cascading vault grid with progressive multiplier escalations.
+- **Backstage Babylon** – Cabaret pick-and-click VIP list with steady payouts.
+- **The Street Boss's Deal** – Megaways contract spins with mystery map transformations.
+
+Backend smoke tests (`npm test -- --runInBand` inside `diamondz-playhouse/backend`) ensure every cabinet boots without runtime errors.
+
 ### 🖼️ Bonus Content
 
 - Unlockable wallpapers (5-7 per comic)
@@ -346,6 +356,3 @@ This project and all associated content (comics, characters, designs) are propri
 ---
 
 Built with 💎 and ⚡ by Krissi — where comics meet arcade luxury.
-
-
-
