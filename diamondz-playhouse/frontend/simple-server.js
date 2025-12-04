@@ -2,7 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3001;
+// Use a port that does not clash with root server (3001) or Vite dev server (3000)
+const PORT = 4173;
 const BUILD_DIR = path.join(__dirname, 'build');
 
 const server = http.createServer((req, res) => {
