@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import env from '../env';
 import './Arcade.css';
 import ArcadeCreditsPurchase from '../components/ArcadeCreditsPurchase';
-import SlotMachineGame from '../games/SlotMachineGame';
+import SlotMachineGame from '../slots/SlotMachineGame';
 
 function Arcade() {
   const [games, setGames] = useState([]);
@@ -17,7 +18,7 @@ function Arcade() {
 
   const fetchGames = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/arcade/games`);
+      const response = await axios.get(`${env.API_URL}/arcade/games`);
       setGames(response.data);
       setLoading(false);
     } catch (error) {
