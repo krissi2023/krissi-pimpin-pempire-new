@@ -17,7 +17,7 @@ const gameService = require('./diamondz-playhouse/backend/services/gameService')
 const DigitalStorefront = require('./Storefront/DigitalStorefront');
 
 // Constants
-const PORT = 3000;
+const PORT = 3001;
 const HOST = '0.0.0.0';
 
 // App
