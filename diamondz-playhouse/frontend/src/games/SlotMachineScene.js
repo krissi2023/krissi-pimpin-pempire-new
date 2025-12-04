@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import ClassicSlots from '../game-logic/ClassicSlots';
 
 /**
  * Basic Slot Machine Game using Phaser 3
@@ -9,8 +10,13 @@ class SlotMachineScene extends Phaser.Scene {
     super({ key: 'SlotMachineScene' });
     this.reels = [];
     this.spinning = false;
-    this.balance = 500; // Gold points
-    this.bet = 10;
+    this.gameLogic = null;
+  }
+
+  init(data) {
+    // Initialize game logic with user balance
+    this.gameLogic = new ClassicSlots(data.balance || 1000);
+    this.bet = this.gameLogic.currentBet;
   }
 
   preload() {
@@ -32,7 +38,7 @@ class SlotMachineScene extends Phaser.Scene {
     });
     title.setOrigin(0.5);
 
-    // Create 5 reels
+    // Create 3 reels (Classic Slots uses 3 reels)
     this.createReels();
 
     // UI Elements
@@ -43,13 +49,14 @@ class SlotMachineScene extends Phaser.Scene {
   }
 
   createReels() {
-    const symbols = ['💎', '7️⃣', '👑', '💰', '⭐'];
-    const reelWidth = 100;
+    // Use symbols from game logic
+    const symbols = this.gameLogic.symbols;
+    const reelWidth = 150;
     const reelHeight = 300;
-    const startX = 150;
+    const startX = 250; // Centered for 3 reels
     const startY = 200;
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const reel = {
         x: startX + (i * (reelWidth + 20)),
         y: startY,
@@ -87,7 +94,7 @@ class SlotMachineScene extends Phaser.Scene {
 
   createUI() {
     // Balance display
-    this.balanceText = this.add.text(50, 520, `Balance: ${this.balance} 🪙`, {
+    this.balanceText = this.add.text(50, 520, `Balance: ${this.gameLogic.balance} 🪙`, {
       fontSize: '24px',
       fill: '#FFD700'
     });
@@ -156,23 +163,29 @@ class SlotMachineScene extends Phaser.Scene {
 
   changeBet(amount) {
     const newBet = this.bet + amount;
-    if (newBet >= 10 && newBet <= 100 && newBet <= this.balance) {
-      this.bet = newBet;
+    const result = this.gameLogic.setBet(newBet);
+    
+    if (result.success) {
+      this.bet = result.bet;
       this.betText.setText(`Bet: ${this.bet} 🪙`);
     }
   }
 
   spin() {
-    if (this.spinning || this.balance < this.bet) {
+    if (this.spinning || this.gameLogic.balance < this.bet) {
+      return;
+    }
+
+    // Execute spin logic
+    const result = this.gameLogic.spin();
+    if (!result.success) {
+      console.error(result.error);
       return;
     }
 
     this.spinning = true;
-    this.balance -= this.bet;
-    this.balanceText.setText(`Balance: ${this.balance} 🪙`);
+    this.balanceText.setText(`Balance: ${result.balance} 🪙`);
     this.winText.setText('');
-
-    const symbols = ['💎', '7️⃣', '👑', '💰', '⭐'];
 
     // Animate each reel
     this.reels.forEach((reel, index) => {
@@ -187,54 +200,38 @@ class SlotMachineScene extends Phaser.Scene {
         ease: 'Cubic.easeInOut',
         delay: delay,
         onComplete: () => {
-          // Reset positions and change symbols
-          reel.symbols.forEach((symbolText, i) => {
-            symbolText.y = reel.y + (i * 100);
-            const newSymbol = symbols[Phaser.Math.Between(0, symbols.length - 1)];
+          // Reset positions and set final symbols from logic result
+          // The grid is 1D array of 9 items (3x3)
+          // Reel 0: indices 0, 3, 6
+          // Reel 1: indices 1, 4, 7
+          // Reel 2: indices 2, 5, 8
+          
+          reel.symbols.forEach((symbolText, row) => {
+            symbolText.y = reel.y + (row * 100);
+            
+            // Calculate index in the grid
+            // grid index = row * 3 + col (index)
+            const gridIndex = (row * 3) + index;
+            const newSymbol = result.grid[gridIndex];
+            
             symbolText.setText(newSymbol);
           });
 
           // Check if all reels stopped
           if (index === this.reels.length - 1) {
-            this.checkWin();
+            this.handleSpinComplete(result);
           }
         }
       });
     });
   }
 
-  checkWin() {
-    // Simple win check: middle row
-    const middleSymbols = this.reels.map(reel => reel.symbols[1].text);
-    
-    // Check for 3, 4, or 5 matching symbols
-    const symbolCounts = {};
-    middleSymbols.forEach(symbol => {
-      symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
-    });
+  handleSpinComplete(result) {
+    this.spinning = false;
 
-    let maxMatch = Math.max(...Object.values(symbolCounts));
-    let winAmount = 0;
-
-    if (maxMatch >= 3) {
-      // Payout table
-      const payouts = {
-        3: this.bet * 3,
-        4: this.bet * 10,
-        5: this.bet * 50
-      };
-
-      winAmount = payouts[maxMatch] || 0;
+    if (result.totalWin > 0) {
+      this.winText.setText(`🎉 WIN: ${result.totalWin} 🪙`);
       
-      // Special bonus for diamonds
-      if (Object.keys(symbolCounts).includes('💎') && symbolCounts['💎'] === maxMatch) {
-        winAmount *= 2;
-      }
-
-      this.balance += winAmount;
-      this.balanceText.setText(`Balance: ${this.balance} 🪙`);
-      this.winText.setText(`🎉 WIN: ${winAmount} 🪙`);
-
       // Win animation
       this.tweens.add({
         targets: this.winText,
@@ -244,31 +241,8 @@ class SlotMachineScene extends Phaser.Scene {
       });
     }
 
-    this.spinning = false;
-
-    // TODO: Send spin result to backend
-    // this.sendSpinResult(middleSymbols, winAmount);
-  }
-
-  async sendSpinResult(symbols, winAmount) {
-    // Example API call
-    /*
-    try {
-      await fetch(`${process.env.REACT_APP_API_URL}/arcade/spin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          gameId: 'diamond-rise',
-          userId: 'user_123',
-          betAmount: this.bet,
-          symbols,
-          winAmount
-        })
-      });
-    } catch (error) {
-      console.error('Error sending spin result:', error);
-    }
-    */
+    // TODO: Sync balance with backend
+    // this.syncBalance(result.balance);
   }
 }
 

@@ -5,7 +5,7 @@ import SlotMachineScene from './SlotMachineScene';
 /**
  * React component wrapper for Phaser slot machine game
  */
-function SlotMachineGame({ gameConfig }) {
+function SlotMachineGame({ gameConfig, userBalance }) {
   const gameRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -26,6 +26,12 @@ function SlotMachineGame({ gameConfig }) {
     };
 
     gameRef.current = new Phaser.Game(config);
+    
+    // Pass initial data to the scene
+    gameRef.current.scene.start('SlotMachineScene', { 
+      balance: userBalance,
+      config: gameConfig 
+    });
 
     // Cleanup on unmount
     return () => {
@@ -33,7 +39,7 @@ function SlotMachineGame({ gameConfig }) {
         gameRef.current.destroy(true);
       }
     };
-  }, []);
+  }, [userBalance, gameConfig]);
 
   return (
     <div 
