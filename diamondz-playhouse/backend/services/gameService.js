@@ -134,7 +134,7 @@ const loadGameClass = (game) => {
     throw new Error('Game source file is not defined');
   }
   const modulePath = path.join(PROJECT_ROOT, game.sourceFile);
-  // eslint-disable-next-line global-require, import/no-dynamic-require
+  // eslint-disable-next-line global-require
   const GameModule = require(modulePath);
   if (typeof GameModule !== 'function') {
     throw new Error(`Game module ${game.sourceFile} does not export a constructor`);
