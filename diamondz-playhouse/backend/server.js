@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -43,6 +44,17 @@ app.use('/api/wallet', require('./routes/wallet'));
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Diamondz Playhouse API is running' });
+});
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+// Handle React routing, return all requests to React app
+app.get('*', (req, res, next) => {
+  if (req.url.startsWith('/api')) {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
 });
 
 // 404 handler

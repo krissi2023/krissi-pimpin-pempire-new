@@ -1,0 +1,102 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Install All Dependencies",
+            "dependsOn": [
+                "Install Root Dependencies",
+                "Install Backend Dependencies",
+                "Install Frontend Dependencies"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Root Dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Backend Dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}/diamondz-playhouse/backend"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Frontend Dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}/diamondz-playhouse/frontend"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start All Servers",
+            "dependsOn": [
+                "Start Root Server",
+                "Start Backend Server",
+                "Start Frontend Server"
+            ],
+            "problemMatcher": [],
+            "dependsOrder": "parallel"
+        },
+        {
+            "label": "Start Root Server",
+            "type": "shell",
+            "command": "npm start",
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*Running on http://.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Running on http://.*"
+                }
+            }
+        },
+        {
+            "label": "Start Backend Server",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "${workspaceFolder}/diamondz-playhouse/backend"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*API running on port.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "API running on port.*"
+                }
+            }
+        },
+        {
+            "label": "Start Frontend Server",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "${workspaceFolder}/diamondz-playhouse/frontend"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*Local:.*$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": ".*",
+                    "endsPattern": "Local:.*"
+                }
+            }
+        }
+    ]
+}

@@ -115,4 +115,4 @@ class PimpinPowerDiamonds {
     }
 }
 
-module.exports = PimpinPowerDiamonds;
+export default PimpinPowerDiamonds;
