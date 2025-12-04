@@ -301,7 +301,7 @@ export const NeonText = ({ text, color = '#00d4ff', size = 48, className = '' })
   </svg>
 );
 
-export default {
+const graphicsComponents = {
   DiamondLogo,
   ArcadeMachineIcon,
   CoinIcon,
@@ -311,3 +311,5 @@ export default {
   ComicPanel,
   NeonText
 };
+
+export default graphicsComponents;

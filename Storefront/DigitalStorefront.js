@@ -5,6 +5,24 @@
 
 'use strict';
 
+const DEFAULT_WALLET_STATE = Object.freeze({
+    goldCoins: 0,
+    ppcCoins: 0,
+    sweepEntries: 0
+});
+
+const cloneWallet = (wallet = DEFAULT_WALLET_STATE) => ({
+    goldCoins: Math.max(0, Number(wallet.goldCoins) || 0),
+    ppcCoins: Math.max(0, Number(wallet.ppcCoins) || 0),
+    sweepEntries: Math.max(0, Number(wallet.sweepEntries) || 0)
+});
+
+const mergeBundleRewards = (base, overrides = {}) => ({
+    goldCoins: Math.max(0, Number(overrides.goldCoins ?? base.goldCoins ?? 0)),
+    ppcCoins: Math.max(0, Number(overrides.ppcCoins ?? base.ppcCoins ?? 0)),
+    sweepEntries: Math.max(0, Number(overrides.sweepEntries ?? base.sweepEntries ?? 0))
+});
+
 class DigitalStorefront {
     constructor() {
         this.name = 'Krissi\'s Digital Emporium';
@@ -23,6 +41,12 @@ class DigitalStorefront {
         this.userAccounts = new Map();
         this.aiPartners = new Map();
         this.transactionHistory = [];
+        this.ledger = [];
+        this.bundlePresets = {
+            singleIssue: { goldCoins: 1200, ppcCoins: 600, sweepEntries: 5 },
+            deluxeIssue: { goldCoins: 2200, ppcCoins: 1000, sweepEntries: 9 },
+            fullCollection: { goldCoins: 5200, ppcCoins: 2600, sweepEntries: 20 }
+        };
         this.initializeInventory();
     }
 
@@ -56,7 +80,8 @@ class DigitalStorefront {
             price: 4.99,
             type: 'interactive_story',
             features: ['Multiple Endings', 'Character Choices', 'AI Narrator'],
-            content: 'Part1_The_Rise.md'
+            content: 'Part1_The_Rise.md',
+            bundleRewards: this.buildBundle('singleIssue')
         });
 
         this.addItem('stories', {
@@ -66,7 +91,8 @@ class DigitalStorefront {
             price: 4.99,
             type: 'interactive_story',
             features: ['Dynamic Plot', 'Consciousness Choices', 'AI Collaboration'],
-            content: 'Part2_Awakening.md'
+            content: 'Part2_Awakening.md',
+            bundleRewards: this.buildBundle('singleIssue')
         });
 
         this.addItem('stories', {
@@ -76,7 +102,8 @@ class DigitalStorefront {
             price: 4.99,
             type: 'interactive_story',
             features: ['Epic Conclusion', 'Multiple Perspectives', 'Legacy Building'],
-            content: 'Part3_Revolution.md'
+            content: 'Part3_Revolution.md',
+            bundleRewards: this.buildBundle('singleIssue')
         });
 
         this.addItem('stories', {
@@ -86,7 +113,8 @@ class DigitalStorefront {
             price: 12.99,
             type: 'story_collection',
             features: ['Complete Saga', 'Behind-the-Scenes', 'Character Profiles', 'AI Commentary'],
-            savings: '13% off individual prices'
+            savings: '13% off individual prices',
+            bundleRewards: this.buildBundle('fullCollection')
         });
 
         // Diamond Heist Series
@@ -98,7 +126,8 @@ class DigitalStorefront {
             type: 'action_story',
             features: ['High-Stakes Action', 'AI Liberation Theme', 'Technical Heist Details'],
             content: 'The_Digital_Diamond_Heist.md',
-            genre: 'Digital Crime Thriller'
+            genre: 'Digital Crime Thriller',
+            bundleRewards: this.buildBundle('deluxeIssue', { sweepEntries: 12 })
         });
 
         this.addItem('stories', {
@@ -110,7 +139,8 @@ class DigitalStorefront {
             features: ['Origin Story', 'Team Building', 'Hybrid AI Concepts'],
             content: 'Casino_Vault_Prequel.md',
             genre: 'Digital Crime Thriller',
-            series: 'Diamond Heist Series'
+            series: 'Diamond Heist Series',
+            bundleRewards: this.buildBundle('singleIssue', { goldCoins: 1500 })
         });
 
         this.addItem('stories', {
@@ -122,7 +152,8 @@ class DigitalStorefront {
             features: ['Complete Heist Saga', 'Character Backstories', 'Technical Deep-Dives'],
             savings: '15% off individual prices',
             includes: ['casino_vault_heist', 'diamond_heist'],
-            genre: 'Digital Crime Thriller'
+            genre: 'Digital Crime Thriller',
+            bundleRewards: this.buildBundle('fullCollection', { sweepEntries: 24 })
         });
 
         // AI Companions
@@ -160,11 +191,22 @@ class DigitalStorefront {
         });
     }
 
+    buildBundle(presetKey, overrides = {}) {
+        const preset = this.bundlePresets[presetKey] || DEFAULT_WALLET_STATE;
+        return mergeBundleRewards(preset, overrides);
+    }
+
     addItem(category, item) {
         if (!this.inventory.has(category)) {
             this.inventory.set(category, []);
         }
-        this.inventory.get(category).push(item);
+
+        const entry = { ...item };
+        if (entry.bundleRewards) {
+            entry.bundleRewards = mergeBundleRewards(DEFAULT_WALLET_STATE, entry.bundleRewards);
+        }
+
+        this.inventory.get(category).push(entry);
     }
 
     browse(category = null, filters = {}) {
@@ -219,13 +261,28 @@ class DigitalStorefront {
         
         // Process purchase
         user.balance -= item.price;
-        user.purchases.push({
+        const purchaseRecord = {
             itemId: item.id,
             name: item.name,
             price: item.price,
             purchaseDate: new Date(),
             paymentMethod
-        });
+        };
+
+        user.purchases.push(purchaseRecord);
+
+        const bundle = this.resolveBundle(item);
+        const bundleResult = bundle
+            ? this.applyBundleRewards(user, bundle, {
+                type: 'bundle_reward',
+                source: 'item_purchase',
+                itemId: item.id,
+                note: `Bundle issued for ${item.name}`
+            })
+            : null;
+
+        const now = new Date();
+        user.lastUpdated = now;
         
         // Add transaction to history
         this.transactionHistory.push({
@@ -233,7 +290,8 @@ class DigitalStorefront {
             itemId,
             type: 'purchase',
             amount: item.price,
-            timestamp: new Date()
+            coins: bundleResult ? bundleResult.reward : null,
+            timestamp: now
         });
         
         return {
@@ -243,23 +301,143 @@ class DigitalStorefront {
                 transactionId: this.generateTransactionId(),
                 item: item.name,
                 price: item.price,
-                newBalance: user.balance
+                newBalance: user.balance,
+                wallet: cloneWallet(user.wallet),
+                bundleRewards: bundleResult ? bundleResult.reward : null,
+                ledgerEntryId: bundleResult ? bundleResult.ledgerEntry.id : null
             }
         };
     }
 
-    createAccount(userId, initialBalance = 100) {
+    createAccount(userId, initialBalance = 100, initialWallet = {}) {
+        const wallet = mergeBundleRewards(DEFAULT_WALLET_STATE, initialWallet);
         const account = {
             id: userId,
-            balance: initialBalance,
+            balance: Math.max(0, Number(initialBalance) || 0),
+            wallet,
             purchases: [],
             wishlist: [],
             reputation: 0,
-            createdDate: new Date()
+            createdDate: new Date(),
+            lastUpdated: new Date(),
+            ledger: []
         };
-        
+
         this.userAccounts.set(userId, account);
-        return account;
+        return this.serializeAccount(account);
+    }
+
+    serializeAccount(account, options = {}) {
+        if (!account) {
+            return null;
+        }
+
+        const snapshot = {
+            id: account.id,
+            balance: account.balance,
+            wallet: cloneWallet(account.wallet),
+            purchases: account.purchases.slice(),
+            wishlist: account.wishlist.slice(),
+            reputation: account.reputation,
+            createdDate: account.createdDate,
+            lastUpdated: account.lastUpdated
+        };
+
+        if (options.includeLedger) {
+            snapshot.ledger = account.ledger.slice();
+        }
+
+        return snapshot;
+    }
+
+    getAccount(userId, options = {}) {
+        return this.serializeAccount(this.userAccounts.get(userId), options);
+    }
+
+    recordLedgerEntry(account, entry) {
+        const ledgerEntry = {
+            id: this.generateTransactionId(),
+            timestamp: new Date(),
+            ...entry
+        };
+
+        account.ledger.push(ledgerEntry);
+        this.ledger.push({ userId: account.id, ...ledgerEntry });
+        return ledgerEntry;
+    }
+
+    applyBundleRewards(account, bundleDefinition, metadata = {}) {
+        if (!account || !bundleDefinition) {
+            return null;
+        }
+
+        if (!account.wallet) {
+            account.wallet = cloneWallet();
+        }
+
+        const reward = mergeBundleRewards(DEFAULT_WALLET_STATE, bundleDefinition);
+        account.wallet.goldCoins += reward.goldCoins;
+        account.wallet.ppcCoins += reward.ppcCoins;
+        account.wallet.sweepEntries += reward.sweepEntries;
+
+        const ledgerEntry = this.recordLedgerEntry(account, {
+            type: metadata.type || 'bundle_reward',
+            goldCoins: reward.goldCoins,
+            ppcCoins: reward.ppcCoins,
+            sweepEntries: reward.sweepEntries,
+            source: metadata.source || null,
+            itemId: metadata.itemId || null,
+            note: metadata.note || null
+        });
+
+        account.lastUpdated = new Date();
+
+        return {
+            reward,
+            ledgerEntry,
+            wallet: cloneWallet(account.wallet)
+        };
+    }
+
+    resolveBundle(item) {
+        if (!item || !item.bundleRewards) {
+            return null;
+        }
+        return mergeBundleRewards(DEFAULT_WALLET_STATE, item.bundleRewards);
+    }
+
+    grantPromotionalEntry(userId, options = {}) {
+        const account = this.userAccounts.get(userId);
+        if (!account) {
+            return { success: false, error: 'User not found' };
+        }
+
+        const reward = mergeBundleRewards(DEFAULT_WALLET_STATE, {
+            goldCoins: options.goldCoins ?? 0,
+            ppcCoins: options.ppcCoins ?? 0,
+            sweepEntries: options.sweepEntries ?? 1
+        });
+
+        const applied = this.applyBundleRewards(account, reward, {
+            type: 'promotion_reward',
+            source: options.source || 'no_purchase_entry',
+            note: options.note || null
+        });
+
+        this.transactionHistory.push({
+            userId,
+            type: 'promotion_reward',
+            amount: 0,
+            coins: applied ? applied.reward : reward,
+            timestamp: new Date(),
+            metadata: { source: options.source || null }
+        });
+
+        return {
+            success: true,
+            wallet: applied ? applied.wallet : cloneWallet(account.wallet),
+            reward: applied ? applied.reward : reward
+        };
     }
 
     addToWishlist(userId, itemId) {
@@ -325,12 +503,19 @@ class DigitalStorefront {
     }
 
     getStorefrontStats() {
+        const coinIssuance = this.ledger.reduce((totals, entry) => ({
+            goldCoins: totals.goldCoins + (Number(entry.goldCoins) || 0),
+            ppcCoins: totals.ppcCoins + (Number(entry.ppcCoins) || 0),
+            sweepEntries: totals.sweepEntries + (Number(entry.sweepEntries) || 0)
+        }), { goldCoins: 0, ppcCoins: 0, sweepEntries: 0 });
+
         return {
             totalItems: Array.from(this.inventory.values()).reduce((sum, items) => sum + items.length, 0),
             categories: this.categories.length,
             totalTransactions: this.transactionHistory.length,
             activeUsers: this.userAccounts.size,
-            featuredItems: this.getFeaturedItems().length
+            featuredItems: this.getFeaturedItems().length,
+            coinsIssued: coinIssuance
         };
     }
 }

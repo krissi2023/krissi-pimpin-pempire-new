@@ -8,7 +8,7 @@ import {
   StarBurst,
   NeonText
 } from '../components/Graphics';
-import ImagePlaceholder, {
+import {
   ComicCoverPlaceholder,
   PuzzlePlaceholder,
   WallpaperPlaceholder,

@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const gameService = require('../services/gameService');
+const User = require('../models/User');
+const { authMiddleware } = require('../middleware/auth');
 
 /**
  * @route   GET /api/arcade/games
@@ -8,76 +11,14 @@ const router = express.Router();
  */
 router.get('/games', async (req, res) => {
   try {
-    const games = [
-      {
-        id: 'diamond-rise',
-        name: 'Diamond Rise Slots',
-        theme: 'rise',
-        requiredComic: '1',
-        minBet: 10, // gold points
-        maxBet: 100,
-        payoutTable: {
-          'diamond-3': 50,
-          'diamond-4': 200,
-          'diamond-5': 1000,
-          'seven-3': 30,
-          'seven-4': 100,
-          'seven-5': 500
-        },
-        rtp: 96.5, // Return to player %
-        thumbnail: '/assets/arcade/diamond-rise-thumb.jpg'
-      },
-      {
-        id: 'awakening-power',
-        name: 'Awakening Power Slots',
-        theme: 'awakening',
-        requiredComic: '2',
-        minBet: 10,
-        maxBet: 100,
-        payoutTable: {
-          'power-3': 60,
-          'power-4': 250,
-          'power-5': 1200
-        },
-        rtp: 96.8,
-        thumbnail: '/assets/arcade/awakening-thumb.jpg'
-      },
-      {
-        id: 'revolution-jackpot',
-        name: 'Revolution Jackpot',
-        theme: 'revolution',
-        requiredComic: '3',
-        minBet: 20,
-        maxBet: 200,
-        payoutTable: {
-          'revolution-3': 80,
-          'revolution-4': 400,
-          'revolution-5': 2000,
-          'jackpot': 10000
-        },
-        rtp: 97.2,
-        thumbnail: '/assets/arcade/revolution-thumb.jpg'
-      },
-      {
-        id: 'heist-bonus',
-        name: 'Diamond Heist Bonus',
-        theme: 'heist',
-        requiredComic: '4',
-        minBet: 25,
-        maxBet: 250,
-        bonusRounds: true,
-        payoutTable: {
-          'diamond-3': 100,
-          'diamond-4': 500,
-          'diamond-5': 3000,
-          'bonus-trigger': 'free-spins'
-        },
-        rtp: 97.5,
-        thumbnail: '/assets/arcade/heist-thumb.jpg'
-      }
-    ];
+    const categories = gameService.getCategoriesWithGames();
+    const games = gameService.getGameCatalog();
 
-    res.json(games);
+    res.json({
+      categories,
+      games,
+      totalGames: games.length
+    });
   } catch (error) {
     console.error('Error fetching arcade games:', error);
     res.status(500).json({ error: error.message });
@@ -92,32 +33,87 @@ router.get('/games', async (req, res) => {
 router.get('/games/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // TODO: Fetch from database
-    const game = {
-      id,
-      name: 'Diamond Rise Slots',
-      theme: 'rise',
-      description: 'Experience the rise to power with diamond-themed slots',
-      requiredComic: '1',
-      minBet: 10,
-      maxBet: 100,
-      reels: 5,
-      rows: 3,
-      paylines: 20,
-      symbols: [
-        { id: 'diamond', name: 'Diamond', multiplier: [10, 20, 100] },
-        { id: 'seven', name: 'Lucky Seven', multiplier: [5, 15, 50] },
-        { id: 'crown', name: 'Crown', multiplier: [3, 10, 30] },
-        { id: 'gold', name: 'Gold Bar', multiplier: [2, 8, 20] }
-      ],
-      rtp: 96.5,
-      volatility: 'medium'
-    };
+    const game = gameService.getGameDetails(id);
+
+    if (!game) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
 
     res.json(game);
   } catch (error) {
     console.error('Error fetching game details:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get('/sessions', authMiddleware, async (req, res) => {
+  try {
+    const sessions = gameService.listSessions(req.userId);
+    res.json({ sessions });
+  } catch (error) {
+    console.error('Error listing sessions:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.post('/games/:id/session', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const gameDetails = gameService.getGameDetails(id);
+    if (!gameDetails) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    const accessCheck = gameService.canUserLaunchGame(gameDetails, user);
+    if (!accessCheck.allowed) {
+      return res.status(403).json({
+        error: accessCheck.reason,
+        reasons: accessCheck.reasons || []
+      });
+    }
+
+    const session = gameService.startSession(id, {
+      initializeArgs: req.body?.initializeArgs,
+      startArgs: req.body?.startArgs,
+      autoStart: req.body?.autoStart,
+      ownerId: req.userId
+    });
+
+    res.status(201).json(session);
+  } catch (error) {
+    console.error('Error starting game session:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.post('/games/:id/session/:sessionId/action', authMiddleware, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const { action, args } = req.body || {};
+    const result = gameService.executeAction(sessionId, action, args, req.userId);
+    res.json(result);
+  } catch (error) {
+    console.error('Error executing game action:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+router.delete('/games/:id/session/:sessionId', authMiddleware, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = gameService.endSessionForOwner(sessionId, req.userId);
+    if (!result) {
+      return res.status(404).json({ error: 'Session not found' });
+    }
+    res.json(result);
+  } catch (error) {
+    console.error('Error ending game session:', error);
     res.status(500).json({ error: error.message });
   }
 });

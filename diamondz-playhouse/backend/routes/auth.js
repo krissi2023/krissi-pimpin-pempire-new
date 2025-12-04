@@ -62,7 +62,8 @@ router.post('/register', [
       token,
       goldPoints: user.goldPoints,
       pbPoints: user.pbPoints,
-      arcadeCredits: user.arcadeCredits
+      arcadeCredits: user.arcadeCredits,
+      isVip: user.isVip
     });
   } catch (error) {
     console.error('Registration error:', error);
@@ -115,7 +116,8 @@ router.post('/login', [
       token,
       goldPoints: user.goldPoints,
       pbPoints: user.pbPoints,
-      arcadeCredits: user.arcadeCredits
+      arcadeCredits: user.arcadeCredits,
+      isVip: user.isVip
     });
   } catch (error) {
     console.error('Login error:', error);
