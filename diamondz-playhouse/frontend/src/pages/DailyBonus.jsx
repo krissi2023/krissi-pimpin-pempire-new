@@ -14,7 +14,7 @@ function DailyBonus() {
   const fetchBonusStatus = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/rewards/daily-bonus?userId=user_123`
+        `${import.meta.env.VITE_API_URL}/rewards/daily-bonus?userId=user_123`
       );
       setBonusData(response.data);
     } catch (error) {
@@ -26,7 +26,7 @@ function DailyBonus() {
     setClaiming(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/rewards/claim-daily-bonus`,
+        `${import.meta.env.VITE_API_URL}/rewards/claim-daily-bonus`,
         { userId: 'user_123' }
       );
       
