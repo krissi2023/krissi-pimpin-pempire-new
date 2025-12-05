@@ -65,7 +65,7 @@ function ArcadeCreditsPurchase() {
     const userId = user?.id || user?.userId;
 
     try {
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/payments/create-payment-intent`, {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/payments/create-payment-intent`, {
         amount: selectedPack.amount,
         creditsAmount: selectedPack.amount,
         userId

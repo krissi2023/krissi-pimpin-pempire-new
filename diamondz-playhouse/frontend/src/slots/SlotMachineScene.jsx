@@ -20,6 +20,10 @@ class SlotMachineScene extends Phaser.Scene {
     const gameId = data.config?.id;
     const balance = data.balance || 1000;
 
+    // Callbacks for server interaction
+    this.onSpin = data.onSpin;
+    this.onSetBet = data.onSetBet;
+
     if (gameId === 'pimpin-power-diamonds') {
         this.gameLogic = new PimpinPowerDiamonds(balance);
     } else if (gameId === 'the-diamond-vault') {
@@ -203,8 +207,24 @@ class SlotMachineScene extends Phaser.Scene {
     this.spinButton = button;
   }
 
-  changeBet(amount) {
+  async changeBet(amount) {
     const newBet = this.bet + amount;
+    
+    if (this.onSetBet) {
+        try {
+            const result = await this.onSetBet(newBet);
+            if (result && result.success) {
+                this.bet = result.bet;
+                this.betText.setText(`Bet: ${this.bet} 🪙`);
+                // Update local logic too to keep in sync visually if needed
+                this.gameLogic.currentBet = this.bet;
+            }
+        } catch (e) {
+            console.error("Failed to set bet", e);
+        }
+        return;
+    }
+
     const result = this.gameLogic.setBet(newBet);
     
     if (result.success) {
@@ -213,21 +233,39 @@ class SlotMachineScene extends Phaser.Scene {
     }
   }
 
-  spin() {
-    if (this.spinning || this.gameLogic.balance < this.bet) {
-      return;
-    }
-
-    // Execute spin logic
-    const result = this.gameLogic.spin();
-    if (!result.success) {
-      console.error(result.error);
+  async spin() {
+    if (this.spinning) {
       return;
     }
 
     this.spinning = true;
-    this.balanceText.setText(`Balance: ${result.balance} 🪙`);
     this.winText.setText('');
+
+    let result;
+
+    if (this.onSpin) {
+        try {
+            result = await this.onSpin();
+        } catch (e) {
+            console.error("Spin failed", e);
+            this.spinning = false;
+            return;
+        }
+    } else {
+        if (this.gameLogic.balance < this.bet) {
+            this.spinning = false;
+            return;
+        }
+        result = this.gameLogic.spin();
+    }
+
+    if (!result || !result.success) {
+      console.error(result?.error || "Unknown spin error");
+      this.spinning = false;
+      return;
+    }
+
+    this.balanceText.setText(`Balance: ${result.balance} 🪙`);
 
     // Animate each reel
     this.reels.forEach((reel, index) => {

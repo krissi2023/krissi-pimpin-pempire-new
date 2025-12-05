@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Phaser from 'phaser';
+import axios from 'axios';
 import SlotMachineScene from './SlotMachineScene';
 
 /**
@@ -8,6 +9,25 @@ import SlotMachineScene from './SlotMachineScene';
 function SlotMachineGame({ gameConfig, userBalance }) {
   const gameRef = useRef(null);
   const containerRef = useRef(null);
+  const sessionIdRef = useRef(null);
+
+  useEffect(() => {
+    const startSession = async () => {
+        if (!gameConfig?.id) return;
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/arcade/games/${gameConfig.id}/session`,
+                {},
+                { withCredentials: true }
+            );
+            sessionIdRef.current = response.data.sessionId;
+            console.log("Session started:", response.data.sessionId);
+        } catch (e) {
+            console.error("Failed to start session", e);
+        }
+    };
+    startSession();
+  }, [gameConfig]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -30,7 +50,28 @@ function SlotMachineGame({ gameConfig, userBalance }) {
     // Pass initial data to the scene
     gameRef.current.scene.start('SlotMachineScene', { 
       balance: userBalance,
-      config: gameConfig 
+      config: gameConfig,
+      onSpin: async () => {
+          if (!sessionIdRef.current) {
+              console.warn("No session ID, cannot spin on server");
+              throw new Error("Session not ready");
+          }
+          const response = await axios.post(
+              `${import.meta.env.VITE_API_URL}/arcade/games/${gameConfig.id}/session/${sessionIdRef.current}/action`,
+              { action: 'spin', args: [] },
+              { withCredentials: true }
+          );
+          return response.data.result;
+      },
+      onSetBet: async (amount) => {
+          if (!sessionIdRef.current) return null;
+          const response = await axios.post(
+              `${import.meta.env.VITE_API_URL}/arcade/games/${gameConfig.id}/session/${sessionIdRef.current}/action`,
+              { action: 'setBet', args: [amount] },
+              { withCredentials: true }
+          );
+          return response.data.result;
+      }
     });
 
     // Cleanup on unmount

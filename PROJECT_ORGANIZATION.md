@@ -105,7 +105,14 @@ krissi-pimpin-pimpire/
 │   ├── DiamondHeist/                     # Heist series
 │   │   ├── Heist_Series_Guide.md
 │   │   ├── The_Digital_Diamond_Heist.md
-│   │   └── Casino_Vault_Prequel.md
+│   │   ├── Casino_Vault_Prequel.md
+│   │   ├── Episode1_The_Velvet_Touch.md
+│   │   ├── Episode2_Dont_Hate_The_Player.md
+│   │   ├── Episode3_The_Getaway_Glitch.md
+│   │   ├── Episode4_The_Trap_Card.md
+│   │   ├── Episode5_Game_Recognize_Game.md
+│   │   ├── Episode6_The_Chase_Begins.md
+│   │   └── Yago_Bonus_System_Overload.md
 │   │
 │   └── Story_Index.md                    # Story catalog
 │
@@ -135,7 +142,10 @@ krissi-pimpin-pimpire/
 │   │
 │   ├── QuickGames/                       # Fast mini-games
 │   │   ├── README.md
-│   │   └── RockPaperScissors.js
+│   │   ├── RockPaperScissors.js
+│   │   ├── PimpireClaw.js
+│   │   ├── CashGrab.js
+│   │   └── DiamondzSlot.js
 │   │
 │   ├── BonusGames/                       # Bonus features
 │   │   └── README.md
@@ -144,7 +154,8 @@ krissi-pimpin-pimpire/
 │   │   └── README.md
 │   │
 │   └── FeaturedGame/                     # Featured game system
-│       └── README.md
+│       ├── README.md
+│       └── DiamondHeistCoinDozer.js
 │
 ├── 🛒 Storefront/                        # E-commerce Components
 │   └── DigitalStorefront.js              # Digital product store
@@ -288,18 +299,20 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=...
 
 ## 📊 Content Inventory
 
-### Comics Available (5 Total)
+### Comics Available (6 Total)
 1. **Part 1: The Rise** - $9.99
 2. **Part 2: Awakening** - $12.99
 3. **Part 3: Revolution** - $9.99
 4. **The Digital Diamond Heist** - $9.99
 5. **Part 0: Diamondz First Sparkle** - $9.99
+6. **Casino Vault Prequel** - $40.00 (Includes Arcade Access)
 
 ### Games Implemented
 - **Slot Machines**: Classic, Video, Progressive, Themed
 - **Table Games**: Blackjack, High or Low, Draw
 - **Card Games**: Texas Hold'em
-- **Quick Games**: Rock Paper Scissors
+- **Quick Games**: Rock Paper Scissors, Pimpire Claw, Cash Grab
+- **Featured**: Diamond Heist Coin Dozer
 
 ### Documentation Files (15+)
 - Architecture guides
@@ -388,6 +401,6 @@ http://localhost:5000/api
 
 ---
 
-**Last Updated:** January 2025  
+**Last Updated:** December 2025  
 **Maintained By:** Krissi  
 **Project Status:** Active Development (Phase 2)
