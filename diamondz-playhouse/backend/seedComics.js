@@ -3,6 +3,30 @@ const Comic = require('./models/Comic');
 require('dotenv').config();
 
 const comics = [
+  // PROLOGUE - Unlocks the flagship heist arcade
+  {
+    comicId: 'heist-prologue',
+    title: 'Casino Vault Prequel',
+    description: 'Prologue - The Monte Carlo vault infiltration that proves the crew is ready for the Nexus Diamond heist.',
+    price: 4000, // $40.00
+    thumbnail: '/assets/comics/casino-vault-prequel-cover.svg',
+    storySlug: 'Casino_Vault_Prequel.md',
+    theme: 'heist-prep',
+    puzzleIncluded: true,
+    wallpaperIncluded: true,
+    goldPointsReward: 4000,
+    arcadeCredits: 4000,
+    pbPoints: 40,
+    puzzlesCount: 3,
+    wallpapersCount: 4,
+    bonusContent: {
+      characterBios: true,
+      behindTheScenes: true,
+      conceptArt: true,
+      exclusiveChapter: false
+    },
+    isActive: true
+  },
   // DIAMOND'S PERSPECTIVE - The Heist Trilogy
   {
     comicId: '1',
@@ -148,7 +172,7 @@ const comics = [
   // BONUS CONTENT
   {
     comicId: 'bonus-yago',
-    title: 'Yago\'s Redemption',
+    title: 'Yago Bonus System Overload',
     description: 'Bonus Story - How Yago plans to upgrade and redeem himself after getting hacked by Diamond',
     price: 5000, // $50.00 - Bonus content
     thumbnail: '/assets/comics/yago-redemption-cover.svg',
