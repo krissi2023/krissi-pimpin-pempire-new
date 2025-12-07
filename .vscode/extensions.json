@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "platformio.platformio-ide",
-        "moshfeu.compare-folders"
+        "moshfeu.compare-folders",
+        "ritwickdey.liveserver"
     ]
 }

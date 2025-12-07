@@ -19,7 +19,7 @@ function Arcade() {
   const fetchGames = async () => {
     try {
       const response = await axios.get(`${env.API_URL}/arcade/games`);
-      setGames(response.data);
+      setGames(response.data.games || []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching games:', error);
