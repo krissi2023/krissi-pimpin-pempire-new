@@ -15,11 +15,11 @@ else {
 
 # Start Backend
 Write-Host "🚀 Starting Backend Server (Port 5000)..." -ForegroundColor Yellow
-$backendProcess = Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd diamondz-playhouse/backend; npm start" -PassThru
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd diamondz-playhouse/backend; npm start"
 
 # Start Frontend
 Write-Host "🎨 Starting Frontend Server (Port 3000)..." -ForegroundColor Yellow
-$frontendProcess = Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd diamondz-playhouse/frontend; npm start" -PassThru
+$frontendProcess = Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd diamondz-playhouse/frontend; npm run start:dev" -PassThru
 
 Write-Host "✅ Environment Started!" -ForegroundColor Green
 Write-Host "   Backend: http://localhost:5000"
