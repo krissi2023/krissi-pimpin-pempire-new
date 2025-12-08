@@ -6,9 +6,9 @@ function Home() {
   return (
     <div className="home">
       <section className="hero">
-        <h1 className="hero-title neon-text">Welcome to Diamondz Playhouse</h1>
+        <h1 className="hero-title neon-text">Pimpin Paul's Comics Meets Diamondz Playhouse</h1>
         <p className="hero-subtitle">
-          Unlock epic comics, solve puzzles, and play themed arcade games!
+          Where premium storytelling sparks the ultimate arcade takeover.
         </p>
         <div className="hero-buttons">
           <Link to="/comics" className="btn btn-primary">

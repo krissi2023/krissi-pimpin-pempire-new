@@ -3,7 +3,10 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../contexts/AuthContext';
 import { ComicCoverPlaceholder } from '../components/ImagePlaceholder';
+import env from '../env';
 import './ComicStore.css';
+
+const API_BASE = env.API_URL || 'http://localhost:5000/api';
 
 function ComicStore() {
   const [comics, setComics] = useState([]);
@@ -19,7 +22,7 @@ function ComicStore() {
 
   const fetchComics = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/comics`);
+      const response = await axios.get(`${API_BASE}/comics`);
       setComics(response.data);
       setLoading(false);
     } catch (error) {
@@ -39,7 +42,7 @@ function ComicStore() {
     setStoryLoadingId(comic.id);
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/comics/${comic.id}/story`);
+      const response = await axios.get(`${API_BASE}/comics/${comic.id}/story`);
       setActiveStory({ id: comic.id, content: response.data.content, title: response.data.title });
     } catch (error) {
       console.error('Error fetching comic story:', error);
@@ -58,7 +61,7 @@ function ComicStore() {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/payments/create-checkout-session`,
+        `${API_BASE}/payments/create-checkout-session`,
         {
           comicId: comic.id,
           comicTitle: comic.title,

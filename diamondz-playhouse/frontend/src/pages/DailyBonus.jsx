@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import env from '../env';
 import './DailyBonus.css';
+
+const API_BASE = env.API_URL || 'http://localhost:5000/api';
 
 function DailyBonus() {
   const [bonusData, setBonusData] = useState(null);
@@ -14,7 +17,7 @@ function DailyBonus() {
   const fetchBonusStatus = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/rewards/daily-bonus?userId=user_123`
+        `${API_BASE}/rewards/daily-bonus?userId=user_123`
       );
       setBonusData(response.data);
     } catch (error) {
@@ -26,7 +29,7 @@ function DailyBonus() {
     setClaiming(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/rewards/claim-daily-bonus`,
+        `${API_BASE}/rewards/claim-daily-bonus`,
         { userId: 'user_123' }
       );
       
