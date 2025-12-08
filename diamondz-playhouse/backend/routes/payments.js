@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const User = require('../models/User');
+const Comic = require('../models/Comic');
 const Transaction = require('../models/Transaction');
 
 /**
@@ -12,6 +13,36 @@ const Transaction = require('../models/Transaction');
 router.post('/create-checkout-session', async (req, res) => {
   try {
     const { comicId, comicTitle, price, userId } = req.body;
+
+    // MOCK PAYMENT FOR DEVELOPMENT
+    // If Stripe key is not set or is a placeholder, simulate successful purchase
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY.includes('your_stripe_secret_key')) {
+      console.log('⚠️ Using MOCK payment for development');
+      
+      // Find the comic to get reward details
+      const comic = await Comic.findOne({ comicId }) || {
+        goldPointsReward: 100,
+        arcadeCredits: 5000,
+        pbPoints: 50
+      };
+
+      // Find user and update directly
+      const user = await User.findById(userId);
+      if (user) {
+        await user.purchaseComic(comicId, {
+          goldPoints: comic.goldPointsReward,
+          arcadeCredits: comic.arcadeCredits,
+          pbPoints: comic.pbPoints
+        });
+        console.log(`✅ Mock purchase successful for user ${user.username}`);
+      }
+
+      // Return success URL directly
+      return res.json({ 
+        sessionId: 'mock_session_' + Date.now(), 
+        url: `${process.env.FRONTEND_URL}/success?session_id=mock_session` 
+      });
+    }
 
     // Create Stripe checkout session
     const session = await stripe.checkout.sessions.create({

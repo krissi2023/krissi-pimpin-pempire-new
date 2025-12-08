@@ -6,6 +6,15 @@ A revolutionary digital platform combining premium comic storytelling with inter
 
 ---
 
+## 🆕 Latest Updates (December 2025)
+
+- **New Comic Release:** *Casino Vault Prequel* - The origin mission that started it all.
+- **New Arcade Game:** *Diamond Heist Coin Dozer* - Unlocked exclusively by reading the Prequel.
+- **UI Enhancements:** Improved title alignment for Yago's interface.
+- **Dev Tools:** Enhanced CORS configuration for smoother local development.
+
+---
+
 ## 🎯 Project Overview
 
 ### Two Brands, One Platform
@@ -49,8 +58,18 @@ The origin story of the digital detective and his partnership with the chaotic g
 
 ### The Diamond Heist Series
 
+**Prologue: Casino Vault Prequel**
+The Monte Carlo vault infiltration that proves the crew is ready for the Nexus Diamond heist.
+
+- **Rewards:** 4000 Gold Points, 4000 Arcade Credits
+- **Unlocks:** Diamond Heist Coin Dozer (Arcade)
+
+**Episode 1: The Velvet Touch**
+Diamond infiltrates Sterling's fortress vault with charm and skill.
+
+- **Rewards:** 5000 Gold Points, 5000 Arcade Credits
+
 - The Digital Diamond Heist
-- Casino Vault Prequel
 - And more...
 
 ---
@@ -76,8 +95,9 @@ The origin story of the digital detective and his partnership with the chaotic g
 - Quick games (Rock Paper Scissors)
 - Daily bonuses and streak rewards
 
-### 🔥 Latest Arcade Drops (November 2025)
+### 🔥 Latest Arcade Drops (December 2025)
 
+- **Diamond Heist Coin Dozer** – Physics-driven coin pusher with heist jackpot phases (Requires *Casino Vault Prequel*).
 - **The Throne of Diamonds** – Expanding royal wilds and respin streaks for VIP members.
 - **The Golden Limousine** – Hold-and-win limo chase with Mini/Major jackpots.
 - **The Pimpire's Vault** – Cascading vault grid with progressive multiplier escalations.

@@ -29,6 +29,40 @@ const categories = [
 
 const games = [
   {
+    id: 'pimpin-power-diamonds',
+    name: "Pimpin' Power Diamonds",
+    category: 'featured',
+    type: 'SlotGame',
+    sourceFile: 'diamondz-playhouse/frontend/src/slots/PimpinPowerDiamonds.js',
+    description: '5-Reel, 25-Payline slot with Free Spins and Power Pick Bonus.',
+    features: ['Free Spins', 'Power Pick Bonus', 'Wild Multipliers'],
+    access: {
+      minArcadeCredits: 25,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: false,
+      minTotalWins: 0
+    },
+    unlockRequirement: 'Available to all players.'
+  },
+  {
+    id: 'the-diamond-vault',
+    name: 'The Diamond Vault',
+    category: 'featured',
+    type: 'SlotGame',
+    sourceFile: 'diamondz-playhouse/frontend/src/slots/TheDiamondVault.js',
+    description: 'High volatility 4x4 slot with Locked Wilds and Vault Key Multipliers.',
+    features: ['Locked Wilds', 'Vault Key Multiplier', '40 Paylines'],
+    access: {
+      minArcadeCredits: 40,
+      requiredComicIds: [],
+      requiredComicTitles: [],
+      requiresVip: true,
+      minTotalWins: 10
+    },
+    unlockRequirement: 'VIP Access Only.'
+  },
+  {
     id: 'diamond-heist-coin-dozer',
     name: 'Diamond Heist Coin Dozer',
     category: 'featured',

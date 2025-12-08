@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Casino Vault Prequel Cover</title>
+  <desc id="desc">Placeholder cover for the Casino Vault Prequel comic.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0b1d2c"/>
+      <stop offset="50%" stop-color="#10324a"/>
+      <stop offset="100%" stop-color="#0b1d2c"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#8ef3ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#5dd3ff" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="discrete" tableValues="0 0.12"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="800" height="1200" fill="url(#bg)"/>
+  <rect x="60" y="80" width="680" height="1040" fill="#0f2130" stroke="#6cf0ff" stroke-width="4" opacity="0.9"/>
+  <rect x="120" y="160" width="560" height="240" rx="16" fill="url(#glow)" opacity="0.9"/>
+  <rect x="120" y="520" width="560" height="480" rx="24" fill="#0c1824" stroke="#58c8ff" stroke-width="3" opacity="0.95"/>
+  <g filter="url(#grain)">
+    <rect x="120" y="160" width="560" height="240" rx="16" fill="#0c1824" opacity="0.25"/>
+    <rect x="120" y="520" width="560" height="480" rx="24" fill="#0c1824" opacity="0.25"/>
+  </g>
+  <text x="400" y="230" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="44" fill="#e6f8ff" letter-spacing="2">CASINO VAULT</text>
+  <text x="400" y="285" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="32" fill="#8ef3ff" letter-spacing="3">PREQUEL</text>
+  <text x="400" y="340" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="20" fill="#b6e9ff" letter-spacing="1.2">Monte Carlo infiltration practice run</text>
+  <text x="400" y="600" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="26" fill="#e6f8ff" letter-spacing="1.5">HEIST PROLOGUE</text>
+  <text x="400" y="650" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="18" fill="#9ee7ff">Team drills the vault guardian, preps for Nexus Diamond</text>
+  <text x="400" y="770" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="20" fill="#8ef3ff">Diamond | Krissi Crew | Marcus</text>
+  <text x="400" y="820" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="16" fill="#b6e9ff" opacity="0.9">Hybrid guardian, quantum tunnel, data-liberation op</text>
+  <circle cx="220" cy="520" r="46" fill="#0f2130" stroke="#64e1ff" stroke-width="3"/>
+  <circle cx="580" cy="520" r="46" fill="#0f2130" stroke="#64e1ff" stroke-width="3"/>
+  <rect x="240" y="900" width="320" height="10" rx="4" fill="#6cf0ff" opacity="0.7"/>
+  <rect x="260" y="930" width="280" height="6" rx="3" fill="#6cf0ff" opacity="0.5"/>
+  <rect x="280" y="960" width="240" height="4" rx="2" fill="#6cf0ff" opacity="0.4"/>
+</svg>
