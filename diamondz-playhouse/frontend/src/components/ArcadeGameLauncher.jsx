@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import env from '../env';
 
-const API_BASE = process.env.REACT_APP_API_URL;
+const API_BASE = env.API_URL || 'http://localhost:5000/api';
 
 const ArcadeGameLauncher = ({ game, onClose }) => {
   const [session, setSession] = useState(null);

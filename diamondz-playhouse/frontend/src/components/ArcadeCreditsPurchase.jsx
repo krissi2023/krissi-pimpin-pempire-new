@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import axios from 'axios';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useAuth } from '../contexts/AuthContext';
+import env from '../env';
 import './ArcadeCreditsPurchase.css';
 
 const CREDIT_PACKS = [
@@ -32,6 +33,7 @@ const formatCurrency = (amountCents) => new Intl.NumberFormat('en-US', {
 }).format(amountCents / 100);
 
 function ArcadeCreditsPurchase() {
+  const apiBase = env.API_URL || 'http://localhost:5000/api';
   const stripe = useStripe();
   const elements = useElements();
   const { user, refreshUser } = useAuth();
@@ -65,7 +67,7 @@ function ArcadeCreditsPurchase() {
     const userId = user?.id || user?.userId;
 
     try {
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/payments/create-payment-intent`, {
+      const { data } = await axios.post(`${apiBase}/payments/create-payment-intent`, {
         amount: selectedPack.amount,
         creditsAmount: selectedPack.amount,
         userId
