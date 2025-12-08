@@ -75,6 +75,14 @@ const userSchema = new mongoose.Schema({
   lastLogin: {
     type: Date
   },
+  lastDailyBonusClaim: {
+    type: Date,
+    default: null
+  },
+  loginStreak: {
+    type: Number,
+    default: 0
+  },
   joinedAt: {
     type: Date,
     default: Date.now

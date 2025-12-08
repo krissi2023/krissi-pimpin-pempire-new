@@ -22,7 +22,7 @@
     "quokka-treasure-chest": "^1.0.3"
   },
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.1",
     "jest": "^29.7.0"
   }
 }
