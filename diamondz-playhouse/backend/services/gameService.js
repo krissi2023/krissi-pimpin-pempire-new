@@ -216,7 +216,8 @@ const startSession = (gameId, options = {}) => {
   const ownerId = normalizeOwner(options.ownerId);
 
   const GameClass = loadGameClass(game);
-  const instance = new GameClass();
+  // Pass initialBalance to constructor if provided
+  const instance = new GameClass(options.initialBalance);
   const sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 
   const session = {

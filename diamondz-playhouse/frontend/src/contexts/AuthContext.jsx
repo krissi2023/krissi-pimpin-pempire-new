@@ -96,6 +96,10 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateUser = (updates) => {
+    setUser(prev => ({ ...prev, ...updates }));
+  };
+
   const value = {
     user,
     loading,
@@ -103,7 +107,8 @@ export function AuthProvider({ children }) {
     register,
     login,
     logout,
-    refreshUser
+    refreshUser,
+    updateUser
   };
 
   return (

@@ -10,7 +10,7 @@ function Arcade() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeGame, setActiveGame] = useState(null);
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
 
   useEffect(() => {
     fetchGames();
@@ -66,6 +66,7 @@ function Arcade() {
           <SlotMachineGame 
             gameConfig={activeGame} 
             userBalance={user.arcadeCredits} 
+            onBalanceUpdate={(newBalance) => updateUser({ arcadeCredits: newBalance })}
           />
         </div>
       ) : (
@@ -112,7 +113,27 @@ function Arcade() {
                 </div>
 
                 <div className="game-thumbnail">
-                  <div className="placeholder-game">🎰</div>
+                  {game.id === 'pimpin-power-diamonds' ? (
+                    <img 
+                      src="/assets/games/backgrounds/golden-limo-machine.jpg" 
+                      alt={game.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : game.id === 'the-diamond-vault' ? (
+                    <img 
+                      src="/assets/games/backgrounds/vault-machine.jpg" 
+                      alt={game.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : game.category === 'table' ? (
+                    <img 
+                      src="/assets/games/table/lobby-main.png" 
+                      alt={game.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div className="placeholder-game">🎰</div>
+                  )}
                 </div>
 
                 <div className="game-info">

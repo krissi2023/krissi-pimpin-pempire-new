@@ -82,7 +82,8 @@ router.post('/games/:id/session', authMiddleware, async (req, res) => {
       initializeArgs: req.body?.initializeArgs,
       startArgs: req.body?.startArgs,
       autoStart: req.body?.autoStart,
-      ownerId: req.userId
+      ownerId: req.userId,
+      initialBalance: user.arcadeCredits // Pass user's real wallet balance
     });
 
     res.status(201).json(session);
@@ -96,8 +97,37 @@ router.post('/games/:id/session/:sessionId/action', authMiddleware, async (req, 
   try {
     const { sessionId } = req.params;
     const { action, args } = req.body || {};
-    const result = gameService.executeAction(sessionId, action, args, req.userId);
-    res.json(result);
+    const executionResult = gameService.executeAction(sessionId, action, args, req.userId);
+    
+    // Handle financial updates if the game action involved money
+    const gameOutput = executionResult.result;
+    if (gameOutput && gameOutput.success) {
+      // Check if this was a betting action (slots, etc.)
+      if (typeof gameOutput.totalWin === 'number' && typeof gameOutput.bet === 'number') {
+        const user = await User.findById(req.userId);
+        if (user) {
+          // Calculate net change: win - bet
+          const netChange = gameOutput.totalWin - gameOutput.bet;
+          
+          if (netChange !== 0) {
+            user.arcadeCredits += netChange;
+            // Prevent negative balance
+            if (user.arcadeCredits < 0) user.arcadeCredits = 0;
+            
+            if (gameOutput.totalWin > 0) {
+              user.totalWins = (user.totalWins || 0) + 1;
+            }
+            
+            await user.save();
+            
+            // Attach updated user balance to response so frontend can update UI
+            executionResult.userBalance = user.arcadeCredits;
+          }
+        }
+      }
+    }
+
+    res.json(executionResult);
   } catch (error) {
     console.error('Error executing game action:', error);
     res.status(400).json({ error: error.message });

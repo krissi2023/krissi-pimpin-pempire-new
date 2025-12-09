@@ -18,6 +18,7 @@ class SlotMachineScene extends Phaser.Scene {
   init(data) {
     // Initialize game logic based on game ID
     const gameId = data.config?.id;
+    this.gameId = gameId;
     const balance = data.balance || 1000;
 
     // Callbacks for server interaction
@@ -45,6 +46,14 @@ class SlotMachineScene extends Phaser.Scene {
     this.load.image('star', '/assets/games/slots/symbols/star.png');
     this.load.image('diamond', '/assets/games/slots/symbols/diamond.png');
     this.load.image('seven', '/assets/games/slots/symbols/seven.png');
+    
+    // New Assets
+    this.load.image('golden-limo-bg', '/assets/games/backgrounds/golden-limo-machine.jpg');
+    this.load.image('vault-bg', '/assets/games/backgrounds/vault-machine.jpg');
+    this.load.image('pink-diamond', '/assets/games/slots/symbols/pink-diamond.jpg');
+    this.load.image('pink-heels', '/assets/games/slots/symbols/pink-heels.jpg');
+    this.load.image('pimpin-paul', '/assets/games/slots/symbols/pimpin-paul.jpg');
+    this.load.image('yagi', '/assets/games/slots/symbols/yagi.jpg');
   }
 
   create() {
@@ -56,11 +65,30 @@ class SlotMachineScene extends Phaser.Scene {
       '🔔': 'bell',
       '⭐': 'star',
       '💎': 'diamond',
-      '7️⃣': 'seven'
+      '7️⃣': 'seven',
+      '💍': 'pink-diamond',
+      '👠': 'pink-heels',
+      '👞': 'pink-heels', // Map shoe to heels
+      '🤵': 'pimpin-paul',
+      '🐐': 'yagi'
     };
 
     // Background
-    this.add.rectangle(400, 300, 800, 600, 0x1a1a2e);
+    let bgKey = null;
+    // Map game IDs to background images
+    // Note: Adjust these IDs to match your actual game configuration
+    if (this.gameId === 'pimpin-power-diamonds' || this.gameId === 'golden-limousine') {
+        bgKey = 'golden-limo-bg';
+    } else if (this.gameId === 'the-diamond-vault') {
+        bgKey = 'vault-bg';
+    }
+
+    if (bgKey) {
+        const bg = this.add.image(400, 300, bgKey);
+        bg.setDisplaySize(800, 600);
+    } else {
+        this.add.rectangle(400, 300, 800, 600, 0x1a1a2e);
+    }
 
     // Title
     const title = this.add.text(400, 50, '💎 Diamond Rise Slots', {

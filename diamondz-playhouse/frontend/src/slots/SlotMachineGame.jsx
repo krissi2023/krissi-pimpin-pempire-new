@@ -6,7 +6,7 @@ import SlotMachineScene from './SlotMachineScene';
 /**
  * React component wrapper for Phaser slot machine game
  */
-function SlotMachineGame({ gameConfig, userBalance }) {
+function SlotMachineGame({ gameConfig, userBalance, onBalanceUpdate }) {
   const gameRef = useRef(null);
   const containerRef = useRef(null);
   const sessionIdRef = useRef(null);
@@ -61,6 +61,11 @@ function SlotMachineGame({ gameConfig, userBalance }) {
               { action: 'spin', args: [] },
               { withCredentials: true }
           );
+          
+          if (response.data.userBalance !== undefined && onBalanceUpdate) {
+              onBalanceUpdate(response.data.userBalance);
+          }
+          
           return response.data.result;
       },
       onSetBet: async (amount) => {
