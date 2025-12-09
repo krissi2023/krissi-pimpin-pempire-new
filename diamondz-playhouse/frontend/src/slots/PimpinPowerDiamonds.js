@@ -100,17 +100,53 @@ class PimpinPowerDiamonds {
 
     checkWins(grid) {
         const wins = [];
-        // Mock win logic for demonstration
-        // In a real implementation, we'd check every payline against the grid
-        
-        // Randomly award a win for demo purposes if no logic matches
-        if (Math.random() > 0.7) {
-            wins.push({
-                payline: 1,
-                symbols: ['💎', '💎', '💎'],
-                payout: this.currentBet * 2
-            });
-        }
+        const betPerLine = this.currentBet / this.paylinesCount; // Assuming bet covers all lines
+
+        // Paytable (Multipliers of Line Bet)
+        const paytable = {
+            '💎': { 5: 1000, 4: 500, 3: 100 }, // Wild
+            '🐐': { 5: 500, 4: 200, 3: 50 },   // Yagi
+            '💵': { 5: 400, 4: 150, 3: 40 },   // Cash
+            '💍': { 5: 300, 4: 100, 3: 30 },   // Ring
+            '👞': { 5: 200, 4: 75, 3: 20 },    // Shoes
+            '🤵': { 5: 200, 4: 75, 3: 20 },    // Paul
+            '🅰️': { 5: 100, 4: 50, 3: 10 },
+            '🇰': { 5: 100, 4: 50, 3: 10 },
+            '🇶': { 5: 50, 4: 20, 3: 5 },
+            '🇯': { 5: 50, 4: 20, 3: 5 }
+        };
+
+        this.paylines.forEach((line, index) => {
+            const lineSymbols = line.map(idx => grid[idx]);
+            let matchCount = 1;
+            let symbol = lineSymbols[0];
+            let isWild = symbol === '💎';
+
+            for (let i = 1; i < lineSymbols.length; i++) {
+                const nextSymbol = lineSymbols[i];
+                if (nextSymbol === symbol || nextSymbol === '💎' || isWild) {
+                    matchCount++;
+                    if (isWild && nextSymbol !== '💎') {
+                        symbol = nextSymbol; // Lock onto the first non-wild symbol
+                        isWild = false;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            if (matchCount >= 3 && paytable[symbol]) {
+                const payout = (paytable[symbol][matchCount] || 0) * betPerLine;
+                if (payout > 0) {
+                    wins.push({
+                        payline: index + 1,
+                        symbols: lineSymbols.slice(0, matchCount),
+                        payout: Math.floor(payout)
+                    });
+                }
+            }
+        });
+
         return wins;
     }
 }

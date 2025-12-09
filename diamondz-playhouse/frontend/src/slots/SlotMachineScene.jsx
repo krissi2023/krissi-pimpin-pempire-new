@@ -54,23 +54,50 @@ class SlotMachineScene extends Phaser.Scene {
     this.load.image('pink-heels', '/assets/games/slots/symbols/pink-heels.jpg');
     this.load.image('pimpin-paul', '/assets/games/slots/symbols/pimpin-paul.jpg');
     this.load.image('yagi', '/assets/games/slots/symbols/yagi.jpg');
+    this.load.image('gold-chain', '/assets/games/slots/symbols/gold-chain.jpg');
+    this.load.image('cash-stack', '/assets/games/slots/symbols/cash-stack.jpg');
+    this.load.image('wild-diamond', '/assets/games/slots/symbols/wild-diamond.jpg');
+    
+    // The Diamond Vault Assets
+    this.load.image('vault-key', '/assets/games/slots/symbols/vault-key.jpg');
+    this.load.image('gold-bar', '/assets/games/slots/symbols/gold-bar.jpg');
+    this.load.image('money-clip', '/assets/games/slots/symbols/money-clip.jpg');
+    this.load.image('double-bar', '/assets/games/slots/symbols/double-bar.jpg');
   }
 
   create() {
     // Symbol mapping
     this.symbolMap = {
+      // Standard / Fallbacks
       '🍒': 'cherry',
       '🍋': 'lemon',
       '🍊': 'orange',
       '🔔': 'bell',
       '⭐': 'star',
-      '💎': 'diamond',
       '7️⃣': 'seven',
-      '💍': 'pink-diamond',
-      '👠': 'pink-heels',
-      '👞': 'pink-heels', // Map shoe to heels
-      '🤵': 'pimpin-paul',
-      '🐐': 'yagi'
+      
+      // Pimpin' Power Diamonds Specific
+      '💎': 'wild-diamond',   // WILD (Shared)
+      '💲': 'gold-chain',     // SCATTER
+      '🐐': 'yagi',           // HP1
+      '💵': 'cash-stack',     // HP2
+      '💍': 'pink-diamond',   // HP3 (Shared)
+      '👞': 'pink-heels',     // MP1
+      '👠': 'pink-heels',     // MP1 Alt
+      '🤵': 'pimpin-paul',    // MP2
+      
+      // The Diamond Vault Specific
+      '🗝️': 'vault-key',      // SCATTER
+      '🧈': 'gold-bar',       // HP2
+      '💠': 'pink-diamond',   // MP1 (Shared)
+      '📎': 'money-clip',     // MP2
+      '⏸️': 'double-bar',     // LP1
+
+      // Royals (Mapping to generic fruits/shapes for now until we have letters)
+      '🅰️': 'seven',
+      '🇰': 'bell',
+      '🇶': 'orange',
+      '🇯': 'cherry'
     };
 
     // Background
