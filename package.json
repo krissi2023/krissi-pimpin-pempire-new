@@ -6,7 +6,11 @@
   "main": "server.js",
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run start:all",
+    "start:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd diamondz-playhouse/backend && npm run dev",
+    "dev:frontend": "cd diamondz-playhouse/frontend && npm run start:dev",
+    "install:all": "npm install && cd diamondz-playhouse/backend && npm install && cd ../frontend && npm install",
     "dev": "node server.js",
     "test": "jest --testPathIgnorePatterns=diamondz-playhouse/frontend",
     "test:backend": "cd diamondz-playhouse/backend && npm test",
@@ -22,6 +26,7 @@
     "quokka-treasure-chest": "^1.0.3"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "jest": "^29.7.0"
   }

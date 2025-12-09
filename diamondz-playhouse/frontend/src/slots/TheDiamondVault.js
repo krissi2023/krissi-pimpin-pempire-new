@@ -122,4 +122,4 @@ class TheDiamondVault {
     }
 }
 
-export default TheDiamondVault;
+module.exports = TheDiamondVault;

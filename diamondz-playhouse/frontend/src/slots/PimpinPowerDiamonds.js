@@ -13,11 +13,11 @@ class PimpinPowerDiamonds {
         this.symbols = [
             '💎', // WILD: Pimpin' Power Diamond
             '💲', // SCATTER: Gold Chain
-            '🏎️', // HP1: Luxury Car
+            '🐐', // HP1: Yagi
             '💵', // HP2: Stacks of Cash
-            '💍', // HP3: Diamond Ring
-            '👞', // MP1: Luxury Shoe
-            '🎩', // MP2: Velvet Hat
+            '💍', // HP3: Pink Diamond Ring
+            '👞', // MP1: Pink Heels
+            '🤵', // MP2: Pimpin Paul
             '🅰️', // LP1: Crown 'A'
             '🇰', // LP2: 'K'
             '🇶', // LP3: 'Q'
@@ -115,4 +115,4 @@ class PimpinPowerDiamonds {
     }
 }
 
-export default PimpinPowerDiamonds;
+module.exports = PimpinPowerDiamonds;
