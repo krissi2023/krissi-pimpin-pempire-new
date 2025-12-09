@@ -110,14 +110,63 @@ class TheDiamondVault {
 
     checkWins(grid) {
         const wins = [];
-        // Mock win logic
-        if (Math.random() > 0.8) {
-            wins.push({
-                payline: 1,
-                symbols: ['7️⃣', '7️⃣', '7️⃣'],
-                payout: this.currentBet * 5
-            });
-        }
+        const betPerLine = this.currentBet / this.paylinesCount;
+
+        // Paytable
+        const paytable = {
+            '💎': { 4: 1000, 3: 200 }, // Wild
+            '7️⃣': { 4: 500, 3: 100 },  // 7s
+            '🧈': { 4: 400, 3: 80 },   // Gold Bar
+            '💠': { 4: 300, 3: 60 },   // Diamond
+            '📎': { 4: 200, 3: 40 },   // Clip
+            '⏸️': { 4: 150, 3: 30 },   // Double Bar
+            '🅰️': { 4: 100, 3: 20 },
+            '🇰': { 4: 80, 3: 15 },
+            '🇶': { 4: 50, 3: 10 }
+        };
+
+        // Simple horizontal lines for demo (Rows 1-4)
+        // In real app, define all 40 lines
+        const lines = [
+            [0, 1, 2, 3],
+            [4, 5, 6, 7],
+            [8, 9, 10, 11],
+            [12, 13, 14, 15],
+            [0, 5, 10, 15], // Diagonal
+            [3, 6, 9, 12]   // Diagonal
+        ];
+
+        lines.forEach((line, index) => {
+            const lineSymbols = line.map(idx => grid[idx]);
+            let matchCount = 1;
+            let symbol = lineSymbols[0];
+            let isWild = symbol === '💎';
+
+            for (let i = 1; i < lineSymbols.length; i++) {
+                const nextSymbol = lineSymbols[i];
+                if (nextSymbol === symbol || nextSymbol === '💎' || isWild) {
+                    matchCount++;
+                    if (isWild && nextSymbol !== '💎') {
+                        symbol = nextSymbol;
+                        isWild = false;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            if (matchCount >= 3 && paytable[symbol]) {
+                const payout = (paytable[symbol][matchCount] || 0) * betPerLine;
+                if (payout > 0) {
+                    wins.push({
+                        payline: index + 1,
+                        symbols: lineSymbols.slice(0, matchCount),
+                        payout: Math.floor(payout)
+                    });
+                }
+            }
+        });
+
         return wins;
     }
 }
