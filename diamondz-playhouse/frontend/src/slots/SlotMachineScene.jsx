@@ -25,15 +25,41 @@ class SlotMachineScene extends Phaser.Scene {
     this.onSpin = data.onSpin;
     this.onSetBet = data.onSetBet;
 
-    if (gameId === 'pimpin-power-diamonds') {
-        this.gameLogic = new PimpinPowerDiamonds(balance);
-    } else if (gameId === 'the-diamond-vault') {
-        this.gameLogic = new TheDiamondVault(balance);
-    } else {
-        this.gameLogic = new ClassicSlots(balance);
+    console.log('Initializing Game Logic for:', gameId);
+    console.log('PimpinPowerDiamonds import:', PimpinPowerDiamonds);
+    console.log('TheDiamondVault import:', TheDiamondVault);
+
+    // Handle module interop (CommonJS vs ESM)
+    // Vite sometimes wraps CJS in a default object, sometimes not.
+    const PimpinGame = PimpinPowerDiamonds?.default || PimpinPowerDiamonds;
+    const VaultGame = TheDiamondVault?.default || TheDiamondVault;
+    const ClassicGame = ClassicSlots?.default || ClassicSlots;
+
+    try {
+        if (gameId === 'pimpin-power-diamonds') {
+            if (typeof PimpinGame !== 'function') {
+                console.error('PimpinGame is not a constructor:', PimpinGame);
+                throw new Error('Failed to load PimpinPowerDiamonds class');
+            }
+            this.gameLogic = new PimpinGame(balance);
+        } else if (gameId === 'the-diamond-vault') {
+            if (typeof VaultGame !== 'function') {
+                console.error('VaultGame is not a constructor:', VaultGame);
+                throw new Error('Failed to load TheDiamondVault class');
+            }
+            this.gameLogic = new VaultGame(balance);
+        } else {
+            this.gameLogic = new ClassicGame(balance);
+        }
+        
+        this.bet = this.gameLogic.currentBet;
+        console.log('Game Logic Initialized:', this.gameLogic);
+    } catch (err) {
+        console.error('Error initializing game logic:', err);
+        // Fallback to prevent crash
+        this.gameLogic = new ClassicGame(balance);
+        this.bet = 10;
     }
-    
-    this.bet = this.gameLogic.currentBet;
   }
 
   preload() {

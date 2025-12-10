@@ -8,10 +8,13 @@ A revolutionary digital platform combining premium comic storytelling with inter
 
 ## 🆕 Latest Updates (December 2025)
 
-- **New Comic Release:** *Casino Vault Prequel* - The origin mission that started it all.
-- **New Arcade Game:** *Diamond Heist Coin Dozer* - Unlocked exclusively by reading the Prequel.
-- **UI Enhancements:** Improved title alignment for Yago's interface.
-- **Dev Tools:** Enhanced CORS configuration for smoother local development.
+- **Unified Architecture:** Merged Frontend and Backend into a single monorepo with concurrent startup.
+- **Real-Time Economy:** Implemented live credit tracking between Arcade games and User Wallet.
+- **New Slot Machines:**
+  - *Pimpin' Power Diamonds*: 5-Reel slot featuring Pimpin' Paul, Yagi, and Pink Diamond assets.
+  - *The Diamond Vault*: High-volatility 4x4 slot with locked wilds and bonus mechanics.
+- **Asset Integration:** Established standardized asset structure for game graphics (`/assets/games/`).
+- **Dev Experience:** Added `start-dev.ps1` for one-click environment boot.
 
 ---
 
