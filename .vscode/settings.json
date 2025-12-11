@@ -38,18 +38,8 @@
   "C_Cpp_Runner.compilerArgs": [],
   "C_Cpp_Runner.linkerArgs": [],
   "C_Cpp_Runner.includePaths": [],
-  "C_Cpp_Runner.includeSearch": [
-    "*",
-    "**/*"
-  ],
-  "C_Cpp_Runner.excludeSearch": [
-    "**/build",
-    "**/build/**",
-    "**/.*",
-    "**/.*/**",
-    "**/.vscode",
-    "**/.vscode/**"
-  ],
+  "C_Cpp_Runner.includeSearch": ["*","**/*"],
+  "C_Cpp_Runner.excludeSearch": ["**/build","**/build/**","**/.*","**/.*/**","**/.vscode","**/.vscode/**"],
   "C_Cpp_Runner.useAddressSanitizer": false,
   "C_Cpp_Runner.useUndefinedSanitizer": false,
   "C_Cpp_Runner.useLeakSanitizer": false,
@@ -58,21 +48,13 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "chat.tools.terminal.autoReplyToPrompts": true,
   "inlineChat.enableV2": true,
-  "platformio-ide.customft
-  "C_Cpp_Runner.customConfigurationProvider": "ms-vscode.cmake-tools",
-  "C_Cpp_Runner.environment": "command prompt",
-  "C_Cpp_Runner.cCompilerArgs": [],
-  "C_Cpp_Runner.cppCompilerArgs": [],
-  "C_Cpp_Runner.environmentArgs": [],
-  "C_Cpp_Runner.compilerPath": "",
-  "C_Cpp_Runner.linkerPath": "",
-  "C_Cpp_Runner.EXEPATH": ""
-}ypeAssociations": {
+  "platformio-ide.fileAssociations": {
     "platformio.ini": "ini"
   },
   "files.associations": {
     "*.tpp": "cpp"
   },
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-  "C_Cpp.intelliSenseEngine": "Default",
-  "C_Cpp.intelliSenseEngineFallback": "Disabled",
+  "C_Cpp.intelliSenseEngine": "default",
+  "C_Cpp.intelliSenseEngineFallback": "Disabled"
+}
