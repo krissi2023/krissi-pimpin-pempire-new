@@ -23,7 +23,7 @@ const url = process.argv[2] || 'http://localhost:3001/';
     lines.push(`Starting capture for ${url}`);
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
     // wait a bit for runtime console logs
-    await page.waitForTimeout(5000);
+    await new Promise(resolve => setTimeout(resolve, 5000));
     lines.push('Capture complete.');
   } catch (err) {
     lines.push(`[error] Navigation failed: ${err.toString()}`);
