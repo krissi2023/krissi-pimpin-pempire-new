@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Krissi Pimpin' Pimpire - AI-Powered Gaming Platform",
   "author": "krissi2023",
-  "main": "server.js",
   "private": true,
   "scripts": {
     "start": "npm run start:all",
@@ -11,7 +10,7 @@
     "dev:backend": "cd diamondz-playhouse/backend && npm run dev",
     "dev:frontend": "cd diamondz-playhouse/frontend && npm run start:dev",
     "install:all": "npm install && cd diamondz-playhouse/backend && npm install && cd ../frontend && npm install",
-    "dev": "node server.js",
+    "dev": "npm run start:all",
     "test": "jest --testPathIgnorePatterns=diamondz-playhouse/frontend",
     "test:backend": "cd diamondz-playhouse/backend && npm test",
     "test:frontend": "cd diamondz-playhouse/frontend && npm test",

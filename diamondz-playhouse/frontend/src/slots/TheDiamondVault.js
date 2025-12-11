@@ -171,4 +171,5 @@ class TheDiamondVault {
     }
 }
 
-module.exports = TheDiamondVault;
+// Export as ESM default so `import TheDiamondVault from './TheDiamondVault'` works
+export default TheDiamondVault;

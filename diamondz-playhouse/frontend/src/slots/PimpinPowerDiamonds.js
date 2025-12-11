@@ -151,4 +151,5 @@ class PimpinPowerDiamonds {
     }
 }
 
-module.exports = PimpinPowerDiamonds;
+// Export as ESM default so `import PimpinPowerDiamonds from './PimpinPowerDiamonds'` works
+export default PimpinPowerDiamonds;

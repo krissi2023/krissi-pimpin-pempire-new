@@ -21,7 +21,7 @@
     "vitest": "^1.2.2"
   },
   "scripts": {
-    "start": "node simple-server.js",
+    "start": "vite",
     "start:dev": "vite --port 3000",
     "dev": "vite",
     "build": "vite build",
