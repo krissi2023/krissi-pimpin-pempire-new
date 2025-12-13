@@ -10,3 +10,6 @@ logs/
 *.log
 # IDE/editor
 .vscode/
+.env
+diamondz-playhouse/backend/.env
+diamondz-playhouse/frontend/.env
