@@ -1,7 +1,27 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+(**removed**)
 const url = process.argv[2] || 'http://localhost:3001/';
+// Wait configuration (ms): CLI `--wait=5000`, env `HEADLESS_WAIT_MS` or
+// `HEADLESS_WAIT_SECONDS` (seconds). Default: 5000 ms.
+function parseWaitMs() {
+  const waitArg = process.argv.find(a => a && a.startsWith('--wait='));
+  if (waitArg) {
+    const v = parseInt(waitArg.split('=')[1], 10);
+    if (!isNaN(v) && v >= 0) return v;
+  }
+  if (process.env.HEADLESS_WAIT_MS) {
+    const v = parseInt(process.env.HEADLESS_WAIT_MS, 10);
+    if (!isNaN(v) && v >= 0) return v;
+  }
+  if (process.env.HEADLESS_WAIT_SECONDS) {
+    const v = parseFloat(process.env.HEADLESS_WAIT_SECONDS);
+    if (!isNaN(v) && v >= 0) return Math.round(v * 1000);
+  }
+  return 5000;
+}
+const WAIT_MS = parseWaitMs();
 (async () => {
   const puppeteer = require('puppeteer');
   const outDir = path.resolve(__dirname, '..', 'logs');
@@ -23,7 +43,7 @@ const url = process.argv[2] || 'http://localhost:3001/';
     lines.push(`Starting capture for ${url}`);
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
     // wait a bit for runtime console logs
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, WAIT_MS));
     lines.push('Capture complete.');
   } catch (err) {
     lines.push(`[error] Navigation failed: ${err.toString()}`);
