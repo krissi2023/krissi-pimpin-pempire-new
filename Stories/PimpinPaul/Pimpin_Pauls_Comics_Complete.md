@@ -6,7 +6,7 @@ This document contains all the comic content for Pimpin Paul's Comics series, fe
 
 ---
 
-## Issue 1: The Origin of the Digital Side-Cake
+## Issue 1: The Origin of the Digital Side-Kick
 
 **Subtitle:** Before Diamond, there was only Pimpin Paul and the perfect logic of Yagi.
 

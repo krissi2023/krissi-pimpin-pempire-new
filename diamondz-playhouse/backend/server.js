@@ -47,11 +47,9 @@ app.use(cors({
 }));
 
 // Stripe webhooks need raw body, so parse them before JSON middleware
-// Support for 3 webhook endpoints (dev, test, production)
-app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' }));
-app.use('/api/webhooks/stripe-dev', express.raw({ type: 'application/json' }));
-app.use('/api/webhooks/stripe-test', express.raw({ type: 'application/json' }));
-app.use('/api/webhooks/stripe-prod', express.raw({ type: 'application/json' }));
+// Mount the raw parser on the base webhooks path so all webhook endpoints
+// under `/api/webhooks` receive the raw body required for Stripe signature
+app.use('/api/webhooks', express.raw({ type: 'application/json' }));
 
 // Parse JSON bodies for other routes
 app.use(express.json());

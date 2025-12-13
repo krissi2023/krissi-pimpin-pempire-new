@@ -13,19 +13,33 @@ function createWebhookHandler(webhookSecretEnvVar) {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env[webhookSecretEnvVar];
 
-    if (!webhookSecret) {
-      console.error(`❌ Webhook secret not configured: ${webhookSecretEnvVar}`);
-      return res.status(500).json({ error: 'Webhook not configured' });
-    }
-
     let event;
 
-    try {
-      // Verify webhook signature
-      event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-    } catch (err) {
-      console.error('Webhook signature verification failed:', err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
+    // If webhook secret is not configured, allow a safe fallback in non-production
+    // to help local development with the Stripe CLI (it will forward events).
+    if (!webhookSecret) {
+      if (process.env.NODE_ENV === 'production') {
+        console.error(`❌ Webhook secret not configured: ${webhookSecretEnvVar}`);
+        return res.status(500).json({ error: 'Webhook not configured' });
+      }
+
+      try {
+        // req.body will be a Buffer because express.raw is used; parse it
+        const raw = req.body instanceof Buffer ? req.body.toString('utf8') : req.body;
+        event = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        console.warn(`⚠️ Webhook secret not set; skipping signature verification in ${process.env.NODE_ENV || 'development'} mode.`);
+      } catch (err) {
+        console.error('Failed to parse webhook body without secret:', err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+      }
+    } else {
+      try {
+        // Verify webhook signature when secret is present
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+      } catch (err) {
+        console.error('Webhook signature verification failed:', err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+      }
     }
 
     // Handle the event
